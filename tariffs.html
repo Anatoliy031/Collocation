@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тарифы и пакеты | Центр обработки данных категории III</title>
+
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    :root{
+      --primary:#1a237e;
+      --secondary:#3949ab;
+      --accent:#00acc1;
+      --bg:#0a0e27;
+      --card: rgba(22,27,34,0.82);
+      --card2: rgba(13,17,23,0.55);
+      --border: rgba(255,255,255,0.10);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,0.88);
+      --shadow: 0 10px 40px rgba(0,0,0,0.30);
+      --ok:#00c853;
+      --warn:#ffd54f;
+    }
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.65;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+    .bg{
+      position:fixed; inset:0; z-index:-1;
+      background: linear-gradient(135deg, #0a0e27, #1a237e);
+      overflow:hidden;
+    }
+    header{
+      padding: 52px 20px;
+      text-align:center;
+      background: rgba(26,35,126,0.10);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1{
+      font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+      font-weight: 900;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color: transparent;
+      background-clip:text;
+    }
+    header p{ max-width: 1120px; margin:0 auto; opacity:.92; }
+
+    .container{ max-width:1200px; margin:0 auto; padding:60px 20px; }
+
+    .card{
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .card h2{
+      color: var(--accent);
+      font-size: 1.9rem;
+      margin-bottom: 12px;
+      font-weight: 900;
+      text-align:center;
+    }
+    .card p{ opacity:.92; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .box{
+      background: var(--card2);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 22px;
+    }
+    .box h3{ margin-bottom:8px; font-size:1.25rem; }
+    .price{
+      font-size:1.6rem;
+      font-weight:900;
+      color: var(--ok);
+      margin:8px 0;
+    }
+    .box ul{ padding-left:18px; opacity:.92; }
+    .box li{ margin:6px 0; }
+
+    .table-wrap{
+      margin-top: 14px;
+      overflow-x:auto;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(13,17,23,.35);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:920px;
+    }
+    th,td{
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      font-size:.97rem;
+      vertical-align:top;
+    }
+    th{
+      text-align:left;
+      color:#cfefff;
+      background: rgba(0,172,193,.10);
+      font-weight:900;
+    }
+
+    .note{
+      background: linear-gradient(135deg, rgba(255,193,7,0.10), rgba(255,152,0,0.10));
+      border:1px solid rgba(255,193,7,0.30);
+      border-radius:16px;
+      padding:22px;
+      margin-top:14px;
+      text-align:center;
+    }
+    .note h3{ color:var(--warn); margin-bottom:10px; }
+
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 28px;
+      background: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      color:#fff;
+      text-decoration:none;
+      border-radius:30px;
+      font-weight:800;
+      margin-top:26px;
+      box-shadow:0 4px 20px rgba(0,172,193,.30);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg"></div>
+
+  <header>
+    <h1>Тарифы и пакеты</h1>
+    <p>
+      Коммерческие условия оказания услуги размещения оборудования в центре обработки данных категории III
+      на <b>120 стоек</b>. Тарифы сформированы для управляемой загрузки, прогнозируемой выручки
+      и удобства последующего привлечения инвестора.
+    </p>
+  </header>
+
+  <div class="container">
+
+    <!-- Логика -->
+    <section class="card">
+      <h2>Принципы формирования тарифов</h2>
+      <p>
+        Тарифная модель построена по стойко-местам с включённой гарантированной мощностью.
+        Это упрощает договоры с клиентами, делает доход прогнозируемым и позволяет масштабировать проект по мере загрузки.
+      </p>
+
+      <div class="grid">
+        <div class="box">
+          <h3>Базовый принцип</h3>
+          <ul>
+            <li>оплата за стойко-место в месяц;</li>
+            <li>гарантированная мощность включена в тариф;</li>
+            <li>электроэнергия сверх лимита — по отдельному расчёту;</li>
+            <li>дополнительные услуги — по заявке.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Управленческий эффект</h3>
+          <ul>
+            <li>прозрачная выручка по количеству стоек;</li>
+            <li>упрощённый контроль договоров;</li>
+            <li>понятная модель для инвестора;</li>
+            <li>возможность поэтапного ввода мощностей.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Пакеты -->
+    <section class="card">
+      <h2>Тарифные пакеты</h2>
+
+      <div class="grid">
+        <div class="box">
+          <h3>Стандарт</h3>
+          <div class="price">150 000 руб./мес</div>
+          <ul>
+            <li>1 стойка</li>
+            <li>гарантированная мощность до 7 кВт</li>
+            <li>резервирование категории III</li>
+            <li>базовый доступ по регламенту</li>
+          </ul>
+        </div>
+
+        <div class="box">
+          <h3>Расширенный</h3>
+          <div class="price">170 000 руб./мес</div>
+          <ul>
+            <li>1 стойка</li>
+            <li>гарантированная мощность до 7 кВт</li>
+            <li>приоритетное обслуживание</li>
+            <li>расширенные окна доступа</li>
+          </ul>
+        </div>
+
+        <div class="box">
+          <h3>Премиальный</h3>
+          <div class="price">180 000 руб./мес</div>
+          <ul>
+            <li>1 стойка</li>
+            <li>гарантированная мощность до 7 кВт</li>
+            <li>расширенный уровень сервиса</li>
+            <li>сокращённые сроки реагирования</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Примечание</h3>
+        <p>
+          Конкретный пакет и ставка фиксируются в договоре. Возможна индивидуальная настройка условий
+          для якорных клиентов при сохранении базовой логики тарификации.
+        </p>
+      </div>
+    </section>
+
+    <!-- Выручка -->
+    <section class="card">
+      <h2>Ориентиры выручки при полной загрузке</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Сценарий</th>
+              <th>Ставка за стойку</th>
+              <th>Количество стоек</th>
+              <th>Годовая выручка</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Консервативный</td>
+              <td>150 000 руб./мес</td>
+              <td>120</td>
+              <td>216 млн руб. в год</td>
+            </tr>
+            <tr>
+              <td>Базовый</td>
+              <td>170 000 руб./мес</td>
+              <td>120</td>
+              <td>244,8 млн руб. в год</td>
+            </tr>
+            <tr>
+              <td>Целевой</td>
+              <td>180 000 руб./мес</td>
+              <td>120</td>
+              <td>259,2 млн руб. в год</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <h3>Для инвестора</h3>
+        <p>
+          Такая структура тарификации обеспечивает предсказуемый денежный поток и позволяет
+          синхронизировать ввод мощностей с фактической загрузкой центра обработки данных.
+        </p>
+      </div>
+    </section>
+
+    <!-- Допуслуги -->
+    <section class="card">
+      <h2>Дополнительные услуги</h2>
+      <p>
+        Дополнительные услуги не включены в базовые тарифы и формируют дополнительную нетарифную выручку.
+      </p>
+
+      <div class="grid">
+        <div class="box">
+          <h3>Эксплуатационные работы</h3>
+          <ul>
+            <li>работы по заявке клиента;</li>
+            <li>переключения, перезапуски, осмотры;</li>
+            <li>работы вне регламентных окон.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Коммутационные услуги</h3>
+          <ul>
+            <li>кросс-подключения;</li>
+            <li>организация связности;</li>
+            <li>размещение дополнительного оборудования.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <a href="index.html" class="back">← Вернуться на главную</a>
+  </div>
+</body>
+</html>
