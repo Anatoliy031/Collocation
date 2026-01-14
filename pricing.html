@@ -20,9 +20,9 @@
       --border-2: rgba(255,255,255,0.08);
       --shadow: 0 18px 40px rgba(0,0,0,0.35);
       --gradient-2: linear-gradient(135deg,#00acc1 0%,#26c6da 100%);
-      --gradient-1: linear-gradient(135deg,#1a237e 0%,#3949ab 100%);
-      --warn: rgba(255,193,7,0.18);
       --ok: rgba(0,172,193,0.14);
+      --warn: rgba(255,193,7,0.18);
+      --danger: rgba(244,67,54,0.16);
     }
 
     body{
@@ -67,18 +67,14 @@
       text-shadow: 0 2px 20px rgba(0,172,193,0.25);
     }
     header p{
-      max-width: 1040px;
+      max-width: 1120px;
       margin: 0 auto;
       opacity: 0.92;
       font-size: 1.05rem;
       line-height: 1.85;
     }
 
-    main{
-      max-width:1200px;
-      margin:0 auto;
-      padding: 56px 20px 90px;
-    }
+    main{max-width:1200px;margin:0 auto;padding:56px 20px 90px}
 
     .section{
       background: var(--bg-card);
@@ -89,18 +85,13 @@
       padding: 34px;
       margin-bottom: 18px;
     }
-
     .section h2{
       color: var(--accent-color);
       font-size: 1.55rem;
       margin-bottom: 10px;
       font-weight: 900;
     }
-    .lead{
-      opacity:0.90;
-      font-size:1.02rem;
-      line-height:1.85;
-    }
+    .lead{opacity:0.90;font-size:1.02rem;line-height:1.85}
 
     .pill{
       display:inline-flex;align-items:center;gap:8px;
@@ -128,10 +119,9 @@
     .grid{
       margin-top:16px;
       display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap:12px;
     }
-
     .card{
       background: var(--bg-soft);
       border: 1px solid var(--border-2);
@@ -148,102 +138,28 @@
       opacity:.9;
     }
     .card > *{position:relative;z-index:1}
-    .card b{display:block;font-size:1.03rem;margin-bottom:6px}
+    .card h3{font-size:1.07rem;margin-bottom:6px}
     .card p{opacity:.88;font-size:.95rem;line-height:1.65}
-
-    .list{margin-top:10px;padding-left:18px;opacity:.92;font-size:.95rem;line-height:1.65}
-    .list li{margin:6px 0}
-
-    .badge{
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{
       display:inline-flex;align-items:center;gap:8px;
-      padding:6px 10px;border-radius:999px;
+      padding:7px 10px;border-radius:999px;
       font-size:0.88rem;
       background: rgba(22,27,34,0.55);
       border: 1px solid rgba(255,255,255,0.10);
-      margin-top: 10px;
       opacity:.95;
-      width: fit-content;
     }
-    .badge i{
+    .chip i{
       width:8px;height:8px;border-radius:50%;
       background: rgba(255,255,255,0.7);
       box-shadow: 0 0 0 4px rgba(255,255,255,0.10);
       display:inline-block;
     }
-    .badge.ok i{background: var(--accent-color); box-shadow: 0 0 0 4px rgba(0,172,193,0.14);}
-    .badge.warn i{background: #ffc107; box-shadow: 0 0 0 4px rgba(255,193,7,0.14);}
+    .chip.ok i{background: var(--accent-color); box-shadow: 0 0 0 4px rgba(0,172,193,0.14);}
+    .chip.warn i{background: #ffc107; box-shadow: 0 0 0 4px rgba(255,193,7,0.14);}
+    .chip.danger i{background: #f44336; box-shadow: 0 0 0 4px rgba(244,67,54,0.14);}
 
-    /* Пакеты */
-    .plans{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 12px;
-    }
-    .plan{
-      background: rgba(13,17,23,0.42);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 18px;
-      padding: 18px 18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .plan::before{
-      content:"";
-      position:absolute;inset:0;
-      background: radial-gradient(circle at 70% 10%, rgba(57,73,171,0.16), transparent 55%);
-      pointer-events:none;
-      opacity:.9;
-    }
-    .plan > *{position:relative;z-index:1}
-    .plan h3{
-      font-size:1.15rem;
-      font-weight: 900;
-      margin-bottom: 6px;
-    }
-    .plan .subtitle{
-      opacity:.86;
-      font-size:0.95rem;
-      line-height:1.55;
-    }
-    .plan .price{
-      margin-top: 12px;
-      font-weight: 900;
-      font-size: 1.15rem;
-    }
-    .plan .price small{
-      display:block;
-      opacity:.82;
-      font-weight: 700;
-      font-size: 0.92rem;
-      margin-top: 4px;
-    }
-    .plan ul{margin-top: 12px; padding-left: 18px; opacity:.92; font-size:0.95rem; line-height:1.65}
-    .plan li{margin:6px 0}
-    .plan .foot{
-      margin-top: 12px;
-      opacity: .88;
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-    .highlight{
-      border: 1px solid rgba(0,172,193,0.30);
-      box-shadow: 0 18px 40px rgba(0,172,193,0.10);
-    }
-    .ribbon{
-      position:absolute;
-      top: 14px; right: 14px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: var(--gradient-2);
-      color:#fff;
-      font-weight: 900;
-      font-size: 0.86rem;
-      box-shadow: 0 10px 25px rgba(0,172,193,0.18);
-      z-index:2;
-    }
-
-    /* Таблица вариантов */
+    /* Таблица */
     .table-wrap{
       overflow:auto;
       border-radius: 16px;
@@ -254,7 +170,7 @@
     table{
       width:100%;
       border-collapse: collapse;
-      min-width: 1020px;
+      min-width: 1080px;
     }
     th, td{
       padding: 12px 12px;
@@ -271,8 +187,53 @@
       backdrop-filter: blur(10px);
       font-weight: 900;
     }
+    td small{display:block;opacity:.85;margin-top:6px}
 
-    /* Кнопки навигации */
+    /* Блок “прайс-конструктор” */
+    .builder{
+      margin-top: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(13,17,23,0.38);
+      overflow:hidden;
+    }
+    .builder .head{
+      padding: 14px 16px;
+      background: rgba(22,27,34,0.68);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .builder .head b{font-size:1.02rem}
+    .builder .head span{opacity:.86}
+    .builder .body{padding: 12px 16px}
+    .line{
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display:grid;
+      grid-template-columns: 220px 1fr;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .line:last-child{border-bottom:none}
+    .k{
+      display:inline-flex;align-items:center;gap:10px;
+      border-radius: 999px;
+      background: rgba(0,172,193,0.10);
+      border: 1px solid rgba(0,172,193,0.24);
+      font-weight: 900;
+      font-size: 0.9rem;
+      padding: 8px 12px;
+      white-space:nowrap;
+      width: fit-content;
+    }
+    .v strong{display:block}
+    .v span{display:block;opacity:.88;font-size:.94rem;line-height:1.55;margin-top:3px}
+
+    /* Навигация */
     .actions{
       margin-top: 18px;
       display:flex;
@@ -281,18 +242,12 @@
       align-items:center;
     }
     .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 14px 18px;
-      border-radius: 999px;
-      text-decoration:none;
-      color:#fff;
-      font-weight: 900;
+      display:inline-flex;align-items:center;gap:10px;
+      padding: 14px 18px;border-radius: 999px;
+      text-decoration:none;color:#fff;font-weight: 900;
       background: var(--gradient-2);
       box-shadow: 0 10px 25px rgba(0,172,193,0.18);
-      border:none;
-      cursor:pointer;
+      border:none;cursor:pointer;
     }
     .btn.secondary{
       background: rgba(13,17,23,0.45);
@@ -313,9 +268,7 @@
       color:#fff;
       text-decoration:none;
       box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
-      z-index:10000;
-      border:none;
-      cursor:pointer;
+      z-index:10000;border:none;cursor:pointer;
       transition: transform .2s ease, opacity .2s ease;
     }
     .fab:hover{ transform: translateY(-2px) scale(1.03); }
@@ -325,10 +278,7 @@
       opacity:0; pointer-events:none;
       transform: translateY(8px) scale(.9);
     }
-    #fab-top.show{
-      opacity:1; pointer-events:auto;
-      transform: translateY(0) scale(1);
-    }
+    #fab-top.show{opacity:1;pointer-events:auto;transform: translateY(0) scale(1)}
     #fab-home{ bottom: calc(92px + env(safe-area-inset-bottom)); }
 
     footer{
@@ -340,10 +290,13 @@
       opacity:0.8;
     }
 
+    @media (max-width: 900px){
+      table{min-width: 980px;}
+      .line{grid-template-columns: 1fr}
+    }
     @media (max-width: 768px){
       header{ padding: 46px 20px; }
       .section{ padding: 24px; }
-      table{ min-width: 980px; }
     }
   </style>
 </head>
@@ -354,204 +307,227 @@
   <header>
     <h1>Тарифы и варианты размещения</h1>
     <p>
-      Ценообразование должно быть простым для рынка и защищённым для компании: в договоре фиксируется <b>состав услуги</b>,
-      <b>границы ответственности</b> и <b>правила доступа</b>. Ниже приведена управленческая модель тарифов для ЦОД категории III на <b>120 стоек</b>.
-      Числовые ставки указаны как <b>ориентиры</b> для формирования коммерческого предложения и проверки финансовой модели.
+      Тарифы — это не “прайс ради прайса”. Это инструмент управления нагрузкой, доступом и рисками.
+      Здесь описан конструктор тарифов для ЦОД категории III на <b>120 стоек</b> (лимит полезной нагрузки <b>840 кВт</b>,
+      ориентир <b>7 кВт на стойку</b>) с понятным разделением: <b>базовый пакет</b> и <b>опции</b>.
     </p>
   </header>
 
   <main>
     <section class="section">
-      <h2>1) Из чего состоит услуга</h2>
+      <h2>1) Логика тарифа: как избежать спорных зон</h2>
       <p class="lead">
-        Клиент оплачивает не “помещение”, а гарантированный режим эксплуатации его оборудования. Поэтому тариф собирается из двух частей:
-        базовая плата за стойку (инфраструктура и эксплуатация) + переменная часть за потребляемую мощность (если применяется).
+        Правильный тарифный контур решает три задачи одновременно:
+        1) гарантирует покрытие эксплуатационных затрат;
+        2) защищает инфраструктуру от перегруза и хаотичных работ;
+        3) делает для клиента понятным, “что входит” и “за что доплата”.
       </p>
 
       <div class="grid">
         <div class="card">
-          <b>Базовая плата за стойку</b>
-          <p>
-            Включает предоставление стойко-места, инженерной инфраструктуры, базовый режим эксплуатации, доступ по регламенту,
-            мониторинг инженерных систем, безопасность и обслуживание объекта.
-          </p>
-          <div class="badge ok"><i></i><b>Защита тарифа:</b> описывается составом услуги</div>
+          <h3>Единица продажи</h3>
+          <p><b>Стойко-место</b> как основной продукт. Мощность, доступ и сервисы фиксируются параметрами.</p>
+          <div class="meta">
+            <span class="chip ok"><i></i>просто объяснить</span>
+            <span class="chip ok"><i></i>легко масштабировать</span>
+          </div>
         </div>
-
         <div class="card">
-          <b>Оплата мощности (при необходимости)</b>
-          <p>
-            Если клиент превышает согласованный лимит мощности на стойку, вводится доплата за превышение.
-            Это защищает инфраструктуру и экономику проекта.
-          </p>
-          <div class="badge warn"><i></i><b>Важно:</b> фиксировать лимит в договоре</div>
+          <h3>Мощность — это лимит</h3>
+          <p>Лимит мощности в базовом пакете. Превышение — отдельная опция или ограничение по правилам.</p>
+          <div class="meta">
+            <span class="chip warn"><i></i>снижает риски перегруза</span>
+          </div>
         </div>
-
         <div class="card">
-          <b>Дополнительные услуги</b>
-          <p>
-            Работы по заявкам (по регламенту): подключение, перемонтаж, сопровождение, обслуживание оборудования клиента, дополнительные линии связи.
-          </p>
-          <div class="badge ok"><i></i><b>Плюс:</b> формируют дополнительную выручку</div>
-        </div>
-      </div>
-
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Рекомендация для договора</b></div>
-        Чтобы “не спорить о цене”, нужно спорить не о цене, а о составе услуги.
-        В договоре фиксируются: <b>лимит мощности</b>, <b>режим доступа</b>, <b>порядок работ</b>, <b>границы ответственности</b>,
-        <b>условия временного отключения</b> (плановые работы) и <b>порядок уведомления</b>.
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>2) Тарифные пакеты (ориентиры для рынка)</h2>
-      <p class="lead">
-        Ниже приведены пакеты, которые удобно “продавать” и удобно защищать.
-        Числа — ориентиры для стартового коммерческого предложения; точные ставки уточняются финансовой моделью и анализом конкурентов в регионе.
-      </p>
-
-      <div class="plans" aria-label="Тарифные пакеты">
-        <div class="plan">
-          <h3>Базовый пакет</h3>
-          <div class="subtitle">
-            Для клиентов с предсказуемой нагрузкой и стандартными требованиями к размещению.
-          </div>
-
-          <div class="price">
-            90 000 – 120 000 руб./мес. за стойку
-            <small>ориентир при лимите до 7 кВт на стойку</small>
-          </div>
-
-          <ul>
-            <li>Стойко-место и инженерная инфраструктура</li>
-            <li>Гарантированное электропитание и резервирование по категории III</li>
-            <li>Охлаждение и поддержание условий эксплуатации</li>
-            <li>Пожарная защита, контроль доступа, базовый режим охраны</li>
-            <li>Регламентный доступ персонала клиента (по заявкам/графику)</li>
-          </ul>
-
-          <div class="foot">
-            Подходит как стартовый “массовый” продукт для заполнения мощности и формирования базовой загрузки.
-          </div>
-        </div>
-
-        <div class="plan highlight">
-          <div class="ribbon">Рекомендуемый</div>
-          <h3>Стандартный пакет</h3>
-          <div class="subtitle">
-            Для ключевых клиентов, которым важно качество обслуживания и ускоренные процедуры работ.
-          </div>
-
-          <div class="price">
-            120 000 – 160 000 руб./мес. за стойку
-            <small>ориентир при лимите до 7 кВт на стойку</small>
-          </div>
-
-          <ul>
-            <li>Всё из базового пакета</li>
-            <li>Расширенный режим доступа (сокращённые сроки согласования)</li>
-            <li>Приоритетная обработка заявок на работы</li>
-            <li>Расширенная отчётность по услугам и инцидентам (по форме)</li>
-            <li>Опции: дополнительные кросс-линии, дополнительные каналы связи (по стоимости)</li>
-          </ul>
-
-          <div class="foot">
-            Оптимальный пакет для стабильной выручки: баланс цены, понятности и управляемости эксплуатации.
-          </div>
-        </div>
-
-        <div class="plan">
-          <h3>Пакет для крупных клиентов</h3>
-          <div class="subtitle">
-            Для размещения нескольких стоек и формализации особых условий (доступ, работы, график изменений).
-          </div>
-
-          <div class="price">
-            Индивидуально (рамки фиксируются)
-            <small>ориентир: скидка от количества + платные доп.условия</small>
-          </div>
-
-          <ul>
-            <li>Порог входа: размещение от 5–10 стоек</li>
-            <li>Отдельный регламент взаимодействия и “окна работ”</li>
-            <li>Индивидуальные требования к доступу/процедурам (в рамках режима объекта)</li>
-            <li>Возможность выделения зон/рядов (если допускает компоновка)</li>
-            <li>Отдельный порядок изменения конфигурации и согласований</li>
-          </ul>
-
-          <div class="foot">
-            Важно: любые “особые условия” должны быть оформлены так, чтобы не разрушать единый режим эксплуатации объекта.
+          <h3>Доступ — по регламенту</h3>
+          <p>Доступ и работы (включая окна работ) являются частью услуги и отражаются в приложениях к договору.</p>
+          <div class="meta">
+            <span class="chip ok"><i></i>меньше конфликтов</span>
           </div>
         </div>
       </div>
 
       <div class="note">
-        <div class="pill"><span class="dot"></span><b>Почему это выгодно для инвестора</b></div>
-        Пакеты превращают проект в понятный продукт: есть “коробка”, есть надстройки, есть доп.услуги.
-        Это повышает предсказуемость выручки, снижает риск споров и ускоряет достижение загрузки.
+        <div class="pill"><span class="dot"></span><b>Позиция для переговоров</b></div>
+        Тариф — это “упакованный режим объекта”. Если клиент хочет больше свободы (доступ 24/7, больше мощности, ускоренные работы) —
+        это должно оформляться как опции с отдельной ценой и отдельной ответственностью.
       </div>
     </section>
 
     <section class="section">
-      <h2>3) Варианты размещения и дополнительные услуги</h2>
+      <h2>2) Пакеты для клиента</h2>
       <p class="lead">
-        Ниже — перечень типовых опций, которые удобно предлагать рынку и включать в договор отдельными приложениями.
+        Ниже — типовые пакеты (как “витрина”). Конкретные ставки задаются финансовой моделью и коммерческой политикой,
+        но структура пакетов позволяет быстро выставлять предложения без нарушения режима объекта.
       </p>
 
-      <div class="table-wrap" role="region" aria-label="Варианты размещения и дополнительные услуги" tabindex="0">
+      <div class="grid">
+        <div class="card">
+          <h3>Пакет «Базовый»</h3>
+          <p>
+            Размещение в стойке, электропитание в пределах лимита, базовая эксплуатация, контроль доступа по регламенту,
+            мониторинг инженерной инфраструктуры, стандартный порядок заявок.
+          </p>
+          <div class="meta">
+            <span class="chip ok"><i></i>ориентир: 7 кВт/стойка</span>
+            <span class="chip ok"><i></i>стандартные окна работ</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Пакет «Расширенный»</h3>
+          <p>
+            Увеличенный сервисный контур: ускоренные заявки, расширенные временные окна работ,
+            повышенные требования к отчётности/уведомлениям, приоритетная поддержка.
+          </p>
+          <div class="meta">
+            <span class="chip warn"><i></i>строже фиксируем регламенты</span>
+            <span class="chip ok"><i></i>приоритет по заявкам</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Пакет «Индивидуальный»</h3>
+          <p>
+            Для крупных клиентов: отдельная договорная конфигурация (мощность, доступ, окна работ, опции по связи),
+            оформляется как индивидуальная спецификация и приложения.
+          </p>
+          <div class="meta">
+            <span class="chip ok"><i></i>гибко под бизнес клиента</span>
+            <span class="chip danger"><i></i>требует строгих приложений</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Важно</b></div>
+        Пакеты “про доступ” и “про мощность” нельзя продавать отдельно от инженерной реальности.
+        Поэтому всё завязано на регламенты и лимиты, а не на “обещания”.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3) Конструктор тарифа: базовый пакет + опции</h2>
+      <p class="lead">
+        Ниже — перечень типовых опций. Он нужен для коммерции и для договоров:
+        каждую опцию можно описать в приложении, указать стоимость/методику и порядок предоставления.
+      </p>
+
+      <div class="builder" aria-label="Конструктор опций">
+        <div class="head">
+          <b>Опции (добавляются к базовому пакету)</b>
+          <span>стоимость фиксируется в коммерческой политике / приложении</span>
+        </div>
+        <div class="body">
+          <div class="line">
+            <div class="k">Мощность</div>
+            <div class="v">
+              <strong>Дополнительная мощность сверх лимита</strong>
+              <span>Предоставляется при наличии технической возможности и после согласования. Фиксируется порядок измерения и ответственность.</span>
+            </div>
+          </div>
+          <div class="line">
+            <div class="k">Доступ</div>
+            <div class="v">
+              <strong>Расширенный режим доступа</strong>
+              <span>Особые окна доступа/работ, дополнительные согласования, повышенные требования к безопасности. Только по регламенту.</span>
+            </div>
+          </div>
+          <div class="line">
+            <div class="k">Работы</div>
+            <div class="v">
+              <strong>Ускоренные заявки и работы</strong>
+              <span>Сокращённые сроки исполнения заявок, приоритет, выполнение работ силами эксплуатационной службы.</span>
+            </div>
+          </div>
+          <div class="line">
+            <div class="k">Связь</div>
+            <div class="v">
+              <strong>Кросс-соединения и подключение операторов</strong>
+              <span>Организация внутренних соединений, услуги по кроссу, регламенты ввода линий связи и доступа операторов.</span>
+            </div>
+          </div>
+          <div class="line">
+            <div class="k">Мониторинг</div>
+            <div class="v">
+              <strong>Расширенная отчётность</strong>
+              <span>Дополнительные отчёты по событиям, работам, инцидентам, потреблению и параметрам (в пределах доступной инфраструктуры).</span>
+            </div>
+          </div>
+          <div class="line">
+            <div class="k">Сервис</div>
+            <div class="v">
+              <strong>Работы “по поручению клиента”</strong>
+              <span>Перестановка, замена, перезагрузка, визуальные проверки, фотоотчёт — в рамках регламента доступа.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Как это отражается в договоре</b></div>
+        В основном договоре — общие правила. В приложении “Опции” — перечень и ставки/методика.
+        Это позволяет добавлять/изменять опции без полного пересогласования договора.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4) Что включаем в базовый пакет (фиксируем письменно)</h2>
+      <p class="lead">
+        Базовый пакет должен быть одинаково понятен: коммерции, юристам, эксплуатации и клиенту.
+        Ниже — рекомендуемый состав “по умолчанию”, который далее уточняется в приложении “Параметры размещения”.
+      </p>
+
+      <div class="table-wrap" role="region" aria-label="Состав базового пакета" tabindex="0">
         <table>
           <thead>
             <tr>
-              <th style="width:260px;">Опция</th>
-              <th>Описание</th>
-              <th style="width:320px;">Как фиксировать в договоре</th>
-              <th style="width:260px;">Комментарий</th>
+              <th style="width:300px;">Элемент</th>
+              <th>Что входит</th>
+              <th style="width:320px;">Как фиксируется</th>
+              <th style="width:260px;">Риск, если не фиксировать</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><b>Лимит мощности на стойку</b></td>
-              <td>Согласованный предел потребления (ориентир: 7 кВт на стойку). Превышение — отдельная оплата/ограничение.</td>
-              <td>Приложение: “Параметры размещения” + порядок контроля/измерения.</td>
-              <td>Защищает инфраструктуру и экономику.</td>
+              <td><b>Размещение</b></td>
+              <td>Стойко-место, выделенная зона/ряд (по факту компоновки), правила размещения и требования к оборудованию.</td>
+              <td>Приложение “Параметры размещения”.</td>
+              <td>Споры по объёму и “что разрешено”.</td>
             </tr>
-
             <tr>
-              <td><b>Дополнительные работы по заявкам</b></td>
-              <td>Перемещение, подключение, замена кабелей, установка/снятие оборудования, сопровождение.</td>
-              <td>Приложение: “Регламент работ” + тарифы на работы/сроки.</td>
-              <td>Источник дополнительной выручки.</td>
+              <td><b>Электропитание</b></td>
+              <td>Питание в пределах лимита, порядок измерения, действия при превышении, требования к подключению.</td>
+              <td>Приложение + регламент инцидентов.</td>
+              <td>Перегруз, аварии, спор об ответственности.</td>
             </tr>
-
             <tr>
-              <td><b>Дополнительные линии связи</b></td>
-              <td>Организация дополнительных каналов связи/внутренних соединений по инфраструктуре объекта.</td>
-              <td>Приложение: “Линии связи” + порядок подключения/ответственность.</td>
-              <td>Важно разделять ответственность сторон.</td>
+              <td><b>Охлаждение</b></td>
+              <td>Обеспечение микроклимата по регламенту, контроль параметров, порядок работ.</td>
+              <td>Требования + регламенты эксплуатации.</td>
+              <td>Клиент “винит” ЦОД в перегреве из-за своего оборудования.</td>
             </tr>
-
             <tr>
-              <td><b>Выделенный режим доступа</b></td>
-              <td>Расширенные условия доступа для персонала клиента, если позволяет режим объекта.</td>
-              <td>Приложение: “Доступ и безопасность” + перечень лиц/процедуры.</td>
-              <td>Любые исключения — только документально.</td>
+              <td><b>Доступ</b></td>
+              <td>Процедуры допуска, окна работ, сопровождение, учёт посещений.</td>
+              <td>Приложение “Регламент доступа”.</td>
+              <td>Конфликты и нарушение режима объекта.</td>
             </tr>
-
             <tr>
-              <td><b>Отчётность и сервисные процедуры</b></td>
-              <td>Формы отчётов, уведомления, порядок информирования о плановых работах и инцидентах.</td>
-              <td>Приложение: “Порядок взаимодействия”.</td>
-              <td>Снижает конфликтность.</td>
+              <td><b>Эксплуатация</b></td>
+              <td>Стандартная обработка заявок, аварийное реагирование, фиксация событий.</td>
+              <td>Регламент заявок и инцидентов.</td>
+              <td>Размывание ожиданий и претензии “вы обязаны”.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="note">
-        <div class="pill"><span class="dot"></span><b>Правило</b></div>
-        Всё, что не описано в договоре (или приложениях) — в споре “не существует”.
-        Поэтому дополнительные услуги всегда оформляются отдельными приложениями: кратко, но юридически однозначно.
+        <div class="pill"><span class="dot"></span><b>Отдельно для инвестора</b></div>
+        Такая структура тарифа показывает инвестору управляемость: вы не продаёте “обещания”, вы продаёте стандартизированный продукт с опциями.
+        Это снижает риски дебиторки, конфликтов и простоев.
       </div>
 
       <div class="actions">
