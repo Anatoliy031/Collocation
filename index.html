@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Центр обработки данных категории III на 120 стоек | филиал ПАО «Россети Юг» – «Кубаньэнерго»</title>
+
+  <style>
+    /* Плавающая круглая кнопка (в начало страницы) */
+    .fab {
+      position: fixed;
+      right: max(14px, env(safe-area-inset-right));
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent-color, #00acc1), var(--secondary-color, #3949ab));
+      color: #fff; text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
+      z-index: 10000;
+      transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease, filter .2s ease;
+      backdrop-filter: saturate(1.2);
+      border: none;
+      cursor: pointer;
+    }
+    .fab:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
+    .fab:active { transform: translateY(0) scale(.98); }
+    .fab svg { width: 26px; height: 26px; pointer-events: none; }
+    #fab-top  { bottom: calc(24px + env(safe-area-inset-bottom)); opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
+    #fab-top.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    .fab::after{
+      content:""; position:absolute; inset:0; border-radius:50%;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    @media (prefers-reduced-motion: reduce) { .fab, #fab-top { transition: none; } }
+  </style>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #3949ab;
+      --accent-color: #00acc1;
+      --text-light: #ffffff;
+      --text-dark: #212121;
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --gradient-1: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+      --gradient-2: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0a0e27;
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Анимированный фон */
+    .bg-animation {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: linear-gradient(to bottom, #0a0e27 0%, #1a237e 100%);
+      overflow: hidden;
+    }
+    .bg-animation::before {
+      content: "";
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.3) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-30px, -30px) rotate(120deg); }
+      66% { transform: translate(30px, -20px) rotate(240deg); }
+    }
+
+    /* Шапка */
+    header {
+      position: relative;
+      padding: 80px 20px;
+      text-align: center;
+      background: rgba(26, 35, 126, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 20px rgba(0, 172, 193, 0.3);
+    }
+    header p {
+      font-size: 1.15rem;
+      opacity: 0.92;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Линии-акценты */
+    .electric-grid {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .electric-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #00acc1, transparent);
+      animation: electric 3s linear infinite;
+    }
+    .electric-line:nth-child(1) { top: 20%; width: 60%; left: -60%; animation-duration: 4s; }
+    .electric-line:nth-child(2) { top: 50%; width: 80%; right: -80%; animation-duration: 5s; animation-direction: reverse; }
+    .electric-line:nth-child(3) { top: 80%; width: 70%; left: -70%; animation-duration: 3.5s; }
+    @keyframes electric { to { transform: translateX(200%); } }
+
+    /* Контент */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 40px;
+      background: rgba(22, 27, 34, 0.6);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 172, 193, 0.1);
+    }
+    .intro p {
+      font-size: 1.06rem;
+      line-height: 1.85;
+      opacity: 0.92;
+    }
+
+    .definition {
+      background: linear-gradient(135deg, rgba(0, 172, 193, 0.12) 0%, rgba(57, 73, 171, 0.12) 100%);
+      padding: 28px 26px;
+      border-radius: 15px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(0, 172, 193, 0.32);
+      text-align: left;
+    }
+    .definition h3 {
+      color: #00acc1;
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+    .definition p { opacity: 0.95; }
+
+    .definition .facts {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .fact {
+      background: rgba(13, 17, 23, 0.42);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px;
+      padding: 14px 14px;
+    }
+    .fact b { display: block; font-size: 0.95rem; margin-bottom: 4px; }
+    .fact span { display: block; opacity: 0.86; font-size: 0.92rem; }
+
+    .invest {
+      background: linear-gradient(135deg, rgba(57, 73, 171, 0.18) 0%, rgba(0, 172, 193, 0.12) 100%);
+      border: 1px solid rgba(57, 73, 171, 0.35);
+    }
+    .invest ul {
+      margin-top: 10px;
+      padding-left: 18px;
+      opacity: 0.92;
+    }
+    .invest li { margin: 6px 0; }
+
+    /* Карточки */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    .card {
+      position: relative;
+      background: rgba(22, 27, 34, 0.8);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 172, 193, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 172, 193, 0.12), 0 10px 25px rgba(0,0,0,0.35);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                  rgba(0, 172, 193, 0.18) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-content { position: relative; padding: 30px; z-index: 1; }
+    .card-number {
+      width: 50px; height: 50px;
+      background: var(--gradient-2);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.25rem;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 20px rgba(0, 172, 193, 0.3);
+    }
+    .card h3 { font-size: 1.22rem; margin-bottom: 10px; color: var(--text-light); }
+    .card p { opacity: 0.84; font-size: 0.95rem; }
+
+    /* Футер */
+    footer {
+      background: rgba(13, 17, 23, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 100px;
+    }
+    footer p { opacity: 0.72; }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      header { padding: 50px 20px; }
+      .cards-grid { grid-template-columns: 1fr; gap: 20px; }
+      .intro { padding: 24px; }
+      .definition { padding: 22px 18px; }
+      .card-content { padding: 24px; }
+    }
+
+    /* Анимация появления */
+    .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+    .card:nth-child(7) { animation-delay: 0.7s; }
+    .card:nth-child(8) { animation-delay: 0.8s; }
+  </style>
+</head>
+
+<body>
+  <div class="bg-animation"></div>
+
+  <header>
+    <div class="electric-grid">
+      <div class="electric-line"></div>
+      <div class="electric-line"></div>
+      <div class="electric-line"></div>
+    </div>
+
+    <h1>Центр обработки данных категории III</h1>
+    <p>
+      Концепция внедрения новой нетарифной услуги для филиала ПАО «Россети Юг» – «Кубаньэнерго»:
+      размещение вычислительного и телекоммуникационного оборудования в центре обработки данных на <b>120 стоек</b>
+      с расчётной полезной нагрузкой <b>840 кВт</b>.
+    </p>
+  </header>
+
+  <main>
+    <section class="intro fade-in">
+      <div class="definition">
+        <h3>Что такое центр обработки данных?</h3>
+        <p>
+          <strong>Центр обработки данных</strong> — это специализированный инженерный комплекс, обеспечивающий
+          безопасное размещение серверного и телекоммуникационного оборудования, гарантированное электропитание,
+          резервирование, охлаждение, пожарную защиту, контроль доступа и эксплуатацию по регламентам.
+          Проектируемый центр относится к <strong>категории III</strong> по уровню надёжности (резервирование основных
+          инженерных систем и повышенная отказоустойчивость).
+        </p>
+
+        <div class="facts" aria-label="Ключевые параметры проекта">
+          <div class="fact">
+            <b>Ёмкость</b>
+            <span>120 стоек (стойко-мест)</span>
+          </div>
+          <div class="fact">
+            <b>Полезная нагрузка</b>
+            <span>840 кВт (из расчёта 7 кВт на стойку)</span>
+          </div>
+          <div class="fact">
+            <b>Модель дохода</b>
+            <span>ежемесячная плата за размещение и инженерную инфраструктуру</span>
+          </div>
+          <div class="fact">
+            <b>Назначение</b>
+            <span>создание новой нетарифной услуги и устойчивого источника выручки</span>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        Данный сайт сохраняет исходную управленческую логику: даёт топ-менеджменту целостное понимание концепции,
+        поэтапного внедрения, технических требований, правовой конструкции и экономической модели.
+        Все расчёты и показатели приведены для конфигурации <b>120 стоек</b>.
+      </p>
+
+      <div class="definition invest" style="margin-top:22px;">
+        <h3>Финансирование и привлечение инвестора</h3>
+        <p>
+          Собственные источники финансирования для реализации проекта отсутствуют.
+          Для запуска требуется привлечение инвестора с последующим оформлением инвестиционного партнёрства
+          и закреплением условий возврата вложений через денежный поток проекта.
+        </p>
+        <p style="margin-top:10px;">
+          На сайте предусмотрено формирование <strong>пакета документов для инвестора</strong>, а также описание
+          каналов поиска инвестора, включая размещение информации на профильных площадках.
+        </p>
+        <ul>
+          <li><b>Электронные торговые площадки</b> (размещение предложения, сбор заявок, переговорные процедуры).</li>
+          <li><b>Инвестиционные витрины регионов</b> и инфраструктурные каталоги проектов.</li>
+          <li><b>Отраслевые партнёры</b> (операторы центров обработки данных, телекоммуникационные компании, интеграторы).</li>
+          <li><b>Институциональные инвесторы</b> и фонды, ориентированные на инфраструктурные проекты.</li>
+        </ul>
+        <p style="margin-top:10px; opacity:.92;">
+          Подробный состав документов и порядок взаимодействия отражены в разделах «Бизнес-план», «Шаблоны документов» и «Правовая конструкция».
+        </p>
+      </div>
+    </section>
+
+    <div class="cards-grid">
+      <a href="glossary.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">1</div>
+          <h3>Термины и сокращения</h3>
+          <p>Справочник терминов, аббревиатур и инженерных понятий для единого понимания проекта</p>
+        </div>
+      </a>
+
+      <a href="roadmap.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">2</div>
+          <h3>Дорожная карта</h3>
+          <p>Поэтапный план реализации: проектирование, согласования, строительство, ввод и коммерческий запуск</p>
+        </div>
+      </a>
+
+      <a href="templates.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">3</div>
+          <h3>Пакет документов</h3>
+          <p>Шаблоны и формы: инвестиционное предложение, перечень материалов для площадок, проекты документов</p>
+        </div>
+      </a>
+
+      <a href="pricing.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">4</div>
+          <h3>Тарифы и варианты размещения</h3>
+          <p>Подход к ценообразованию, состав услуги, ориентиры по ставкам и возможные пакеты для клиентов</p>
+        </div>
+      </a>
+
+      <a href="substations.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">5</div>
+          <h3>Площадка и инфраструктура</h3>
+          <p>Исходные данные по размещению, энергоснабжению, ограничениями площадки и инженерной компоновке</p>
+        </div>
+      </a>
+
+      <a href="business-plan.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">6</div>
+          <h3>Бизнес-план</h3>
+          <p>Финансовая модель проекта на 120 стоек: капитальные затраты, выручка, расходы и показатели эффективности</p>
+        </div>
+      </a>
+
+      <a href="requirements.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">7</div>
+          <h3>Требования к объекту</h3>
+          <p>Технические требования категории III: электроснабжение, резервирование, охлаждение, безопасность, эксплуатация</p>
+        </div>
+      </a>
+
+      <a href="contract.html" class="card fade-in">
+        <div class="card-content">
+          <div class="card-number">8</div>
+          <h3>Правовая конструкция</h3>
+          <p>Варианты оформления отношений с клиентами и инвестором, распределение ролей и ответственность сторон</p>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Все права защищены.</p>
+  </footer>
+
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="В начало">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
+  <script>
+    // Подсветка карточек от положения курсора
+    document.addEventListener("DOMContentLoaded", () => {
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        card.addEventListener("mouseenter", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        });
+      });
+    });
+  </script>
+
+  <script>
+    // Кнопка "в начало"
+    (function(){
+      var topBtn = document.getElementById("fab-top");
+      if (!topBtn) return;
+      var onScroll = function(){
+        if (window.scrollY > 300) { topBtn.classList.add("show"); }
+        else { topBtn.classList.remove("show"); }
+      };
+      window.addEventListener("scroll", onScroll, {passive:true});
+      onScroll();
+      topBtn.addEventListener("click", function(){
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, {passive:true});
+    })();
+  </script>
+
+  <script>
+    // Сохраняем позицию прокрутки перед переходом на вложенные страницы и восстанавливаем при возврате
+    (function(){
+      document.addEventListener("click", function(ev){
+        var a = ev.target.closest && ev.target.closest("a[href]");
+        if(!a) return;
+        var href = a.getAttribute("href");
+        if(!href) return;
+        try{
+          var u = new URL(href, location.href);
+          var isSameOrigin = (u.origin === location.origin);
+          var isHtml = /.html(?:#.*)?$/i.test(u.pathname);
+          var isIndex = /index\.html$/i.test(u.pathname);
+          if(isSameOrigin && isHtml && !isIndex){
+            sessionStorage.setItem("indexScrollY", String(window.scrollY || window.pageYOffset || 0));
+          }
+        }catch(e){}
+      }, {passive:true});
+
+      document.addEventListener("DOMContentLoaded", function(){
+        try{
+          var flag = sessionStorage.getItem("restoreFlag");
+          if(flag === "1"){
+            var y = parseInt(sessionStorage.getItem("indexScrollY") || "0", 10) || 0;
+            window.scrollTo(0, y);
+            sessionStorage.removeItem("restoreFlag");
+          }
+        }catch(e){}
+      }, {once:true});
+    })();
+  </script>
+</body>
+</html>
