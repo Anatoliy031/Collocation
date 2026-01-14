@@ -197,6 +197,34 @@
     }
     .invest li { margin: 6px 0; }
 
+    /* Новый блок (внутри главной, без отдельной страницы) */
+    .owners {
+      margin-top: 18px;
+      text-align: left;
+      background: rgba(13, 17, 23, 0.35);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 18px 18px;
+    }
+    .owners h4{
+      color:#00acc1;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .owners .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .owner{
+      background: rgba(22,27,34,0.55);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 12px 12px;
+    }
+    .owner b{display:block;margin-bottom:4px}
+    .owner span{display:block;opacity:.88;font-size:.93rem}
+
     /* Карточки */
     .cards-grid {
       display: grid;
@@ -364,6 +392,32 @@
         <p style="margin-top:10px; opacity:.92;">
           Подробный состав документов и порядок взаимодействия отражены в разделах «Бизнес-план», «Шаблоны документов» и «Правовая конструкция».
         </p>
+
+        <!-- ВСТАВКА: ответственные/контакты внутри главной -->
+        <div class="owners" aria-label="Ответственные за проект">
+          <h4>Ответственные и взаимодействие</h4>
+          <div class="grid">
+            <div class="owner">
+              <b>Владелец услуги (коммерция)</b>
+              <span>формирует тарифы, пакеты, план продаж, договорную модель</span>
+            </div>
+            <div class="owner">
+              <b>Технический владелец (эксплуатация)</b>
+              <span>обеспечивает требования категории III, регламенты, качество и непрерывность услуги</span>
+            </div>
+            <div class="owner">
+              <b>Правовая поддержка</b>
+              <span>договор, регламент доступа, границы ответственности, урегулирование споров</span>
+            </div>
+            <div class="owner">
+              <b>Контур инвестора (финансы)</b>
+              <span>финансовая модель, транширование, контрольные точки, отчётность инвестору</span>
+            </div>
+          </div>
+          <p style="margin-top:10px; opacity:.9;">
+            При необходимости ФИО/должности и контакты добавляются внутренним приказом и в паспорт проекта.
+          </p>
+        </div>
       </div>
     </section>
 
