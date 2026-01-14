@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Шаблоны документов | Центр обработки данных категории III</title>
+
+  <style>
+    /* Плавающие круглые кнопки */
+    .fab{
+      position: fixed;
+      right: max(14px, env(safe-area-inset-right));
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent, #00acc1), var(--secondary, #3949ab));
+      color: #fff; text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
+      z-index: 10000;
+      transition: transform .2s ease, opacity .2s ease, filter .2s ease;
+      border: none; cursor: pointer;
+    }
+    .fab:hover{ transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
+    .fab:active{ transform: translateY(0) scale(.98); }
+    .fab svg{ width: 26px; height: 26px; pointer-events: none; }
+    #fab-back{ bottom: calc(96px + env(safe-area-inset-bottom)); }
+    #fab-top{ bottom: calc(24px + env(safe-area-inset-bottom)); opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
+    #fab-top.show{ opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    .fab::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    @media (prefers-reduced-motion: reduce){ .fab, #fab-top{ transition:none; } }
+  </style>
+
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    :root{
+      --primary:#1a237e;
+      --secondary:#3949ab;
+      --accent:#00acc1;
+      --bg:#0a0e27;
+      --card: rgba(22,27,34,0.82);
+      --card2: rgba(13,17,23,0.55);
+      --border: rgba(255,255,255,0.10);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,0.88);
+      --shadow: 0 10px 40px rgba(0,0,0,0.30);
+      --warn:#ffd54f;
+      --ok:#00c853;
+    }
+
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.65;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    /* Фон */
+    .bg{
+      position:fixed; inset:0;
+      z-index:-1;
+      background: linear-gradient(135deg, #0a0e27, #1a237e);
+      overflow:hidden;
+    }
+    .bg::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0,172,193,0.28) 0%, transparent 48%),
+        radial-gradient(circle at 80% 20%, rgba(57,73,171,0.28) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26,35,126,0.25) 0%, transparent 55%);
+      animation: drift 18s ease-in-out infinite;
+    }
+    @keyframes drift{
+      0%,100%{ transform: translate(0,0) rotate(0deg); }
+      33%{ transform: translate(-30px,-25px) rotate(120deg); }
+      66%{ transform: translate(35px,-15px) rotate(240deg); }
+    }
+
+    /* Шапка */
+    header{
+      padding: 52px 20px;
+      text-align:center;
+      background: rgba(26,35,126,0.10);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1{
+      font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+      font-weight: 900;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color: transparent;
+      background-clip:text;
+    }
+    header p{
+      max-width: 1120px;
+      margin: 0 auto;
+      opacity: .92;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-top:14px;
+      padding: 10px 14px;
+      border-radius:999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(13,17,23,.35);
+      font-size: .95rem;
+      opacity: .95;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(0,172,193,.15);
+    }
+
+    /* Контейнер */
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* Карточки */
+    .card{
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .card h2{
+      color: var(--accent);
+      font-size: 1.9rem;
+      margin-bottom: 12px;
+      font-weight: 900;
+      text-align:center;
+    }
+    .card p{ opacity: .92; }
+
+    /* Сетка */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .box{
+      background: var(--card2);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 22px;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .box:hover{
+      transform: translateY(-6px);
+      border-color: rgba(0,172,193,.22);
+      box-shadow: 0 12px 30px rgba(0,172,193,.10);
+    }
+    .box h3{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .icon{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(0,172,193,.14);
+      border: 1px solid rgba(0,172,193,.22);
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+      flex: 0 0 auto;
+      font-size: 1.2rem;
+    }
+    .box ul{ margin-top: 8px; padding-left: 18px; opacity: .92; }
+    .box li{ margin: 6px 0; }
+    .muted{ opacity: .78; font-size: .92rem; margin-top: 10px; }
+
+    /* Список файлов */
+    .files{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .file{
+      background: rgba(13,17,23,.42);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .file .mark{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(0,172,193,.14);
+      border: 1px solid rgba(0,172,193,.22);
+      font-size: 1.1rem;
+      flex: 0 0 auto;
+    }
+    .file b{ display:block; margin-bottom: 4px; }
+    .file span{ display:block; opacity:.86; font-size:.95rem; }
+    .file .actions{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(13,17,23,.30);
+      color:#fff;
+      text-decoration:none;
+      font-weight: 800;
+      font-size: .95rem;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      white-space: nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(0,172,193,.30);
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(0,172,193,.95), rgba(38,198,218,.95));
+      border-color: rgba(0,172,193,.45);
+      box-shadow: 0 12px 28px rgba(0,172,193,.18);
+    }
+
+    /* Таблица */
+    .table-wrap{
+      margin-top: 14px;
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(13,17,23,.35);
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 920px;
+    }
+    th, td{
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      vertical-align: top;
+      font-size: .97rem;
+    }
+    th{
+      text-align: left;
+      color: #cfefff;
+      background: rgba(0,172,193,.10);
+      font-weight: 900;
+    }
+    td{ opacity: .9; }
+    tr:last-child td{ border-bottom: none; }
+
+    /* Оговорки */
+    .note{
+      background: linear-gradient(135deg, rgba(255,193,7,0.10), rgba(255,152,0,0.10));
+      border: 1px solid rgba(255,193,7,0.30);
+      border-radius: 16px;
+      padding: 22px;
+      margin-top: 14px;
+      text-align:center;
+    }
+    .note h3{ color: var(--warn); margin-bottom: 10px; font-size: 1.25rem; }
+    .note p{ opacity: .92; }
+
+    /* Инвестор */
+    .invest{
+      background: linear-gradient(135deg, rgba(57,73,171,0.18) 0%, rgba(0,172,193,0.12) 100%);
+      border: 1px solid rgba(57,73,171,0.35);
+    }
+    .invest h2{ text-align:left; }
+
+    /* Кнопка "Вернуться" */
+    .back-button{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      color: #fff;
+      text-decoration:none;
+      border-radius: 30px;
+      font-weight: 800;
+      margin-top: 26px;
+      box-shadow: 0 4px 20px rgba(0,172,193,0.30);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .back-button:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,172,193,0.50);
+    }
+
+    @media (max-width: 768px){
+      .card{ padding: 24px; }
+      .box{ padding: 18px; }
+      table{ min-width: 860px; }
+      .icon{ width: 38px; height: 38px; }
+      .file{ padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <header>
+    <h1>Шаблоны документов</h1>
+    <p>
+      Пакет документов для поиска инвестора и для переговоров с потенциальными партнёрами по проекту центра обработки данных
+      категории III на <b>120 стоек</b> (полезная нагрузка <b>840 кВт</b>).
+      Раздел сделан так, чтобы материалы можно было быстро разместить на профильных площадках и отправлять по запросу.
+    </p>
+    <div class="badge">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Собственных источников финансирования нет: пакет ориентирован на инвестора</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- 1. Что входит -->
+    <section class="card">
+      <h2>Состав пакета</h2>
+      <p>
+        Пакет делится на “короткий” (для первичного интереса инвестора) и “расширенный” (для проверки и согласования условий).
+        Ниже — структура, которую удобно использовать и для площадок, и для прямых переговоров.
+      </p>
+
+      <div class="grid">
+        <div class="box">
+          <h3><span class="icon">⚡</span>Короткий пакет</h3>
+          <ul>
+            <li>инвестиционная записка (1–2 страницы, тезисно);</li>
+            <li>паспорт проекта (ключевые параметры и эффекты);</li>
+            <li>сводка финансовых ориентиров (выручка, капитальные затраты, этапность);</li>
+            <li>контактный лист и порядок взаимодействия.</li>
+          </ul>
+          <div class="muted">Цель: получить заявку и перейти к переговорам.</div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">📊</span>Расширенный пакет</h3>
+          <ul>
+            <li>финансовая модель (денежный поток, чувствительность, поэтапный ввод);</li>
+            <li>описание технической концепции категории III;</li>
+            <li>дорожная карта с контрольными точками;</li>
+            <li>проект условий инвестора (механизм возврата вложений, контроль);</li>
+            <li>проект клиентского договора (размещение оборудования);</li>
+            <li>перечень рисков и меры управления.</li>
+          </ul>
+          <div class="muted">Цель: перейти к выбору инвестора и согласованию условий.</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Важно</h3>
+        <p>
+          Документы должны быть написаны “управленчески”: кто финансирует, что строим, как зарабатываем, как контролируем и как возвращаем вложения.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. Файлы (ссылки-заглушки) -->
+    <section class="card invest">
+      <h2>Файлы для скачивания и отправки</h2>
+      <p>
+        Ниже размещены типовые названия файлов. Если в репозитории файлы лежат в папке <b>docs</b>, то ссылки будут работать сразу.
+        Если папка другая — поменяйте путь в ссылках (это делается за 1 минуту).
+      </p>
+
+      <div class="files" aria-label="Файлы пакета документов">
+        <div class="file">
+          <div class="mark">📄</div>
+          <div>
+            <b>Инвестиционная записка</b>
+            <span>Кратко: цель, масштаб (120 стоек), модель дохода, роль сторон, эффекты</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Инвестиционная_записка_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Инвестиционная_записка_ЦОД_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">🧾</div>
+          <div>
+            <b>Паспорт проекта</b>
+            <span>Ключевые параметры, этапность, эффекты для филиала и региона</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Паспорт_проекта_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Паспорт_проекта_ЦОД_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">📊</div>
+          <div>
+            <b>Финансовая модель</b>
+            <span>Денежный поток, сценарии ставки, чувствительность, поэтапный ввод</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Финансовая_модель_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Финансовая_модель_ЦОД_120_стоек.xlsx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">⚙️</div>
+          <div>
+            <b>Техническая концепция</b>
+            <span>Категория III: электропитание, охлаждение, безопасность, эксплуатация</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Техническая_концепция_ЦОД_категории_III_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Техническая_концепция_ЦОД_категории_III_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">🤝</div>
+          <div>
+            <b>Проект условий инвестора</b>
+            <span>Этапность финансирования, контроль, механизм возврата вложений</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Условия_инвестора_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Условия_инвестора_ЦОД_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">🏢</div>
+          <div>
+            <b>Проект клиентского договора</b>
+            <span>Размещение оборудования, доступ, расчёт платы, ответственность</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Договор_размещения_оборудования_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Договор_размещения_оборудования_ЦОД_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">🗺️</div>
+          <div>
+            <b>Дорожная карта</b>
+            <span>Этапы, контрольные точки, ввод и коммерческий запуск</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Дорожная_карта_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Дорожная_карта_ЦОД_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="file">
+          <div class="mark">🛡️</div>
+          <div>
+            <b>Риски и меры управления</b>
+            <span>Коммерческие, технические и сроковые риски + меры контроля</span>
+            <div class="actions">
+              <a class="btn primary" href="docs/Риски_и_меры_управления_ЦОД_120_стоек.pdf">Открыть</a>
+              <a class="btn" href="docs/Риски_и_меры_управления_ЦОД_120_стоек.docx">Скачать</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px;">
+        <h3>Подсказка</h3>
+        <p>
+          Если вы пока не готовы публиковать файлы, оставьте только “Открыть” на версии в формате PDF, а редактируемые файлы держите в закрытом контуре.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. Где искать инвестора -->
+    <section class="card">
+      <h2>Где искать инвестора</h2>
+      <p>
+        Ниже — практические каналы поиска, которые подходят для инфраструктурных проектов. Логика простая:
+        сначала размещаем “короткий пакет”, собираем отклики, затем выдаём “расширенный пакет” по запросу.
+      </p>
+
+      <div class="grid">
+        <div class="box">
+          <h3><span class="icon">🧾</span>Электронные торговые площадки</h3>
+          <ul>
+            <li>размещение как “инвестиционное предложение” или “поиск партнёра”;</li>
+            <li>прикладываются: инвестиционная записка, паспорт проекта, контакты;</li>
+            <li>в переговорах — расширенный пакет и финансовая модель.</li>
+          </ul>
+          <div class="muted">Подходит для широкого охвата и формальной фиксации интереса.</div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">🏛️</span>Инвестиционные витрины регионов</h3>
+          <ul>
+            <li>публикация паспорта проекта и эффектов для региона;</li>
+            <li>акцент на инфраструктурную значимость и готовность площадки;</li>
+            <li>последующий выход на профильных инвесторов.</li>
+          </ul>
+          <div class="muted">Подходит для поиска партнёров “под регион”.</div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">🏢</span>Отраслевые партнёры</h3>
+          <ul>
+            <li>операторы центров обработки данных и телекоммуникационные компании;</li>
+            <li>системные интеграторы и поставщики инженерных решений;</li>
+            <li>крупные заказчики вычислительных мощностей (как якорные клиенты).</li>
+          </ul>
+          <div class="muted">Лучший канал, если нужен быстрый запуск и загрузка.</div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">💼</span>Институциональные инвесторы</h3>
+          <ul>
+            <li>инфраструктурные фонды и профильные финансовые структуры;</li>
+            <li>в приоритете: прозрачность контроля и понятный механизм возврата вложений;</li>
+            <li>нужны: финансовая модель, этапность, контрольные точки.</li>
+          </ul>
+          <div class="muted">Подходит для проектов с “длинным” горизонтом и строгим контролем.</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Рекомендованный маршрут</h3>
+        <p>
+          Параллельно запускать два потока: (1) электронные площадки и витрины, (2) прямые переговоры с отраслевыми партнёрами.
+          Это даёт и охват, и скорость.
+        </p>
+      </div>
+    </section>
+
+    <!-- 4. Как правильно оформить карточку проекта -->
+    <section class="card invest">
+      <h2>Карточка проекта для площадок</h2>
+      <p>
+        На большинстве площадок требуется краткое описание. Ниже — готовая структура карточки (без лишней “воды”),
+        которую можно копировать и вставлять.
+      </p>
+
+      <div class="table-wrap" aria-label="Структура карточки проекта">
+        <table>
+          <thead>
+            <tr>
+              <th>Поле</th>
+              <th>Что писать</th>
+              <th>Готовая формулировка</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Наименование</b></td>
+              <td>Коротко и понятно</td>
+              <td>Проект центра обработки данных категории III на 120 стоек</td>
+            </tr>
+            <tr>
+              <td><b>Инициатор</b></td>
+              <td>Организация и филиал</td>
+              <td>Филиал ПАО «Россети Юг» – «Кубаньэнерго»</td>
+            </tr>
+            <tr>
+              <td><b>Суть проекта</b></td>
+              <td>1–2 предложения</td>
+              <td>Создание центра обработки данных категории III для размещения оборудования клиентов, запуск новой нетарифной услуги</td>
+            </tr>
+            <tr>
+              <td><b>Масштаб</b></td>
+              <td>Емкость и мощность</td>
+              <td>120 стоек, полезная нагрузка 840 кВт (7 кВт на стойку)</td>
+            </tr>
+            <tr>
+              <td><b>Финансирование</b></td>
+              <td>Прямо и честно</td>
+              <td>Собственных источников финансирования нет, требуется инвестор</td>
+            </tr>
+            <tr>
+              <td><b>Модель дохода</b></td>
+              <td>Как зарабатываем</td>
+              <td>Ежемесячная оплата стойко-места и инженерной инфраструктуры + дополнительные услуги</td>
+            </tr>
+            <tr>
+              <td><b>Ориентиры выручки</b></td>
+              <td>Диапазон</td>
+              <td>216–259,2 млн рублей в год при полной загрузке 120 стоек (в зависимости от ставки)</td>
+            </tr>
+            <tr>
+              <td><b>Ориентир капитальных затрат</b></td>
+              <td>Диапазон</td>
+              <td>0,78–0,90 млрд рублей (оценка, уточняется проектированием)</td>
+            </tr>
+            <tr>
+              <td><b>Этапность</b></td>
+              <td>Почему так</td>
+              <td>Поэтапный ввод для снижения рисков и синхронизации капитальных затрат с загрузкой</td>
+            </tr>
+            <tr>
+              <td><b>Контакты</b></td>
+              <td>Ответственный</td>
+              <td>Контактное лицо указывается в паспортном листе проекта</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note" style="margin-top:16px;">
+        <h3>Правило публикации</h3>
+        <p>
+          На площадке публикуем краткий пакет. Финансовую модель и проекты договоров выдаём после первичного контакта и фиксации интереса.
+        </p>
+      </div>
+    </section>
+
+    <a href="index.html" class="back-button">← Вернуться на главную</a>
+  </div>
+
+  <!-- Кнопка НАЗАД в главное меню -->
+  <a id="fab-back" class="fab" href="index.html" aria-label="Назад в главное меню" title="Назад">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Кнопка ВВЕРХ -->
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="Вверх">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    (function(){
+      var topBtn = document.getElementById('fab-top');
+      if (!topBtn) return;
+      var onScroll = function(){
+        if (window.scrollY > 300) topBtn.classList.add('show');
+        else topBtn.classList.remove('show');
+      };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+      topBtn.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, {passive:true});
+    })();
+  </script>
+
+  <script>
+    // SUBPAGE: «Назад» — возвращаемся на index и просим его восстановить прокрутку
+    (function(){
+      var back = document.getElementById('fab-back');
+      if(!back) return;
+      back.addEventListener('click', function(e){
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+        e.preventDefault();
+        try { sessionStorage.setItem('restoreFlag', '1'); } catch(_) {}
+        var href = back.getAttribute('href') || 'index.html';
+        window.location.href = href;
+      }, {passive:false});
+    })();
+  </script>
+</body>
+</html>
