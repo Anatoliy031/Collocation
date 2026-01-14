@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Риски и управление | Центр обработки данных категории III</title>
+
+  <style>
+    /* Плавающие круглые кнопки */
+    .fab{
+      position: fixed;
+      right: max(14px, env(safe-area-inset-right));
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent, #00acc1), var(--secondary, #3949ab));
+      color: #fff; text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
+      z-index: 10000;
+      transition: transform .2s ease, opacity .2s ease, filter .2s ease;
+      border: none; cursor: pointer;
+    }
+    .fab:hover{ transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
+    .fab:active{ transform: translateY(0) scale(.98); }
+    .fab svg{ width: 26px; height: 26px; pointer-events: none; }
+    #fab-back{ bottom: calc(96px + env(safe-area-inset-bottom)); }
+    #fab-top{ bottom: calc(24px + env(safe-area-inset-bottom)); opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
+    #fab-top.show{ opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    .fab::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    @media (prefers-reduced-motion: reduce){ .fab, #fab-top{ transition:none; } }
+  </style>
+
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    :root{
+      --primary:#1a237e;
+      --secondary:#3949ab;
+      --accent:#00acc1;
+      --bg:#0a0e27;
+      --card: rgba(22,27,34,0.82);
+      --card2: rgba(13,17,23,0.55);
+      --border: rgba(255,255,255,0.10);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,0.88);
+      --shadow: 0 10px 40px rgba(0,0,0,0.30);
+      --ok:#00c853;
+      --warn:#ffd54f;
+      --bad:#ff5252;
+    }
+
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.65;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    /* Фон */
+    .bg{
+      position:fixed; inset:0;
+      z-index:-1;
+      background: linear-gradient(135deg, #0a0e27, #1a237e);
+      overflow:hidden;
+    }
+    .bg::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0,172,193,0.28) 0%, transparent 48%),
+        radial-gradient(circle at 80% 20%, rgba(57,73,171,0.28) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26,35,126,0.25) 0%, transparent 55%);
+      animation: drift 18s ease-in-out infinite;
+    }
+    @keyframes drift{
+      0%,100%{ transform: translate(0,0) rotate(0deg); }
+      33%{ transform: translate(-30px,-25px) rotate(120deg); }
+      66%{ transform: translate(35px,-15px) rotate(240deg); }
+    }
+
+    /* Шапка */
+    header{
+      padding: 52px 20px;
+      text-align:center;
+      background: rgba(26,35,126,0.10);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1{
+      font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+      font-weight: 900;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color: transparent;
+      background-clip:text;
+    }
+    header p{
+      max-width: 1120px;
+      margin: 0 auto;
+      opacity: .92;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-top:14px;
+      padding: 10px 14px;
+      border-radius:999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(13,17,23,.35);
+      font-size: .95rem;
+      opacity: .95;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(0,172,193,.15);
+    }
+
+    /* Контейнер */
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* Карточки */
+    .card{
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .card h2{
+      color: var(--accent);
+      font-size: 1.9rem;
+      margin-bottom: 12px;
+      font-weight: 900;
+      text-align:center;
+    }
+    .card p{ opacity: .92; }
+
+    /* Инвестор */
+    .invest{
+      background: linear-gradient(135deg, rgba(57,73,171,0.18) 0%, rgba(0,172,193,0.12) 100%);
+      border: 1px solid rgba(57,73,171,0.35);
+    }
+    .invest h2{ text-align:left; }
+
+    /* Сетка */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .box{
+      background: var(--card2);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 22px;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .box:hover{
+      transform: translateY(-6px);
+      border-color: rgba(0,172,193,.22);
+      box-shadow: 0 12px 30px rgba(0,172,193,.10);
+    }
+    .box h3{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .icon{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(0,172,193,.14);
+      border: 1px solid rgba(0,172,193,.22);
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+      flex: 0 0 auto;
+      font-size: 1.2rem;
+    }
+    .box ul{ margin-top: 8px; padding-left: 18px; opacity: .92; }
+    .box li{ margin: 6px 0; }
+    .muted{ opacity: .78; font-size: .92rem; margin-top: 10px; }
+
+    /* Индикатор риска */
+    .level{
+      display:flex;
+      gap:8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(13,17,23,.35);
+      font-size: .9rem;
+      opacity: .95;
+      white-space: nowrap;
+    }
+    .pill i{
+      width:10px; height:10px; border-radius:50%;
+      display:inline-block;
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .i-bad{ background: var(--bad); box-shadow: 0 0 0 4px rgba(255,82,82,.14); }
+    .i-warn{ background: var(--warn); box-shadow: 0 0 0 4px rgba(255,213,79,.14); }
+    .i-ok{ background: var(--ok); box-shadow: 0 0 0 4px rgba(0,200,83,.14); }
+
+    /* Таблица */
+    .table-wrap{
+      margin-top: 14px;
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(13,17,23,.35);
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }
+    th, td{
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      vertical-align: top;
+      font-size: .97rem;
+    }
+    th{
+      text-align: left;
+      color: #cfefff;
+      background: rgba(0,172,193,.10);
+      font-weight: 900;
+    }
+    td{ opacity: .9; }
+    tr:last-child td{ border-bottom: none; }
+
+    /* Оговорки */
+    .note{
+      background: linear-gradient(135deg, rgba(255,193,7,0.10), rgba(255,152,0,0.10));
+      border: 1px solid rgba(255,193,7,0.30);
+      border-radius: 16px;
+      padding: 22px;
+      margin-top: 14px;
+      text-align:center;
+    }
+    .note h3{ color: var(--warn); margin-bottom: 10px; font-size: 1.25rem; }
+    .note p{ opacity: .92; }
+
+    /* Кнопка "Вернуться" */
+    .back-button{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      color: #fff;
+      text-decoration:none;
+      border-radius: 30px;
+      font-weight: 800;
+      margin-top: 26px;
+      box-shadow: 0 4px 20px rgba(0,172,193,0.30);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .back-button:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,172,193,0.50);
+    }
+
+    @media (max-width: 768px){
+      .card{ padding: 24px; }
+      table{ min-width: 940px; }
+      .icon{ width: 38px; height: 38px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <header>
+    <h1>Риски и управление</h1>
+    <p>
+      Карта рисков проекта центра обработки данных категории III на <b>120 стоек</b> и полезную нагрузку <b>840 кВт</b>.
+      Риски сгруппированы по управленческим блокам: коммерция, финансы, техника, сроки, договоры и эксплуатация.
+      Для каждого риска указаны меры управления и “что должно быть в документах”.
+    </p>
+    <div class="badge">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Цель: снизить риск потери денежного потока и обеспечить управляемость проекта для инвестора</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- 1. Как читать -->
+    <section class="card">
+      <h2>Как читать карту рисков</h2>
+      <p>
+        В управленческой логике риск — это событие, которое приводит к потере денег, времени или репутации.
+        Ниже используются три уровня: высокий, средний, контролируемый.
+        Практика показывает: инвестор оценивает не “отсутствие рисков”, а наличие механизмов управления.
+      </p>
+
+      <div class="grid">
+        <div class="box">
+          <h3><span class="icon">🔴</span>Высокий риск</h3>
+          <ul>
+            <li>может остановить проект или сорвать денежный поток;</li>
+            <li>требует решений уровня руководства;</li>
+            <li>должен быть закрыт документами и контрольными точками.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-bad"></i>высокий</span>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">🟡</span>Средний риск</h3>
+          <ul>
+            <li>не останавливает проект, но ухудшает экономику или сроки;</li>
+            <li>требует регламентов и регулярного контроля;</li>
+            <li>может быть снижен поэтапностью и договорной моделью.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-warn"></i>средний</span>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">🟢</span>Контролируемый риск</h3>
+          <ul>
+            <li>учтён в процессах эксплуатации;</li>
+            <li>имеет стандартные меры управления;</li>
+            <li>фиксируется регламентами и инструкциями.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-ok"></i>контролируемый</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Ключевые риски -->
+    <section class="card invest">
+      <h2>Ключевые риски проекта</h2>
+      <p>
+        Это риски, которые “весомо” влияют на решение инвестора и на управляемость внедрения услуги внутри филиала.
+        Их необходимо отражать и в инвестиционной записке, и в дорожной карте.
+      </p>
+
+      <div class="grid">
+        <div class="box">
+          <h3><span class="icon">📉</span>Недозагрузка (коммерческий риск)</h3>
+          <ul>
+            <li>сценарий: загрузка набирается медленнее плана;</li>
+            <li>эффект: выручка ниже, окупаемость растёт;</li>
+            <li>влияние: решение о расширении до 120 стоек откладывается.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-bad"></i>высокий</span>
+            <span class="pill">управление: якорные клиенты + поэтапность</span>
+          </div>
+          <div class="muted">
+            Меры: план продаж, коммерческий пакет, переговоры с якорными клиентами, расширение только по фактической загрузке.
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">💰</span>Превышение капитальных затрат</h3>
+          <ul>
+            <li>сценарий: рост сметы и стоимости оборудования;</li>
+            <li>эффект: ухудшение экономики, потребность в допфинансировании;</li>
+            <li>влияние: риск остановки проекта без дополнительных траншей.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-bad"></i>высокий</span>
+            <span class="pill">управление: смета + контрольные точки</span>
+          </div>
+          <div class="muted">
+            Меры: проектирование до закупок, спецификации, закупка “длинного цикла”, финансирование траншами по контрольным точкам.
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">⏱️</span>Срыв сроков</h3>
+          <ul>
+            <li>сценарий: задержки проектирования, поставок, работ;</li>
+            <li>эффект: сдвиг запуска услуги и выручки;</li>
+            <li>влияние: ухудшение переговорной позиции с инвестором и клиентами.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-warn"></i>средний</span>
+            <span class="pill">управление: график + ответственность</span>
+          </div>
+          <div class="muted">
+            Меры: календарный план, “критический путь”, контроль поставок, закрепление ответственности и контрольных точек.
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">⚡</span>Технические отказы и простои</h3>
+          <ul>
+            <li>сценарий: отказ системы питания/охлаждения;</li>
+            <li>эффект: простой и претензии клиентов;</li>
+            <li>влияние: потеря репутации и денежного потока.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-bad"></i>высокий</span>
+            <span class="pill">управление: резервирование + эксплуатация</span>
+          </div>
+          <div class="muted">
+            Меры: каркас резервирования категории III, испытания, мониторинг, регламенты переключений, планово-предупредительные работы.
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">🧾</span>Договорные споры</h3>
+          <ul>
+            <li>сценарий: споры по доступу, ответственности, мощности;</li>
+            <li>эффект: потери времени, претензии, судебные риски;</li>
+            <li>влияние: ухудшение коммерческой стабильности.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-warn"></i>средний</span>
+            <span class="pill">управление: договор + регламент</span>
+          </div>
+          <div class="muted">
+            Меры: четкие границы ответственности, порядок доступа, журналирование, порядок аварийных работ, правила превышения мощности.
+          </div>
+        </div>
+
+        <div class="box">
+          <h3><span class="icon">🛡️</span>Инциденты безопасности</h3>
+          <ul>
+            <li>сценарий: несанкционированный доступ, повреждение оборудования;</li>
+            <li>эффект: потери и репутационный ущерб;</li>
+            <li>влияние: риск ухода клиентов и усиления требований.</li>
+          </ul>
+          <div class="level">
+            <span class="pill"><i class="i-warn"></i>средний</span>
+            <span class="pill">управление: режим доступа + контроль</span>
+          </div>
+          <div class="muted">
+            Меры: контроль доступа, видеонаблюдение, зоны ответственности, сопровождение, регламенты и журналы.
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px;">
+        <h3>Смысл для инвестора</h3>
+        <p>
+          Данная карта рисков показывает, что проект управляем: риски признаны, снижены этапностью и закреплены документами.
+          Это уменьшает риск потери денежного потока после ввода объекта.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. Таблица "риск ↔ мера ↔ документ" -->
+    <section class="card">
+      <h2>Таблица “риск ↔ мера ↔ документ”</h2>
+      <p>
+        Эта таблица удобна для включения в инвестиционную записку и для управленческого контроля.
+        Она прямо показывает, какие документы должны быть подготовлены до выхода на инвестора.
+      </p>
+
+      <div class="table-wrap" aria-label="Таблица риск — мера — документ">
+        <table>
+          <thead>
+            <tr>
+              <th>Риск</th>
+              <th>Уровень</th>
+              <th>Мера управления</th>
+              <th>Документ/инструмент</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Недозагрузка</b></td>
+              <td>
+                <span class="pill"><i class="i-bad"></i>высокий</span>
+              </td>
+              <td>якорные клиенты, план продаж, поэтапный ввод</td>
+              <td>коммерческий план, дорожная карта, реестр переговоров</td>
+            </tr>
+            <tr>
+              <td><b>Рост капитальных затрат</b></td>
+              <td>
+                <span class="pill"><i class="i-bad"></i>высокий</span>
+              </td>
+              <td>проектирование до закупок, контроль сметы, транширование</td>
+              <td>смета, спецификации, условия инвестора, контрольные точки</td>
+            </tr>
+            <tr>
+              <td><b>Срыв сроков</b></td>
+              <td>
+                <span class="pill"><i class="i-warn"></i>средний</span>
+              </td>
+              <td>критический путь, контроль поставок, ответственность</td>
+              <td>календарный план, отчёты, протоколы совещаний</td>
+            </tr>
+            <tr>
+              <td><b>Технические отказы</b></td>
+              <td>
+                <span class="pill"><i class="i-bad"></i>высокий</span>
+              </td>
+              <td>резервирование, испытания, регламенты эксплуатации</td>
+              <td>техническая концепция, протоколы испытаний, регламенты</td>
+            </tr>
+            <tr>
+              <td><b>Договорные споры</b></td>
+              <td>
+                <span class="pill"><i class="i-warn"></i>средний</span>
+              </td>
+              <td>четкие условия доступа и ответственности</td>
+              <td>проект договора, регламент доступа, журналирование</td>
+            </tr>
+            <tr>
+              <td><b>Инциденты безопасности</b></td>
+              <td>
+                <span class="pill"><i class="i-warn"></i>средний</span>
+              </td>
+              <td>контроль доступа, видеонаблюдение, зоны</td>
+              <td>регламенты, инструкции, акты ввода систем</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <h3>Управленческий вывод</h3>
+        <p>
+          Если документы на меры управления отсутствуют — риск считается “неуправляемым”.
+          Для инвестора это прямой сигнал повышать требования или отказываться от проекта.
+        </p>
+      </div>
+
+      <a href="index.html" class="back-button">← Вернуться на главную</a>
+    </section>
+  </div>
+
+  <!-- Кнопка НАЗАД в главное меню -->
+  <a id="fab-back" class="fab" href="index.html" aria-label="Назад в главное меню" title="Назад">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Кнопка ВВЕРХ -->
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="Вверх">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    (function(){
+      var topBtn = document.getElementById('fab-top');
+      if (!topBtn) return;
+      var onScroll = function(){
+        if (window.scrollY > 300) topBtn.classList.add('show');
+        else topBtn.classList.remove('show');
+      };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+      topBtn.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, {passive:true});
+    })();
+  </script>
+
+  <script>
+    // SUBPAGE: «Назад» — возвращаемся на index и просим его восстановить прокрутку
+    (function(){
+      var back = document.getElementById('fab-back');
+      if(!back) return;
+      back.addEventListener('click', function(e){
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+        e.preventDefault();
+        try { sessionStorage.setItem('restoreFlag', '1'); } catch(_) {}
+        var href = back.getAttribute('href') || 'index.html';
+        window.location.href = href;
+      }, {passive:false});
+    })();
+  </script>
+</body>
+</html>
