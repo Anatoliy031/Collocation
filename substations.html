@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Площадка и инфраструктура | ЦОД категории III на 120 стоек</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    :root{
+      --primary-color:#1a237e;
+      --secondary-color:#3949ab;
+      --accent-color:#00acc1;
+      --text-light:#ffffff;
+      --bg:#0a0e27;
+      --bg-card: rgba(22,27,34,0.78);
+      --bg-soft: rgba(13,17,23,0.42);
+      --border: rgba(255,255,255,0.10);
+      --border-2: rgba(255,255,255,0.08);
+      --shadow: 0 18px 40px rgba(0,0,0,0.35);
+      --gradient-2: linear-gradient(135deg,#00acc1 0%,#26c6da 100%);
+      --ok: rgba(0,172,193,0.14);
+      --warn: rgba(255,193,7,0.18);
+      --danger: rgba(244,67,54,0.16);
+    }
+
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+      overflow-x:hidden;
+      line-height:1.65;
+    }
+
+    /* Фон */
+    .bg-animation{position:fixed;inset:0;z-index:-1;background:linear-gradient(to bottom,#0a0e27 0%,#1a237e 100%);overflow:hidden}
+    .bg-animation::before{
+      content:"";position:absolute;width:150%;height:150%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.28) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.28) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.26) 0%, transparent 50%);
+      animation: float 18s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{transform:translate(0,0) rotate(0deg)}
+      33%{transform:translate(-28px,-28px) rotate(120deg)}
+      66%{transform:translate(28px,-18px) rotate(240deg)}
+    }
+
+    header{
+      padding: 60px 20px;
+      text-align:center;
+      background: rgba(26, 35, 126, 0.10);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1{
+      font-size: clamp(2rem, 4.6vw, 3.1rem);
+      font-weight: 900;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg,#ffffff 0%,#00acc1 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow: 0 2px 20px rgba(0,172,193,0.25);
+    }
+    header p{
+      max-width: 1120px;
+      margin: 0 auto;
+      opacity: 0.92;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    main{max-width:1200px;margin:0 auto;padding:56px 20px 90px}
+
+    .section{
+      background: var(--bg-card);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      margin-bottom: 18px;
+    }
+    .section h2{
+      color: var(--accent-color);
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+    .lead{opacity:0.90;font-size:1.02rem;line-height:1.85}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(13,17,23,0.35);
+      font-size:0.9rem;margin-bottom:10px;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 0 4px rgba(0,172,193,0.14);
+    }
+
+    .note{
+      margin-top:16px;
+      padding:16px 16px;
+      border-radius:16px;
+      border:1px solid rgba(0,172,193,0.28);
+      background: linear-gradient(135deg, rgba(0,172,193,0.10) 0%, rgba(57,73,171,0.10) 100%);
+      opacity:0.96;
+      line-height:1.75;
+    }
+
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:12px;
+    }
+    .card{
+      background: var(--bg-soft);
+      border: 1px solid var(--border-2);
+      border-radius: 18px;
+      padding: 16px 16px;
+      position: relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;inset:0;
+      background: radial-gradient(circle at 20% 20%, rgba(0,172,193,0.12), transparent 55%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .card > *{position:relative;z-index:1}
+    .card b{display:block;font-size:1.03rem;margin-bottom:6px}
+    .card p{opacity:.88;font-size:.95rem;line-height:1.65}
+
+    .facts{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .fact{
+      background: rgba(13,17,23,0.42);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      padding: 14px 14px;
+    }
+    .fact b{display:block;font-size:0.95rem;margin-bottom:4px}
+    .fact span{display:block;opacity:0.86;font-size:0.92rem}
+
+    /* Таблица */
+    .table-wrap{
+      overflow:auto;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(13,17,23,0.35);
+      margin-top: 14px;
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+    }
+    th, td{
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      vertical-align: top;
+      text-align:left;
+      font-size: 0.95rem;
+      line-height:1.55;
+    }
+    th{
+      position: sticky;
+      top:0;
+      background: rgba(22,27,34,0.85);
+      backdrop-filter: blur(10px);
+      font-weight: 900;
+    }
+    td small{display:block;opacity:.85;margin-top:6px}
+
+    /* “Чеклист” */
+    .check{
+      margin-top: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(13,17,23,0.38);
+      overflow:hidden;
+    }
+    .check .head{
+      padding: 14px 16px;
+      background: rgba(22,27,34,0.68);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .check .head b{font-size:1.02rem}
+    .check .head span{opacity:.86}
+    .check .body{padding: 10px 16px}
+    .it{
+      display:grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      align-items:flex-start;
+    }
+    .it:last-child{border-bottom:none}
+    .box{
+      width:20px;height:20px;border-radius:6px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,172,193,0.10);
+      display:grid;place-items:center;
+      margin-top:2px;
+    }
+    .box svg{width:14px;height:14px}
+    .it strong{display:block}
+    .it span{display:block;opacity:.88;font-size:.94rem;line-height:1.55;margin-top:3px}
+
+    /* Навигация */
+    .actions{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;
+      padding: 14px 18px;border-radius: 999px;
+      text-decoration:none;color:#fff;font-weight: 900;
+      background: var(--gradient-2);
+      box-shadow: 0 10px 25px rgba(0,172,193,0.18);
+      border:none;cursor:pointer;
+    }
+    .btn.secondary{
+      background: rgba(13,17,23,0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow:none;
+      font-weight: 800;
+      opacity: 0.92;
+    }
+
+    /* Плавающие кнопки */
+    .fab{
+      position: fixed;
+      right: max(14px, env(safe-area-inset-right));
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      color:#fff;
+      text-decoration:none;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
+      z-index:10000;border:none;cursor:pointer;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .fab:hover{ transform: translateY(-2px) scale(1.03); }
+    .fab svg{ width:26px;height:26px;pointer-events:none; }
+    #fab-top{
+      bottom: calc(24px + env(safe-area-inset-bottom));
+      opacity:0; pointer-events:none;
+      transform: translateY(8px) scale(.9);
+    }
+    #fab-top.show{opacity:1;pointer-events:auto;transform: translateY(0) scale(1)}
+    #fab-home{ bottom: calc(92px + env(safe-area-inset-bottom)); }
+
+    footer{
+      text-align:center;
+      padding: 36px 20px;
+      border-top: 1px solid var(--border);
+      background: rgba(13,17,23,0.70);
+      backdrop-filter: blur(18px);
+      opacity:0.8;
+    }
+
+    @media (max-width: 900px){
+      table{min-width: 980px;}
+    }
+    @media (max-width: 768px){
+      header{ padding: 46px 20px; }
+      .section{ padding: 24px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-animation" aria-hidden="true"></div>
+
+  <header>
+    <h1>Площадка и инфраструктура</h1>
+    <p>
+      Раздел описывает исходные данные и инженерную “рамку” под ЦОД категории III на <b>120 стоек</b>.
+      Это нужно, чтобы: 1) проектировщики получили ясное ТЗ; 2) руководство видело, за что платим;
+      3) инвестор понимал, что проект реализуем и управляем по этапам.
+    </p>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>1) Ключевые параметры конфигурации</h2>
+      <p class="lead">
+        Проектная конфигурация принята из расчёта <b>120 стойко-мест</b> и средней полезной нагрузки <b>7 кВт на стойку</b>.
+        Общая полезная нагрузка — <b>840 кВт</b>. Эти параметры используются для компоновки, электроснабжения и охлаждения.
+      </p>
+
+      <div class="facts" aria-label="Параметры проекта">
+        <div class="fact">
+          <b>Ёмкость</b>
+          <span>120 стоек</span>
+        </div>
+        <div class="fact">
+          <b>Полезная нагрузка</b>
+          <span>840 кВт (ориентир)</span>
+        </div>
+        <div class="fact">
+          <b>Подход</b>
+          <span>категория III (резервирование ключевых систем)</span>
+        </div>
+        <div class="fact">
+          <b>Коммерческая логика</b>
+          <span>базовый пакет + опции (мощность/доступ/работы)</span>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Почему важно “7 кВт/стойка”</b></div>
+        Это управленческий ориентир для консервативной компоновки. В реальной продаже возможно:
+        часть стоек ниже (компактные узлы/телеком), часть выше (серверные стойки). Но инженерная рамка должна выдерживать
+        целевой профиль и корректно обрабатывать “пиковые” сценарии через лимиты и опции.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2) Зонирование и компоновка</h2>
+      <p class="lead">
+        Для управляемости эксплуатации объект логически делится на зоны: машинный зал, инженерные помещения,
+        помещения контроля/безопасности, склад/временное хранение, а также маршрутные зоны для кабельных трасс.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <b>Машинный зал</b>
+          <p>Стойки, холодные/горячие коридоры (по выбранной концепции), распределение питания, контроль доступа.</p>
+        </div>
+        <div class="card">
+          <b>Электропомещения</b>
+          <p>Вводы, распределение, источники бесперебойного питания, аккумуляторы, щиты, секционирование.</p>
+        </div>
+        <div class="card">
+          <b>Охлаждение</b>
+          <p>Холодильные машины/прецизионные системы (по проекту), резервирование, автоматика, мониторинг.</p>
+        </div>
+        <div class="card">
+          <b>Безопасность и контроль</b>
+          <p>Пост/контроль доступа, видеонаблюдение, журналирование, зоны хранения ключей/пропусков.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Управленческий критерий</b></div>
+        Компоновка должна позволять “безопасно обслуживать” объект: удобные маршруты, разделение потоков людей,
+        минимизация пересечений клиента с инженерными зонами, и понятный режим допуска.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3) Электроснабжение и резервирование</h2>
+      <p class="lead">
+        Для категории III ключевой вопрос — устойчивость электроснабжения: секционирование, резервирование,
+        управляемая нагрузка и процедуры аварийной работы. Ниже приведена “логика”, которая затем закрепляется в проекте и регламентах.
+      </p>
+
+      <div class="table-wrap" role="region" aria-label="Логика электроснабжения и резервирования" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:260px;">Компонент</th>
+              <th>Что требуется обеспечить</th>
+              <th style="width:330px;">Для чего это нужно</th>
+              <th style="width:260px;">Что проверить на стадии проекта</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Вводы питания</b></td>
+              <td>Наличие устойчивого питания и возможность резервирования по схеме, принятой проектом.</td>
+              <td>Снижает риск полного обесточивания и даёт управляемость режимов.</td>
+              <td>Доступная мощность, условия присоединения, схема резервирования.</td>
+            </tr>
+            <tr>
+              <td><b>Секционирование</b></td>
+              <td>Разделение на независимые секции/линии питания машинного зала.</td>
+              <td>Авария/работы не должны “ронять” весь зал.</td>
+              <td>Схемы распределения, селективность, переключения.</td>
+            </tr>
+            <tr>
+              <td><b>Источники бесперебойного питания</b></td>
+              <td>Поддержка нагрузки на время переходных процессов и штатных сценариев.</td>
+              <td>Защита клиентов от кратковременных провалов и переключений.</td>
+              <td>Время автономии, режимы, мониторинг, обслуживание.</td>
+            </tr>
+            <tr>
+              <td><b>Мониторинг и измерение</b></td>
+              <td>Измерение потребления, контроль лимитов, фиксация событий.</td>
+              <td>Основа для тарифа, предотвращение перегрузов и спорности.</td>
+              <td>Точки измерения, журналирование, доступ к данным.</td>
+            </tr>
+            <tr>
+              <td><b>Аварийные процедуры</b></td>
+              <td>Регламенты переключений, уведомления клиентов, фиксация инцидентов.</td>
+              <td>Снижает конфликтность и уменьшает простой.</td>
+              <td>Инструкции, роли, ответственность, порядок допуска.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Связь с тарифами</b></div>
+        Если у клиента лимит 7 кВт/стойка — это не “словами”, а измерением и правилами. Поэтому:
+        измерение и контроль лимитов — обязательный элемент инженерной инфраструктуры, а не “пожелание коммерции”.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4) Охлаждение и микроклимат</h2>
+      <p class="lead">
+        Охлаждение — второй критический контур надёжности. Цель — обеспечить стабильный микроклимат при переменной нагрузке
+        и не допустить каскадных аварий из-за перегрева. Концепция (тип оборудования) выбирается проектированием,
+        но принцип управления должен быть одинаковым: резервирование + мониторинг + регламенты.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <b>Режимы работы</b>
+          <p>Нормальный режим, пиковые нагрузки, режимы техобслуживания, аварийный режим.</p>
+        </div>
+        <div class="card">
+          <b>Резервирование</b>
+          <p>Резервирование ключевых элементов охлаждения и автоматизированные сценарии переключений.</p>
+        </div>
+        <div class="card">
+          <b>Мониторинг</b>
+          <p>Датчики температуры/влажности, контроль зон, фиксация событий и уведомления.</p>
+        </div>
+        <div class="card">
+          <b>Правила клиента</b>
+          <p>Требования к “тепловому профилю” оборудования и ограничения на действия в машинном зале.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Управленческий риск</b></div>
+        Если клиент без контроля ставит “горячее” оборудование и перегружает зону — страдают все.
+        Поэтому тепловой профиль, лимиты и правила размещения — это часть договорной конструкции.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5) Безопасность, доступ и эксплуатация</h2>
+      <p class="lead">
+        ЦОД — объект с режимом допуска и регламентами. Чем лучше “зашита” безопасность в процессы,
+        тем меньше конфликтов и тем выше доверие инвестора и клиентов.
+      </p>
+
+      <div class="check" aria-label="Эксплуатационные контрольные точки">
+        <div class="head">
+          <b>Контрольные точки для проектировщиков и эксплуатации</b>
+          <span>что должно быть закрыто документально и технически</span>
+        </div>
+        <div class="body">
+          <div class="it">
+            <div class="box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div>
+              <strong>Режим доступа</strong>
+              <span>Списки допущенных лиц, сопровождение, журналирование, правила нахождения и работ, порядок экстренного доступа.</span>
+            </div>
+          </div>
+
+          <div class="it">
+            <div class="box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div>
+              <strong>Видеонаблюдение и фиксация событий</strong>
+              <span>Критические зоны, хранение записей, доступ к записям по процедуре, журнал событий.</span>
+            </div>
+          </div>
+
+          <div class="it">
+            <div class="box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div>
+              <strong>Регламенты работ</strong>
+              <span>Плановые окна работ, порядок заявок, кто что делает, как фиксируется завершение работ и уведомление клиента.</span>
+            </div>
+          </div>
+
+          <div class="it">
+            <div class="box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div>
+              <strong>Пожарная безопасность</strong>
+              <span>Пожарная сигнализация и сценарии реагирования, зоны, эвакуация, порядок действий персонала.</span>
+            </div>
+          </div>
+
+          <div class="it">
+            <div class="box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div>
+              <strong>Граница ответственности</strong>
+              <span>Где заканчивается ответственность ЦОД и начинается ответственность клиента (по питанию, оборудованию, действиям персонала).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Для инвестора</b></div>
+        Этот раздел важен как “доказательство управляемости”: у проекта есть не только “железо”, но и процессы.
+        Инвестор финансирует не коробку, а работающий сервис.
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="index.html" aria-label="Вернуться на главную">← Вернуться на главную</a>
+        <a class="btn secondary" href="business-plan.html" aria-label="Перейти к бизнес-плану">Далее: Бизнес-план →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Раздел: площадка и инфраструктура.</p>
+  </footer>
+
+  <!-- Плавающая кнопка "домой" -->
+  <a id="fab-home" class="fab" href="index.html" aria-label="На главную" title="На главную">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M6 10v10h12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </a>
+
+  <!-- Плавающая кнопка "вверх" -->
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="В начало">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
+  <script>
+    // Кнопка "вверх"
+    (function(){
+      var topBtn = document.getElementById("fab-top");
+      if (!topBtn) return;
+      var onScroll = function(){
+        if (window.scrollY > 300) { topBtn.classList.add("show"); }
+        else { topBtn.classList.remove("show"); }
+      };
+      window.addEventListener("scroll", onScroll, {passive:true});
+      onScroll();
+      topBtn.addEventListener("click", function(){
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, {passive:true});
+    })();
+  </script>
+</body>
+</html>
