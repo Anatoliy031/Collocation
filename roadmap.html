@@ -3,578 +3,830 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Дорожная карта | Центр обработки данных категории III</title>
+  <title>Дорожная карта | ЦОД категории III на 120 стоек</title>
 
   <style>
-    /* Плавающие круглые кнопки */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root{
+      --primary-color:#1a237e;
+      --secondary-color:#3949ab;
+      --accent-color:#00acc1;
+      --text-light:#ffffff;
+      --bg:#0a0e27;
+      --bg-card: rgba(22, 27, 34, 0.78);
+      --bg-soft: rgba(13, 17, 23, 0.42);
+      --border: rgba(255,255,255,0.10);
+      --border-2: rgba(255,255,255,0.08);
+      --shadow: 0 18px 40px rgba(0,0,0,0.35);
+      --gradient-2: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      --gradient-1: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+    }
+
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+      overflow-x:hidden;
+      line-height:1.65;
+    }
+
+    /* Анимированный фон */
+    .bg-animation{
+      position:fixed; inset:0; z-index:-1;
+      background: linear-gradient(to bottom, #0a0e27 0%, #1a237e 100%);
+      overflow:hidden;
+    }
+    .bg-animation::before{
+      content:"";
+      position:absolute;
+      width:150%; height:150%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.28) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.28) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.26) 0%, transparent 50%);
+      animation: float 18s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{ transform: translate(0,0) rotate(0deg); }
+      33%{ transform: translate(-28px,-28px) rotate(120deg); }
+      66%{ transform: translate(28px,-18px) rotate(240deg); }
+    }
+
+    header{
+      padding: 60px 20px;
+      text-align:center;
+      background: rgba(26, 35, 126, 0.10);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1{
+      font-size: clamp(2rem, 4.6vw, 3.1rem);
+      font-weight: 800;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow: 0 2px 20px rgba(0,172,193,0.25);
+    }
+    header p{
+      max-width: 980px;
+      margin: 0 auto;
+      opacity: 0.92;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    main{
+      max-width:1200px;
+      margin:0 auto;
+      padding: 56px 20px 90px;
+    }
+
+    .section{
+      background: var(--bg-card);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      margin-bottom: 18px;
+    }
+
+    .section h2{
+      color: var(--accent-color);
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .lead{
+      opacity:0.90;
+      font-size:1.02rem;
+      line-height:1.85;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(13,17,23,0.35);
+      font-size: 0.9rem;
+      margin: 0 0 10px 0;
+    }
+    .dot{
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 0 4px rgba(0,172,193,0.14);
+    }
+
+    .note{
+      margin-top: 16px;
+      padding: 16px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 172, 193, 0.28);
+      background: linear-gradient(135deg, rgba(0, 172, 193, 0.10) 0%, rgba(57, 73, 171, 0.10) 100%);
+      opacity: 0.95;
+      line-height: 1.75;
+    }
+
+    .kpi-grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .kpi{
+      background: var(--bg-soft);
+      border: 1px solid var(--border-2);
+      border-radius: 16px;
+      padding: 14px 14px;
+    }
+    .kpi b{ display:block; margin-bottom:4px; }
+    .kpi span{ display:block; opacity:0.86; font-size:0.93rem; }
+
+    /* Лента этапов */
+    .timeline{
+      margin-top: 16px;
+      display:grid;
+      gap: 12px;
+    }
+    .stage{
+      background: rgba(13,17,23,0.40);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      padding: 16px 16px;
+      position: relative;
+      overflow:hidden;
+    }
+    .stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(circle at 20% 20%, rgba(0,172,193,0.14), transparent 55%);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .stage-head{
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+      z-index:1;
+    }
+    .stage-title{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      background: var(--gradient-2);
+      box-shadow: 0 8px 20px rgba(0, 172, 193, 0.18);
+      flex: 0 0 auto;
+    }
+    .stage-title h3{
+      font-size: 1.12rem;
+      font-weight: 900;
+      margin: 0;
+    }
+    .stage-meta{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap: 6px;
+      opacity:0.92;
+      text-align:right;
+      min-width: 210px;
+      z-index:1;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(22,27,34,0.50);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    .chip i{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.10);
+      display:inline-block;
+    }
+    .chip.ok i{ background: var(--accent-color); box-shadow: 0 0 0 4px rgba(0,172,193,0.14); }
+
+    .stage p{
+      position:relative;
+      z-index:1;
+      opacity:0.90;
+      margin-bottom: 10px;
+      line-height: 1.75;
+      font-size: 0.98rem;
+    }
+
+    .cols{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 12px;
+      align-items:start;
+    }
+    .box{
+      background: rgba(22,27,34,0.55);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .box b{ display:block; margin-bottom: 8px; }
+    .box ul{
+      padding-left: 18px;
+      opacity: 0.92;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    .box li{ margin: 6px 0; }
+
+    .gate{
+      border: 1px solid rgba(0,172,193,0.22);
+      background: rgba(0,172,193,0.08);
+    }
+
+    /* Таблица контрольных точек для инвестора */
+    .table-wrap{
+      overflow:auto;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(13,17,23,0.35);
+      margin-top: 14px;
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 920px;
+    }
+    th, td{
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      vertical-align: top;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    th{
+      position: sticky;
+      top: 0;
+      background: rgba(22,27,34,0.85);
+      backdrop-filter: blur(10px);
+      font-weight: 900;
+    }
+    td small{ opacity: 0.85; display:block; margin-top: 6px; }
+
+    /* Кнопки навигации */
+    .actions{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      text-decoration:none;
+      color:#fff;
+      font-weight: 900;
+      background: var(--gradient-2);
+      box-shadow: 0 10px 25px rgba(0, 172, 193, 0.18);
+      border:none;
+      cursor:pointer;
+    }
+    .btn.secondary{
+      background: rgba(13,17,23,0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow:none;
+      font-weight: 800;
+      opacity: 0.92;
+    }
+
+    /* Плавающие кнопки */
     .fab{
       position: fixed;
       right: max(14px, env(safe-area-inset-right));
       width: 56px; height: 56px;
       border-radius: 50%;
       display: grid; place-items: center;
-      background: linear-gradient(135deg, var(--accent, #00acc1), var(--secondary, #3949ab));
-      color: #fff; text-decoration: none;
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      color: #fff;
+      text-decoration: none;
       box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
       z-index: 10000;
-      transition: transform .2s ease, opacity .2s ease, filter .2s ease;
-      border: none; cursor: pointer;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s ease, opacity .2s ease;
     }
-    .fab:hover{ transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
-    .fab:active{ transform: translateY(0) scale(.98); }
-    .fab svg{ width: 26px; height: 26px; pointer-events: none; }
-    #fab-back{ bottom: calc(96px + env(safe-area-inset-bottom)); }
-    #fab-top{ bottom: calc(24px + env(safe-area-inset-bottom)); opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
-    #fab-top.show{ opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-    .fab::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
-    @media (prefers-reduced-motion: reduce){ .fab, #fab-top{ transition:none; } }
-  </style>
+    .fab:hover { transform: translateY(-2px) scale(1.03); }
+    .fab svg{ width: 26px; height: 26px; pointer-events:none; }
+    #fab-top{
+      bottom: calc(24px + env(safe-area-inset-bottom));
+      opacity:0; pointer-events:none;
+      transform: translateY(8px) scale(.9);
+    }
+    #fab-top.show{
+      opacity:1; pointer-events:auto;
+      transform: translateY(0) scale(1);
+    }
+    #fab-home{ bottom: calc(92px + env(safe-area-inset-bottom)); }
 
-  <style>
-    *{ margin:0; padding:0; box-sizing:border-box; }
-    :root{
-      --primary:#1a237e;
-      --secondary:#3949ab;
-      --accent:#00acc1;
-      --bg:#0a0e27;
-      --card: rgba(22,27,34,0.82);
-      --card2: rgba(13,17,23,0.55);
-      --border: rgba(255,255,255,0.10);
-      --text:#ffffff;
-      --muted: rgba(255,255,255,0.88);
-      --shadow: 0 10px 40px rgba(0,0,0,0.30);
-      --ok:#00c853;
-      --warn:#ffd54f;
-      --bad:#ff5252;
-    }
-
-    body{
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height:1.65;
-      overflow-x:hidden;
-      min-height:100vh;
-    }
-
-    /* Фон */
-    .bg{
-      position:fixed; inset:0;
-      z-index:-1;
-      background: linear-gradient(135deg, #0a0e27, #1a237e);
-      overflow:hidden;
-    }
-    .bg::before{
-      content:"";
-      position:absolute; inset:-30%;
-      background:
-        radial-gradient(circle at 20% 80%, rgba(0,172,193,0.28) 0%, transparent 48%),
-        radial-gradient(circle at 80% 20%, rgba(57,73,171,0.28) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(26,35,126,0.25) 0%, transparent 55%);
-      animation: drift 18s ease-in-out infinite;
-    }
-    @keyframes drift{
-      0%,100%{ transform: translate(0,0) rotate(0deg); }
-      33%{ transform: translate(-30px,-25px) rotate(120deg); }
-      66%{ transform: translate(35px,-15px) rotate(240deg); }
-    }
-
-    /* Шапка */
-    header{
-      padding: 52px 20px;
+    footer{
       text-align:center;
-      background: rgba(26,35,126,0.10);
+      padding: 36px 20px;
+      border-top: 1px solid var(--border);
+      background: rgba(13,17,23,0.70);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-    }
-    header h1{
-      font-size: clamp(1.9rem, 4.2vw, 2.9rem);
-      font-weight: 900;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color: transparent;
-      background-clip:text;
-    }
-    header p{
-      max-width: 1120px;
-      margin: 0 auto;
-      opacity: .92;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      margin-top:14px;
-      padding: 10px 14px;
-      border-radius:999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(13,17,23,.35);
-      font-size: .95rem;
-      opacity: .95;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(0,172,193,.15);
-    }
-
-    /* Контейнер */
-    .container{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 60px 20px;
-    }
-
-    /* Карточки */
-    .card{
-      background: var(--card);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 34px;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-    }
-    .card h2{
-      color: var(--accent);
-      font-size: 1.9rem;
-      margin-bottom: 12px;
-      font-weight: 900;
-      text-align:center;
-    }
-    .card p{ opacity: .92; }
-
-    /* Инвестор */
-    .invest{
-      background: linear-gradient(135deg, rgba(57,73,171,0.18) 0%, rgba(0,172,193,0.12) 100%);
-      border: 1px solid rgba(57,73,171,0.35);
-    }
-    .invest h2{ text-align:left; }
-
-    /* Таймлайн */
-    .timeline{
-      margin-top: 18px;
-      display:grid;
-      gap: 14px;
-    }
-    .step{
-      background: rgba(13,17,23,.40);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 16px;
-      padding: 18px;
-      position: relative;
-      overflow:hidden;
-    }
-    .step::before{
-      content:"";
-      position:absolute;
-      inset: -60px -80px auto auto;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(0,172,193,.18), transparent 60%);
-      transform: rotate(20deg);
-    }
-    .step h3{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-size: 1.18rem;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-    .num{
-      width: 34px; height: 34px;
-      border-radius: 12px;
-      display:grid; place-items:center;
-      background: rgba(0,172,193,.14);
-      border: 1px solid rgba(0,172,193,.22);
-      font-weight: 900;
-      flex: 0 0 auto;
-    }
-    .cols{
-      display:grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 14px;
-      margin-top: 10px;
-    }
-    .mini{
-      background: rgba(13,17,23,.35);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px;
-      padding: 14px;
-    }
-    .mini b{ display:block; margin-bottom: 6px; color: #cfefff; }
-    .mini ul{ padding-left: 18px; opacity:.92; }
-    .mini li{ margin: 6px 0; }
-
-    /* Таблица */
-    .table-wrap{
-      margin-top: 14px;
-      overflow-x: auto;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(13,17,23,.35);
-    }
-    table{
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 980px;
-    }
-    th, td{
-      padding: 14px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      vertical-align: top;
-      font-size: .97rem;
-    }
-    th{
-      text-align: left;
-      color: #cfefff;
-      background: rgba(0,172,193,.10);
-      font-weight: 900;
-    }
-    td{ opacity: .9; }
-    tr:last-child td{ border-bottom: none; }
-
-    /* Оговорки */
-    .note{
-      background: linear-gradient(135deg, rgba(255,193,7,0.10), rgba(255,152,0,0.10));
-      border: 1px solid rgba(255,193,7,0.30);
-      border-radius: 16px;
-      padding: 22px;
-      margin-top: 14px;
-      text-align:center;
-    }
-    .note h3{ color: var(--warn); margin-bottom: 10px; font-size: 1.25rem; }
-    .note p{ opacity: .92; }
-
-    /* Кнопка "Вернуться" */
-    .back-button{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 15px 30px;
-      background: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
-      color: #fff;
-      text-decoration:none;
-      border-radius: 30px;
-      font-weight: 800;
-      margin-top: 26px;
-      box-shadow: 0 4px 20px rgba(0,172,193,0.30);
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .back-button:hover{
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(0,172,193,0.50);
+      opacity: 0.8;
     }
 
     @media (max-width: 900px){
+      .stage-meta{ min-width: 160px; }
       .cols{ grid-template-columns: 1fr; }
     }
     @media (max-width: 768px){
-      .card{ padding: 24px; }
-      table{ min-width: 920px; }
+      header{ padding: 46px 20px; }
+      .section{ padding: 24px; }
+      .stage-meta{ align-items:flex-start; text-align:left; }
+      .stage-head{ flex-direction: column; align-items:flex-start; }
     }
   </style>
 </head>
 
 <body>
-  <div class="bg" aria-hidden="true"></div>
+  <div class="bg-animation" aria-hidden="true"></div>
 
   <header>
-    <h1>Дорожная карта</h1>
+    <h1>Дорожная карта реализации</h1>
     <p>
-      Пошаговый план реализации проекта центра обработки данных категории III на <b>120 стоек</b>:
-      этапы, контрольные точки и связка “финансирование ↔ ввод ↔ продажи”.
-      Логика предназначена для управленческого контроля и для инвестора.
+      Поэтапный план запуска центра обработки данных категории III на <b>120 стоек</b> (полезная нагрузка <b>840 кВт</b>).
+      Дорожная карта построена так, чтобы проект был управляемым для руководства и “банкоёмким” для инвестора:
+      контрольные точки, транширование, ответственность и измеримый результат на каждом шаге.
     </p>
-    <div class="badge">
-      <span class="dot" aria-hidden="true"></span>
-      <span>Собственных источников финансирования нет: финансирование организуется по этапам под контрольные точки</span>
-    </div>
   </header>
 
-  <div class="container">
-    <!-- 1. Принцип -->
-    <section class="card">
-      <h2>Принцип дорожной карты</h2>
-      <p>
-        Дорожная карта построена так, чтобы каждое решение имело измеримый результат: документ, готовность системы, ввод мощности, контракт.
-        Это позволяет инвестору финансировать проект траншами, а руководству — контролировать сроки, затраты и качество.
+  <main>
+    <section class="section">
+      <h2>Логика реализации</h2>
+      <p class="lead">
+        Проект делится на этапы, каждый из которых заканчивается <b>контрольной точкой</b> (готовность документов/решений/объекта),
+        после чего возможен переход к следующему этапу и выделение очередного транша финансирования.
       </p>
+
+      <div class="kpi-grid" aria-label="Ключевые принципы дорожной карты">
+        <div class="kpi">
+          <b>Поэтапный ввод</b>
+          <span>инвестиционный риск снижается: вложения привязаны к фактической готовности и спросу</span>
+        </div>
+        <div class="kpi">
+          <b>Контрольные точки</b>
+          <span>каждый этап завершён документально и технически (что подтверждается материалами)</span>
+        </div>
+        <div class="kpi">
+          <b>Границы ответственности</b>
+          <span>сразу разделяем обязанности: кто строит, кто эксплуатирует, кто продаёт, кто финансирует</span>
+        </div>
+        <div class="kpi">
+          <b>Готовность к продажам</b>
+          <span>коммерческий контур и договорная база запускаются параллельно проектированию</span>
+        </div>
+      </div>
 
       <div class="note">
-        <h3>Ключевое правило</h3>
-        <p>
-          Финансирование привязывается не к “процессу”, а к контрольным точкам: готовность проекта, закупки, монтаж, испытания, коммерческий запуск и договоры.
-        </p>
+        <div class="pill"><span class="dot"></span><b>Управленческий принцип</b></div>
+        Сначала фиксируем “что продаём и на каких условиях” (услуга, тариф, договор), затем “как это обеспечиваем” (проектирование и инженерия),
+        затем “как вводим и эксплуатируем” (регламенты, персонал, контроль качества). Такой порядок уменьшает риск “построили — а продать не можем”.
       </div>
     </section>
 
-    <!-- 2. Этапы -->
-    <section class="card invest">
-      <h2>Этапы реализации</h2>
-      <p>
-        Ниже — управленческая последовательность этапов. Сроки зависят от выбранной площадки, готовности исходных данных,
-        процедуры закупок и скорости согласований. Структура этапов сохраняется при любом календарном плане.
+    <section class="section">
+      <h2>Этапы проекта</h2>
+      <p class="lead">
+        Сроки приведены как управленческий ориентир. Итоговые даты уточняются после предпроектного обследования и выбора модели финансирования.
       </p>
 
-      <div class="timeline" aria-label="Этапы дорожной карты">
-        <div class="step">
-          <h3><span class="num">1</span>Подготовка и утверждение параметров</h3>
-          <div class="cols">
-            <div class="mini">
-              <b>Что делаем</b>
-              <ul>
-                <li>фиксируем параметры: 120 стоек, 840 кВт, категория III;</li>
-                <li>утверждаем коммерческую модель (пакеты, договорные принципы);</li>
-                <li>формируем пакет документов для инвестора.</li>
-              </ul>
+      <div class="timeline" aria-label="Этапы проекта">
+        <!-- 1 -->
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-title">
+              <div class="badge">1</div>
+              <h3>Инициация и упаковка проекта</h3>
             </div>
-            <div class="mini">
-              <b>Контрольные точки</b>
-              <ul>
-                <li>паспорт проекта;</li>
-                <li>инвестиционная записка;</li>
-                <li>финансовая модель (ориентиры);</li>
-                <li>проект условий инвестора (черновик).</li>
-              </ul>
+            <div class="stage-meta">
+              <div class="chip ok"><i></i><b>Ориентир:</b> 2–4 недели</div>
+              <div class="chip"><i></i><b>Результат:</b> паспорт проекта</div>
             </div>
           </div>
-        </div>
 
-        <div class="step">
-          <h3><span class="num">2</span>Поиск инвестора и отбор партнёра</h3>
-          <div class="cols">
-            <div class="mini">
-              <b>Что делаем</b>
-              <ul>
-                <li>размещаем краткий пакет на площадках и витринах;</li>
-                <li>проводим первичные переговоры и отбор;</li>
-                <li>выдаём расширенный пакет по запросу;</li>
-                <li>согласуем рамочные условия сотрудничества.</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <b>Контрольные точки</b>
-              <ul>
-                <li>реестр заинтересованных инвесторов;</li>
-                <li>протокол отбора;</li>
-                <li>проект рамочного соглашения/условий.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          <p>
+            Формируем управленческую рамку: цель, состав услуги, целевые клиенты, подход к тарифам, схема ролей
+            и первичная модель финансирования (включая инвестиционное партнёрство).
+          </p>
 
-        <div class="step">
-          <h3><span class="num">3</span>Проектирование и подготовка закупок</h3>
           <div class="cols">
-            <div class="mini">
-              <b>Что делаем</b>
+            <div class="box">
+              <b>Ключевые задачи</b>
               <ul>
-                <li>выпускаем задание на проектирование по категории III;</li>
-                <li>формируем состав инженерных систем и поэтапность ввода;</li>
-                <li>подготавливаем спецификации и закупочную документацию;</li>
-                <li>уточняем смету капитальных затрат.</li>
+                <li>Зафиксировать состав услуги “размещение в ЦОД” (что входит в тариф, что оплачивается отдельно).</li>
+                <li>Определить границы ответственности и контур эксплуатации (кто отвечает за бесперебойность).</li>
+                <li>Сформировать базовый пакет для инвестора: краткая записка, финансовые показатели, риски, контрольные точки.</li>
+                <li>Подготовить перечень данных для предпроектного обследования площадки.</li>
               </ul>
             </div>
-            <div class="mini">
-              <b>Контрольные точки</b>
+            <div class="box gate">
+              <b>Контрольная точка (для инвестора)</b>
               <ul>
-                <li>комплект проектных решений;</li>
-                <li>уточнённая смета;</li>
-                <li>план закупок и график поставок.</li>
+                <li>Утверждённый паспорт проекта и “инвестиционный профиль”.</li>
+                <li>Черновик финансовой модели на 120 стоек (структура доходов/расходов/капитальных затрат).</li>
+                <li>Согласованная схема взаимодействия: владелец услуги, эксплуатация, правовой контур, финансы.</li>
               </ul>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="step">
-          <h3><span class="num">4</span>Строительно-монтажные работы и поставки</h3>
-          <div class="cols">
-            <div class="mini">
-              <b>Что делаем</b>
-              <ul>
-                <li>подготовка помещений и инфраструктуры;</li>
-                <li>монтаж электропитания, бесперебойного и резервного питания;</li>
-                <li>монтаж охлаждения, безопасности, пожарной безопасности;</li>
-                <li>монтаж мониторинга и диспетчеризации.</li>
-              </ul>
+        <!-- 2 -->
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-title">
+              <div class="badge">2</div>
+              <h3>Предпроектное обследование и исходные данные</h3>
             </div>
-            <div class="mini">
-              <b>Контрольные точки</b>
-              <ul>
-                <li>акты выполненных работ;</li>
-                <li>закрытие поставок по ключевым позициям;</li>
-                <li>готовность к пуско-наладке.</li>
-              </ul>
+            <div class="stage-meta">
+              <div class="chip ok"><i></i><b>Ориентир:</b> 3–6 недель</div>
+              <div class="chip"><i></i><b>Результат:</b> отчёт и решения</div>
             </div>
           </div>
-        </div>
 
-        <div class="step">
-          <h3><span class="num">5</span>Пуско-наладка, испытания и ввод</h3>
-          <div class="cols">
-            <div class="mini">
-              <b>Что делаем</b>
-              <ul>
-                <li>пуско-наладка всех инженерных систем;</li>
-                <li>испытания резервирования и переключений;</li>
-                <li>проверка режимов охлаждения под нагрузкой;</li>
-                <li>ввод объекта/очереди в эксплуатацию.</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <b>Контрольные точки</b>
-              <ul>
-                <li>протоколы испытаний;</li>
-                <li>регламенты эксплуатации;</li>
-                <li>акт готовности к коммерческой эксплуатации.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          <p>
+            Проверяем реализуемость на выбранной площадке: электроснабжение, размещение инженерных систем,
+            ограничения, доступность подключений, требования безопасности и эксплуатации.
+          </p>
 
-        <div class="step">
-          <h3><span class="num">6</span>Коммерческий запуск и набор загрузки</h3>
           <div class="cols">
-            <div class="mini">
-              <b>Что делаем</b>
+            <div class="box">
+              <b>Ключевые задачи</b>
               <ul>
-                <li>заключаем договоры с первыми клиентами;</li>
-                <li>организуем подключения и сопровождение;</li>
-                <li>контролируем загрузку и средний тариф;</li>
-                <li>готовим решение о расширении (следующая очередь).</li>
+                <li>Обследование площадки: помещения, вводы, трассы, возможности резервирования.</li>
+                <li>Фиксация целевых параметров: 120 стоек, 840 кВт полезной нагрузки, режимы резервирования.</li>
+                <li>Определение технических решений “в первом приближении” (концепция компоновки).</li>
+                <li>Уточнение рисков: сроки, стоимость, согласования, эксплуатационные требования.</li>
               </ul>
             </div>
-            <div class="mini">
-              <b>Контрольные точки</b>
+            <div class="box gate">
+              <b>Контрольная точка (для инвестора)</b>
               <ul>
-                <li>первые договоры и акты предоставления услуги;</li>
-                <li>отчёт по загрузке и выручке;</li>
-                <li>решение о финансировании расширения.</li>
+                <li>Отчёт по обследованию и перечень исходных данных для проектирования.</li>
+                <li>Подтверждение возможности обеспечения параметров и категории III (на уровне концепции).</li>
+                <li>Обновление финансовой модели с учётом реальных ограничений площадки.</li>
               </ul>
             </div>
           </div>
-        </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-title">
+              <div class="badge">3</div>
+              <h3>Проектирование и сметная верификация</h3>
+            </div>
+            <div class="stage-meta">
+              <div class="chip ok"><i></i><b>Ориентир:</b> 2–4 месяца</div>
+              <div class="chip"><i></i><b>Результат:</b> проект и смета</div>
+            </div>
+          </div>
+
+          <p>
+            Переходим от идеи к проекту: инженерные решения, спецификации, сметная стоимость, график закупок и строительно-монтажных работ.
+            Параллельно фиксируем договорную основу и коммерческие пакеты для клиентов.
+          </p>
+
+          <div class="cols">
+            <div class="box">
+              <b>Ключевые задачи</b>
+              <ul>
+                <li>Разработка проектной документации (инженерные системы, компоновка, безопасность).</li>
+                <li>Сметная оценка и проверка стоимости (контроль “почему так дорого/дешево”).</li>
+                <li>Подготовка регламентов эксплуатации первого контура.</li>
+                <li>Доработка договорной модели: шаблоны, приложения, границы ответственности, порядок доступа.</li>
+              </ul>
+            </div>
+            <div class="box gate">
+              <b>Контрольная точка (для инвестора)</b>
+              <ul>
+                <li>Готовая проектная документация и смета по очередям (что строим сначала, что потом).</li>
+                <li>Подтверждение плана-графика работ и закупок.</li>
+                <li>Готовый пакет ключевых шаблонов договоров и регламентов доступа.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-title">
+              <div class="badge">4</div>
+              <h3>Закупки и строительно-монтажные работы</h3>
+            </div>
+            <div class="stage-meta">
+              <div class="chip ok"><i></i><b>Ориентир:</b> 3–6 месяцев</div>
+              <div class="chip"><i></i><b>Результат:</b> готовность объекта</div>
+            </div>
+          </div>
+
+          <p>
+            Реализуем инженерный комплекс, обеспечивающий услугу. На этом этапе критичны: качество монтажа,
+            управляемость поставок и дисциплина документации (акты, паспорта, исполнительная документация).
+          </p>
+
+          <div class="cols">
+            <div class="box">
+              <b>Ключевые задачи</b>
+              <ul>
+                <li>Закупка оборудования и материалов (с приоритизацией критических позиций).</li>
+                <li>Строительно-монтажные работы и интеграция инженерных систем.</li>
+                <li>Подготовка эксплуатационных журналов и исполнительной документации.</li>
+                <li>Формирование команды эксплуатации и обучение по регламентам.</li>
+              </ul>
+            </div>
+            <div class="box gate">
+              <b>Контрольная точка (для инвестора)</b>
+              <ul>
+                <li>Акты готовности и подтверждение фактической готовности систем.</li>
+                <li>Комплект исполнительной документации на смонтированные системы.</li>
+                <li>Готовность к испытаниям и комплексному опробованию.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-title">
+              <div class="badge">5</div>
+              <h3>Испытания, ввод и промышленная эксплуатация</h3>
+            </div>
+            <div class="stage-meta">
+              <div class="chip ok"><i></i><b>Ориентир:</b> 4–8 недель</div>
+              <div class="chip"><i></i><b>Результат:</b> запуск услуги</div>
+            </div>
+          </div>
+
+          <p>
+            Подтверждаем параметры и отказоустойчивость на практике. Формируем управляемую эксплуатацию и готовность к заселению клиентов.
+          </p>
+
+          <div class="cols">
+            <div class="box">
+              <b>Ключевые задачи</b>
+              <ul>
+                <li>Комплексное опробование инженерных систем и сценариев переключений.</li>
+                <li>Настройка мониторинга, аварийных уведомлений, журналирования событий.</li>
+                <li>Утверждение эксплуатационных регламентов и схем допуска.</li>
+                <li>Формирование тарифных пакетов и старт коммерческого предложения.</li>
+              </ul>
+            </div>
+            <div class="box gate">
+              <b>Контрольная точка (для инвестора)</b>
+              <ul>
+                <li>Протоколы испытаний и подтверждение готовности к промышленной эксплуатации.</li>
+                <li>Готовность договорного контура и процессов обслуживания клиентов.</li>
+                <li>План заселения (цель по загрузке, очередность клиентов, график подключений).</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="stage">
+          <div class="stage-head">
+            <div class="stage-title">
+              <div class="badge">6</div>
+              <h3>Коммерческий рост и расширение (по спросу)</h3>
+            </div>
+            <div class="stage-meta">
+              <div class="chip ok"><i></i><b>Ориентир:</b> 6–24 месяца</div>
+              <div class="chip"><i></i><b>Результат:</b> рост загрузки</div>
+            </div>
+          </div>
+
+          <p>
+            На данном этапе “включается экономика”: загрузка, удержание клиентов, качество услуги, повторные продажи.
+            Расширение выполняется только при подтверждённом спросе и соблюдении показателей эксплуатации.
+          </p>
+
+          <div class="cols">
+            <div class="box">
+              <b>Ключевые задачи</b>
+              <ul>
+                <li>Маркетинг и продажи: переговоры, заселение, сопровождение клиентов.</li>
+                <li>Контроль качества: предотвращение простоев, работа с инцидентами, улучшение регламентов.</li>
+                <li>Расширение очередями: добавление оборудования и мощностей под фактическую загрузку.</li>
+                <li>Регулярная отчётность инвестору: загрузка, выручка, расходы, выполненные контрольные точки.</li>
+              </ul>
+            </div>
+            <div class="box gate">
+              <b>Контрольная точка (для инвестора)</b>
+              <ul>
+                <li>Достижение целевой загрузки очереди (по согласованному плану).</li>
+                <li>Подтверждение целевых показателей доходности на фактических договорах.</li>
+                <li>Решение о следующем расширении и очередном транше (если предусмотрено моделью).</li>
+              </ul>
+            </div>
+          </div>
+        </article>
       </div>
 
-      <div class="note" style="margin-top:16px;">
-        <h3>Что важно</h3>
-        <p>
-          Финансирование расширения (доведение до 120 стоек) целесообразно “привязывать” к фактической загрузке и подписанным договорам,
-          чтобы не создавать избыточные капитальные затраты.
-        </p>
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Что важно руководству</b></div>
+        Основной риск проекта — не “строительство”, а <b>несовпадение обещаний услуги с реальными возможностями</b>.
+        Поэтому параллельно инженерии на каждом этапе закрепляется: состав услуги, договор, границы ответственности,
+        регламенты и готовность эксплуатации.
       </div>
     </section>
 
-    <!-- 3. Матрица "контрольная точка ↔ финансирование" -->
-    <section class="card">
-      <h2>Связка “контрольные точки ↔ финансирование”</h2>
-      <p>
-        Для переговоров с инвестором удобно фиксировать транши финансирования через контрольные точки.
-        Это повышает доверие, снижает риск инвестора и дисциплинирует выполнение проекта.
+    <section class="section">
+      <h2>Контрольные точки и транширование для инвестора</h2>
+      <p class="lead">
+        Ниже — примерный контур транширования: инвестор финансирует проект по достижению подтверждаемых результатов.
+        Конкретные суммы и доли фиксируются в инвестиционном соглашении.
       </p>
 
-      <div class="table-wrap" aria-label="Связка контрольных точек и финансирования">
+      <div class="table-wrap" role="region" aria-label="Контрольные точки и транширование" tabindex="0">
         <table>
           <thead>
             <tr>
-              <th>Контрольная точка</th>
-              <th>Подтверждение</th>
-              <th>Зачем инвестору</th>
-              <th>Логика транша</th>
+              <th style="width:140px;">Этап</th>
+              <th>Что должно быть готово</th>
+              <th style="width:280px;">Чем подтверждается</th>
+              <th style="width:240px;">Основание для транша</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><b>Утверждение параметров и пакета документов</b></td>
-              <td>паспорт проекта, финмодель, условия инвестора</td>
-              <td>понимание масштаба и механизма возврата</td>
-              <td>прединвестиционный транш (проектирование)</td>
+              <td><b>1</b> — Инициация</td>
+              <td>
+                Паспорт проекта, состав услуги, схема ролей, черновик финансовой модели, план контроля рисков.
+                <small>Результат: проект “упакован” и пригоден для переговоров.</small>
+              </td>
+              <td>
+                Пакет материалов: паспорт, схема ответственности, первичные расчёты, перечень исходных данных.
+              </td>
+              <td>
+                Стартовый транш на обследование и проектирование (по модели).
+              </td>
             </tr>
+
             <tr>
-              <td><b>Готовность проектных решений и сметы</b></td>
-              <td>комплект проектирования, уточнённая смета</td>
-              <td>снижение неопределенности по затратам</td>
-              <td>транш на закупки “длинного цикла”</td>
+              <td><b>2</b> — Обследование</td>
+              <td>
+                Отчёт по площадке, подтверждение реализуемости параметров, уточнение ограничений и решений.
+                <small>Результат: понятны реальные сроки и стоимость.</small>
+              </td>
+              <td>
+                Отчёт обследования, перечень исходных данных, обновление финансовой модели.
+              </td>
+              <td>
+                Транш на проектирование и сметную верификацию.
+              </td>
             </tr>
+
             <tr>
-              <td><b>Закрытие ключевых поставок</b></td>
-              <td>договоры поставки, акты приёмки</td>
-              <td>понимание, что оборудование поставлено</td>
-              <td>транш на монтаж и интеграцию</td>
+              <td><b>3</b> — Проектирование</td>
+              <td>
+                Проектная документация и смета по очередям, план-график работ и закупок, пакет шаблонов договоров.
+                <small>Результат: “что строим” и “на каких условиях продаём” зафиксировано.</small>
+              </td>
+              <td>
+                Проект, спецификации, смета, график, шаблоны договоров и регламенты доступа.
+              </td>
+              <td>
+                Основной транш на закупки и строительно-монтажные работы.
+              </td>
             </tr>
+
             <tr>
-              <td><b>Испытания и готовность к коммерческой эксплуатации</b></td>
-              <td>протоколы испытаний, регламенты, акт готовности</td>
-              <td>подтверждение, что объект реально работает</td>
-              <td>финальный транш первой очереди</td>
+              <td><b>4</b> — Монтаж</td>
+              <td>
+                Выполнены строительно-монтажные работы, готовность систем к испытаниям, комплект исполнительной документации.
+                <small>Результат: объект близок к вводу.</small>
+              </td>
+              <td>
+                Акты, исполнительная документация, паспорта оборудования, отчёты о готовности.
+              </td>
+              <td>
+                Транш на испытания, ввод и запуск коммерческого контура.
+              </td>
             </tr>
+
             <tr>
-              <td><b>Набор загрузки и договоры</b></td>
-              <td>реестр договоров, отчёт о выручке</td>
-              <td>подтверждение денежного потока</td>
-              <td>транш на расширение до 120 стоек</td>
+              <td><b>5</b> — Ввод</td>
+              <td>
+                Протоколы испытаний, подтверждение готовности к промышленной эксплуатации, процессы обслуживания клиента.
+                <small>Результат: услуга готова к заселению.</small>
+              </td>
+              <td>
+                Протоколы испытаний, утверждённые регламенты, схема допуска, готовность мониторинга.
+              </td>
+              <td>
+                Переход к возврату инвестиций через денежный поток проекта (по условиям соглашения).
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>6</b> — Рост</td>
+              <td>
+                Достижение целевой загрузки очереди и финансовых показателей на реальных договорах.
+                <small>Результат: подтверждена устойчивость бизнес-модели.</small>
+              </td>
+              <td>
+                Отчёты: загрузка, выручка, расходы, качество услуги, статистика инцидентов.
+              </td>
+              <td>
+                Решение о расширении и следующем финансировании (при необходимости).
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="note">
-        <h3>Управленческий вывод</h3>
-        <p>
-          Такая модель “финансирование по результату” делает проект управляемым, снижает риски и ускоряет согласования с инвестором.
-        </p>
+        <div class="pill"><span class="dot"></span><b>Практика переговоров</b></div>
+        Инвестор легче входит в проект, когда видит: (1) деньги выдаются не “вперед”, а под результат; (2) результат измерим и подтверждаем;
+        (3) есть эксплуатационная дисциплина; (4) договорная база заранее защищает проект от конфликтов с клиентами.
       </div>
 
-      <a href="index.html" class="back-button">← Вернуться на главную</a>
+      <div class="actions">
+        <a class="btn" href="index.html" aria-label="Вернуться на главную">← Вернуться на главную</a>
+        <a class="btn secondary" href="templates.html" aria-label="Перейти к пакету документов">Далее: Пакет документов →</a>
+      </div>
     </section>
-  </div>
+  </main>
 
-  <!-- Кнопка НАЗАД в главное меню -->
-  <a id="fab-back" class="fab" href="index.html" aria-label="Назад в главное меню" title="Назад">
+  <footer>
+    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Раздел: дорожная карта.</p>
+  </footer>
+
+  <!-- Плавающая кнопка "домой" -->
+  <a id="fab-home" class="fab" href="index.html" aria-label="На главную" title="На главную">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M6 10v10h12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   </a>
 
-  <!-- Кнопка ВВЕРХ -->
-  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="Вверх">
+  <!-- Плавающая кнопка "вверх" -->
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="В начало">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   </button>
 
   <script>
+    // Кнопка "вверх"
     (function(){
-      var topBtn = document.getElementById('fab-top');
+      var topBtn = document.getElementById("fab-top");
       if (!topBtn) return;
       var onScroll = function(){
-        if (window.scrollY > 300) topBtn.classList.add('show');
-        else topBtn.classList.remove('show');
+        if (window.scrollY > 300) { topBtn.classList.add("show"); }
+        else { topBtn.classList.remove("show"); }
       };
-      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener("scroll", onScroll, {passive:true});
       onScroll();
-      topBtn.addEventListener('click', function(){
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      topBtn.addEventListener("click", function(){
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }, {passive:true});
-    })();
-  </script>
-
-  <script>
-    // SUBPAGE: «Назад» — возвращаемся на index и просим его восстановить прокрутку
-    (function(){
-      var back = document.getElementById('fab-back');
-      if(!back) return;
-      back.addEventListener('click', function(e){
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
-        e.preventDefault();
-        try { sessionStorage.setItem('restoreFlag', '1'); } catch(_) {}
-        var href = back.getAttribute('href') || 'index.html';
-        window.location.href = href;
-      }, {passive:false});
     })();
   </script>
 </body>
