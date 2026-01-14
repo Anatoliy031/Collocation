@@ -3,589 +3,604 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Пакет документов | ЦОД категории III на 120 стоек</title>
+  <title>Пакет документов | ЦОД категории III на 120 стоек | филиал ПАО «Россети Юг» – «Кубаньэнерго»</title>
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-
-    :root{
-      --primary-color:#1a237e;
-      --secondary-color:#3949ab;
-      --accent-color:#00acc1;
-      --text-light:#ffffff;
-      --bg:#0a0e27;
-      --bg-card: rgba(22,27,34,0.78);
-      --bg-soft: rgba(13,17,23,0.42);
-      --border: rgba(255,255,255,0.10);
-      --border-2: rgba(255,255,255,0.08);
-      --shadow: 0 18px 40px rgba(0,0,0,0.35);
-      --gradient-2: linear-gradient(135deg,#00acc1 0%,#26c6da 100%);
-      --ok: rgba(0,172,193,0.14);
-      --warn: rgba(255,193,7,0.18);
-      --danger: rgba(244,67,54,0.16);
-    }
-
-    body{
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
-      background: var(--bg);
-      color: var(--text-light);
-      overflow-x:hidden;
-      line-height:1.65;
-    }
-
-    /* Фон */
-    .bg-animation{position:fixed;inset:0;z-index:-1;background:linear-gradient(to bottom,#0a0e27 0%,#1a237e 100%);overflow:hidden}
-    .bg-animation::before{
-      content:"";position:absolute;width:150%;height:150%;
-      background:
-        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.28) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.28) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.26) 0%, transparent 50%);
-      animation: float 18s ease-in-out infinite;
-    }
-    @keyframes float{
-      0%,100%{transform:translate(0,0) rotate(0deg)}
-      33%{transform:translate(-28px,-28px) rotate(120deg)}
-      66%{transform:translate(28px,-18px) rotate(240deg)}
-    }
-
-    header{
-      padding: 60px 20px;
-      text-align:center;
-      background: rgba(26, 35, 126, 0.10);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    header h1{
-      font-size: clamp(2rem, 4.6vw, 3.1rem);
-      font-weight: 900;
-      margin-bottom: 14px;
-      background: linear-gradient(135deg,#ffffff 0%,#00acc1 100%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-      text-shadow: 0 2px 20px rgba(0,172,193,0.25);
-    }
-    header p{
-      max-width: 1120px;
-      margin: 0 auto;
-      opacity: 0.92;
-      font-size: 1.05rem;
-      line-height: 1.85;
-    }
-
-    main{max-width:1200px;margin:0 auto;padding:56px 20px 90px}
-
-    .section{
-      background: var(--bg-card);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 34px;
-      margin-bottom: 18px;
-    }
-    .section h2{
-      color: var(--accent-color);
-      font-size: 1.55rem;
-      margin-bottom: 10px;
-      font-weight: 900;
-    }
-    .lead{opacity:0.90;font-size:1.02rem;line-height:1.85}
-
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(255,255,255,0.12);
-      background: rgba(13,17,23,0.35);
-      font-size:0.9rem;margin-bottom:10px;
-    }
-    .dot{
-      width:9px;height:9px;border-radius:50%;
-      background: var(--accent-color);
-      box-shadow: 0 0 0 4px rgba(0,172,193,0.14);
-    }
-
-    .note{
-      margin-top:16px;
-      padding:16px 16px;
-      border-radius:16px;
-      border:1px solid rgba(0,172,193,0.28);
-      background: linear-gradient(135deg, rgba(0,172,193,0.10) 0%, rgba(57,73,171,0.10) 100%);
-      opacity:0.96;
-      line-height:1.75;
-    }
-
-    .grid{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap:12px;
-    }
-    .card{
-      background: var(--bg-soft);
-      border: 1px solid var(--border-2);
-      border-radius: 18px;
-      padding: 16px 16px;
-      position: relative;
-      overflow:hidden;
-    }
-    .card::before{
-      content:"";
-      position:absolute;inset:0;
-      background: radial-gradient(circle at 20% 20%, rgba(0,172,193,0.12), transparent 55%);
-      pointer-events:none;
-      opacity:.9;
-    }
-    .card > *{position:relative;z-index:1}
-    .card b{display:block;font-size:1.03rem;margin-bottom:6px}
-    .card p{opacity:.88;font-size:.95rem;line-height:1.65}
-
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:6px 10px;border-radius:999px;
-      font-size:0.88rem;
-      background: rgba(22,27,34,0.55);
-      border: 1px solid rgba(255,255,255,0.10);
-      margin-top: 10px;
-      opacity:.95;
-      width: fit-content;
-    }
-    .badge i{
-      width:8px;height:8px;border-radius:50%;
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 0 0 4px rgba(255,255,255,0.10);
-      display:inline-block;
-    }
-    .badge.ok i{background: var(--accent-color); box-shadow: 0 0 0 4px rgba(0,172,193,0.14);}
-    .badge.warn i{background: #ffc107; box-shadow: 0 0 0 4px rgba(255,193,7,0.14);}
-    .badge.danger i{background: #f44336; box-shadow: 0 0 0 4px rgba(244,67,54,0.14);}
-
-    /* Таблица */
-    .table-wrap{
-      overflow:auto;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(13,17,23,0.35);
-      margin-top: 14px;
-    }
-    table{
-      width:100%;
-      border-collapse: collapse;
-      min-width: 1080px;
-    }
-    th, td{
-      padding: 12px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      vertical-align: top;
-      text-align:left;
-      font-size: 0.95rem;
-      line-height:1.55;
-    }
-    th{
-      position: sticky;
-      top:0;
-      background: rgba(22,27,34,0.85);
-      backdrop-filter: blur(10px);
-      font-weight: 900;
-    }
-    td small{display:block;opacity:.85;margin-top:6px}
-
-    /* Блоки “пакетов” */
-    .pack{
-      margin-top: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(13,17,23,0.38);
-      overflow:hidden;
-    }
-    .pack .head{
-      padding: 14px 16px;
-      background: rgba(22,27,34,0.68);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .pack .head b{font-size:1.02rem}
-    .pack .head span{opacity:.86}
-    .pack .body{padding: 12px 16px}
-    .row{
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display:grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      align-items:flex-start;
-    }
-    .row:last-child{border-bottom:none}
-    .tag{
-      width:110px;
-      display:inline-flex;align-items:center;justify-content:center;
-      border-radius: 999px;
-      background: rgba(0,172,193,0.10);
-      border: 1px solid rgba(0,172,193,0.24);
-      font-weight: 900;
-      font-size: 0.82rem;
-      padding: 8px 10px;
-      white-space:nowrap;
-    }
-    .row strong{display:block}
-    .row span{display:block;opacity:.88;font-size:.94rem;line-height:1.55;margin-top:3px}
-
-    /* Навигация */
-    .actions{
-      margin-top: 18px;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-      align-items:center;
-    }
-    .btn{
-      display:inline-flex;align-items:center;gap:10px;
-      padding: 14px 18px;border-radius: 999px;
-      text-decoration:none;color:#fff;font-weight: 900;
-      background: var(--gradient-2);
-      box-shadow: 0 10px 25px rgba(0,172,193,0.18);
-      border:none;cursor:pointer;
-    }
-    .btn.secondary{
-      background: rgba(13,17,23,0.45);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow:none;
-      font-weight: 800;
-      opacity: 0.92;
-    }
-
-    /* Плавающие кнопки */
-    .fab{
+    /* Плавающая круглая кнопка (в начало страницы) */
+    .fab {
       position: fixed;
       right: max(14px, env(safe-area-inset-right));
       width: 56px; height: 56px;
       border-radius: 50%;
-      display:grid; place-items:center;
-      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-      color:#fff;
-      text-decoration:none;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent-color, #00acc1), var(--secondary-color, #3949ab));
+      color: #fff; text-decoration: none;
       box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
-      z-index:10000;border:none;cursor:pointer;
-      transition: transform .2s ease, opacity .2s ease;
+      z-index: 10000;
+      transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease, filter .2s ease;
+      backdrop-filter: saturate(1.2);
+      border: none;
+      cursor: pointer;
     }
-    .fab:hover{ transform: translateY(-2px) scale(1.03); }
-    .fab svg{ width:26px;height:26px;pointer-events:none; }
-    #fab-top{
-      bottom: calc(24px + env(safe-area-inset-bottom));
-      opacity:0; pointer-events:none;
-      transform: translateY(8px) scale(.9);
-    }
-    #fab-top.show{opacity:1;pointer-events:auto;transform: translateY(0) scale(1)}
-    #fab-home{ bottom: calc(92px + env(safe-area-inset-bottom)); }
+    .fab:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
+    .fab:active { transform: translateY(0) scale(.98); }
+    .fab svg { width: 26px; height: 26px; pointer-events: none; }
+    #fab-top  { bottom: calc(24px + env(safe-area-inset-bottom)); opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
+    #fab-top.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    .fab::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    @media (prefers-reduced-motion: reduce) { .fab, #fab-top { transition: none; } }
+  </style>
 
-    footer{
-      text-align:center;
-      padding: 36px 20px;
-      border-top: 1px solid var(--border);
-      background: rgba(13,17,23,0.70);
-      backdrop-filter: blur(18px);
-      opacity:0.8;
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #3949ab;
+      --accent-color: #00acc1;
+      --text-light: #ffffff;
+      --text-dark: #212121;
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --gradient-1: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+      --gradient-2: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
-    @media (max-width: 768px){
-      header{ padding: 46px 20px; }
-      .section{ padding: 24px; }
-      table{min-width: 980px;}
-      .row{grid-template-columns: 1fr}
-      .tag{width: fit-content;}
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0a0e27;
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .bg-animation {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      z-index: -1;
+      background: linear-gradient(to bottom, #0a0e27 0%, #1a237e 100%);
+      overflow: hidden;
+    }
+    .bg-animation::before {
+      content: "";
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.3) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-30px, -30px) rotate(120deg); }
+      66% { transform: translate(30px, -20px) rotate(240deg); }
+    }
+
+    header {
+      position: relative;
+      padding: 70px 20px 40px;
+      text-align: center;
+      background: rgba(26, 35, 126, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    header h1 {
+      font-size: clamp(1.8rem, 4.5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 20px rgba(0, 172, 193, 0.3);
+    }
+    header p {
+      font-size: 1.05rem;
+      opacity: 0.92;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .electric-grid {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .electric-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #00acc1, transparent);
+      animation: electric 3s linear infinite;
+    }
+    .electric-line:nth-child(1) { top: 20%; width: 60%; left: -60%; animation-duration: 4s; }
+    .electric-line:nth-child(2) { top: 50%; width: 80%; right: -80%; animation-duration: 5s; animation-direction: reverse; }
+    .electric-line:nth-child(3) { top: 80%; width: 70%; left: -70%; animation-duration: 3.5s; }
+    @keyframes electric { to { transform: translateX(200%); } }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 42px 20px 70px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .crumbs {
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items:center;
+      opacity:.9;
+      font-size:.95rem;
+    }
+    .crumbs a { color: rgba(255,255,255,.92); text-decoration: none; border-bottom: 1px dashed rgba(255,255,255,.25); }
+    .crumbs a:hover { border-bottom-color: rgba(0,172,193,.8); }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(22, 27, 34, 0.55);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 26px rgba(0,0,0,.22);
+      color: rgba(255,255,255,.92);
+      text-decoration:none;
+      font-weight: 700;
+      font-size: .95rem;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .pill:hover { transform: translateY(-1px); border-color: rgba(0,172,193,.45); }
+
+    .section {
+      margin-top: 18px;
+      background: rgba(22, 27, 34, 0.6);
+      backdrop-filter: blur(20px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 172, 193, 0.08);
+      padding: 26px;
+    }
+
+    .section h2 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+      color: #e9f7ff;
+    }
+
+    .lead {
+      opacity: .92;
+      font-size: 1.02rem;
+      line-height: 1.85;
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 172, 193, 0.12) 0%, rgba(57, 73, 171, 0.12) 100%);
+      border: 1px solid rgba(0, 172, 193, 0.28);
+      color: rgba(255,255,255,.94);
+    }
+    .note b { color: #7fe9f3; }
+
+    .grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      background: rgba(13, 17, 23, 0.55);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 18px 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,.22);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 172, 193, 0.45);
+      box-shadow: 0 16px 32px rgba(0, 172, 193, 0.10), 0 10px 25px rgba(0,0,0,0.30);
+    }
+
+    .tag {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0, 172, 193, 0.12);
+      border: 1px solid rgba(0, 172, 193, 0.22);
+      color: rgba(255,255,255,.95);
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .card h3 {
+      margin-top: 10px;
+      font-size: 1.08rem;
+      line-height: 1.35;
+    }
+    .card p { margin-top: 8px; opacity: .88; font-size: .95rem; }
+
+    .actions {
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(22, 27, 34, 0.55);
+      color: rgba(255,255,255,.95);
+      text-decoration:none;
+      font-weight: 800;
+      font-size: .92rem;
+      transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+      cursor:pointer;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(0,172,193,.45); filter: brightness(1.05); }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(0, 172, 193, 0.30), rgba(57, 73, 171, 0.20));
+      border-color: rgba(0, 172, 193, 0.35);
+    }
+
+    .list {
+      margin-top: 12px;
+      padding-left: 18px;
+      opacity: .92;
+    }
+    .list li { margin: 7px 0; }
+
+    .steps {
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .step {
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(13, 17, 23, 0.45);
+    }
+    .step b { display:block; margin-bottom: 6px; color:#7fe9f3; }
+    .step span { display:block; opacity:.90; font-size:.95rem; line-height:1.6; }
+
+    .hr {
+      height: 1px;
+      background: rgba(255,255,255,.10);
+      margin: 18px 0;
+    }
+
+    footer {
+      background: rgba(13, 17, 23, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 38px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 70px;
+    }
+    footer p { opacity: 0.72; }
+
+    @media (max-width: 768px) {
+      header { padding: 54px 18px 34px; }
+      main { padding: 34px 16px 60px; }
+      .section { padding: 20px; }
+      .crumbs { font-size: .92rem; }
+      .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 
 <body>
-  <div class="bg-animation" aria-hidden="true"></div>
+  <div class="bg-animation"></div>
 
   <header>
-    <h1>Пакет документов</h1>
+    <div class="electric-grid">
+      <div class="electric-line"></div>
+      <div class="electric-line"></div>
+      <div class="electric-line"></div>
+    </div>
+
+    <h1>Пакет документов для инвестора</h1>
     <p>
-      Этот раздел — “витрина” материалов для запуска проекта и поиска инвестора.
-      Собственных источников финансирования нет, поэтому пакет собран так, чтобы:
-      1) инвестор быстро понял экономику и риски; 2) на площадках можно было корректно разместить предложение;
-      3) внутри компании было ясно, что готово и что нужно подготовить на следующих этапах.
+      Комплект материалов для привлечения финансирования проекта центра обработки данных категории III на <b>120 стоек</b>.
+      Цель раздела — дать инвестору «коробку» документов: <b>что строим</b>, <b>как возвращаем деньги</b>, <b>какими договорами фиксируем спрос</b>,
+      и <b>что размещаем на торговых площадках</b>.
     </p>
   </header>
 
   <main>
+    <div class="topbar">
+      <div class="crumbs">
+        <a href="index.html">Главная</a>
+        <span style="opacity:.6;">/</span>
+        <span style="opacity:.92;">Пакет документов</span>
+      </div>
+      <a class="pill" href="index.html" aria-label="Вернуться на главную">
+        ← Вернуться на главную
+      </a>
+    </div>
+
+    <!-- 1) Смысл пакета -->
     <section class="section">
-      <h2>1) Как читать пакет</h2>
+      <h2>1) Как устроен пакет: логика для инвестора</h2>
       <p class="lead">
-        Пакет построен по принципу “от общего к конкретному”: сначала короткое предложение, потом цифры, потом документы “под сделку”.
-        Условно это три уровня: <b>витрина</b> (для первого контакта), <b>проверка</b> (для инвестора/экспертов),
-        <b>оформление</b> (для юридического закрепления и траншей).
+        Собственных источников финансирования для реализации проекта нет. Поэтому проект упакован так, чтобы инвестор увидел:
+        (а) подтверждаемый спрос, (б) понятный денежный поток, (в) юридически фиксируемые обязательства будущих арендаторов,
+        (г) прозрачную схему возврата вложений.
+      </p>
+
+      <div class="note" style="margin-top:14px;">
+        <b>Ключевой принцип:</b> ещё до завершения строительной фазы фиксируем будущую выручку через
+        <b>предварительные договоры</b> с якорными клиентами и приложениями с параметрами размещения, ставками и сценариями оплаты.
+        Это напрямую снижает риск недозагрузки и повышает «банковость» проекта для инвестора.
+      </div>
+
+      <div class="steps" aria-label="Схема движения к сделке">
+        <div class="step">
+          <b>Шаг 1. Тизер</b>
+          <span>Короткий документ на 1–2 страницы: смысл проекта, ёмкость, мощность, модель дохода, потребность в финансировании.</span>
+        </div>
+        <div class="step">
+          <b>Шаг 2. Инвест-заметка</b>
+          <span>Структура сделки, роли сторон, ценовые ориентиры, сценарии загрузки, предварительная оценка окупаемости.</span>
+        </div>
+        <div class="step">
+          <b>Шаг 3. Предварительные договоры</b>
+          <span>Фиксируем интерес якорных клиентов: объём стоек, мощность, ставка, индексация, сценарий оплаты, срок будущего договора.</span>
+        </div>
+        <div class="step">
+          <b>Шаг 4. Размещение на площадках</b>
+          <span>Публикуем «проектную карточку» (паспорт проекта) и собираем заявки/переговоры в воронку.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) Что инвестор получает -->
+    <section class="section">
+      <h2>2) Состав пакета: что скачивает инвестор</h2>
+      <p class="lead">
+        Ниже приведён рекомендуемый состав документов. Часть материалов является «витринной» (для первого контакта),
+        часть — «сделочной» (для переговоров и фиксации условий).
       </p>
 
       <div class="grid">
+
         <div class="card">
-          <b>Уровень 1 — витрина</b>
-          <p>Короткий документ на 2–4 страницы: что за проект, зачем нужен, где деньги, какие этапы.</p>
-          <div class="badge ok"><i></i><b>Цель:</b> получить встречу</div>
+          <span class="tag">Витрина</span>
+          <h3>Инвестиционный тизер (1–2 страницы)</h3>
+          <p>Коротко: зачем проект, что строим, ёмкость 120 стоек, модель дохода, потребность в финансировании, выгоды инвестора.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/teaser_investor.pdf">Открыть</a>
+            <a class="btn" href="docs/teaser_investor.docx">Скачать в формате документа</a>
+          </div>
         </div>
+
         <div class="card">
-          <b>Уровень 2 — проверка</b>
-          <p>Бизнес-план, модель, риски, требования к объекту, дорожная карта, подтверждаемость этапов.</p>
-          <div class="badge warn"><i></i><b>Цель:</b> пройти экспертизу</div>
+          <span class="tag">Сделка</span>
+          <h3>Инвестиционная заметка (расширенная)</h3>
+          <p>Роли сторон, логика возврата вложений через денежный поток проекта, ценовые ориентиры и подход к снижению рисков.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/investor_note.pdf">Открыть</a>
+            <a class="btn" href="docs/investor_note.docx">Скачать в формате документа</a>
+          </div>
+          <p style="margin-top:10px; opacity:.85;">
+            Основано на рабочей инвест-заметке и допущениях по рынку и схеме возврата вложений.  [oai_citation:4‡investor_note_colocation_kubanergo.docx](file-service://file-MYYgH161GQ5XaoBo1AwDVF)
+          </p>
         </div>
+
         <div class="card">
-          <b>Уровень 3 — оформление</b>
-          <p>Шаблоны соглашений, приложения к договору, структура траншей и отчётности.</p>
-          <div class="badge ok"><i></i><b>Цель:</b> подписать сделку</div>
+          <span class="tag">Сделка</span>
+          <h3>Предварительный договор на заключение договора аренды стойко-мест</h3>
+          <p>Юридически фиксирует намерение заключить основной договор колокации. Включает мощность, ставки, сценарии оплаты, срок.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/preliminary_contract_colocation.pdf">Открыть</a>
+            <a class="btn" href="docs/preliminary_contract_colocation.docx">Скачать в формате документа</a>
+          </div>
+          <p style="margin-top:10px; opacity:.85;">
+            Базовый текст договора подготовлен и подлежит точечной адаптации под клиента.  [oai_citation:5‡preddogovor_colocation_kubanergo.docx](file-service://file-12F2jeGjhysoi1rAeAfgSD)
+          </p>
         </div>
+
+        <div class="card">
+          <span class="tag">Сделка</span>
+          <h3>Приложение № 1: коммерческие и технические параметры</h3>
+          <p>Таблица параметров размещения: количество стоек, мощность, ставка, индексация, этапность ввода, доп. услуги.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/app1_parameters.pdf">Открыть</a>
+            <a class="btn" href="docs/app1_parameters.docx">Скачать в формате документа</a>
+          </div>
+          <p style="margin-top:10px; opacity:.85;">
+            Приложение — ключевой инструмент для переговоров с якорными клиентами.  [oai_citation:6‡preddogovor_app1_colocation_kubanergo.docx](file-service://file-C7g76AUzneRQwHKLfeMUoh)
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="tag">Витрина</span>
+          <h3>Паспорт проекта для размещения на площадках</h3>
+          <p>Стандартизированная карточка: инициатор, цель, параметры, сроки, потребность в финансировании, форма участия инвестора.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/project_passport.pdf">Открыть</a>
+            <a class="btn" href="docs/project_passport.docx">Скачать в формате документа</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="tag">Сделка</span>
+          <h3>Письмо о намерениях (якорный клиент)</h3>
+          <p>Быстрый документ, когда предварительный договор подписывать рано: фиксируем интерес, объём, сроки и контактных лиц.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/letter_of_intent.pdf">Открыть</a>
+            <a class="btn" href="docs/letter_of_intent.docx">Скачать в формате документа</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="tag">Сделка</span>
+          <h3>Соглашение о конфиденциальности</h3>
+          <p>Закрывает утечку финансовых параметров и схемы сделки: передаём материалы инвестору и/или якорному клиенту.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/confidentiality_agreement.pdf">Открыть</a>
+            <a class="btn" href="docs/confidentiality_agreement.docx">Скачать в формате документа</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="tag">Техника</span>
+          <h3>Техническая концепция: состав исходных данных</h3>
+          <p>Перечень того, что требуется от площадки и проектировщика: план помещения, несущие, вводы, сценарии резервирования и этапность.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/tech_concept_brief.pdf">Открыть</a>
+            <a class="btn" href="docs/tech_concept_brief.docx">Скачать в формате документа</a>
+          </div>
+          <p style="margin-top:10px; opacity:.85;">
+            Состав и логика исходных данных вытекают из обсуждений по проектированию Tier III и этапности ввода.  [oai_citation:7‡Встреча с проектировщиками .docx](file-service://file-1Yrud24kE16YPaHkKmJJz9)
+          </p>
+        </div>
+
       </div>
 
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Принцип</b></div>
-        Чем “холоднее” контакт — тем короче документ. Чем ближе к сделке — тем больше подтверждающих материалов и приложений.
+      <div class="note" style="margin-top:16px;">
+        <b>Практика:</b> инвестор почти всегда просит два слоя материалов: «коротко и ясно» (тизер/паспорт) и «сделочно» (схема возврата + договорная база).
+        Поэтому в этом разделе всё разделено на витрину и сделку.
       </div>
     </section>
 
+    <!-- 3) Материалы для торговых площадок -->
     <section class="section">
-      <h2>2) Пакет для первичного контакта с инвестором</h2>
+      <h2>3) Материалы для размещения на торговых площадках</h2>
       <p class="lead">
-        Это то, что отправляется первым письмом/сообщением и размещается на площадках.
-        Должно быть коротко, без перегруза, но с ясным смыслом: что нужно, сколько нужно, на каких условиях обсуждаем.
+        Для торговых площадок и витрин проектов важна «форматность»: чтобы карточку можно было прочитать за 2–3 минуты,
+        но при этом она отвечала на три главных вопроса: <b>что продаём</b>, <b>сколько нужно денег</b>, <b>как инвестор вернёт вложения</b>.
       </p>
 
-      <div class="pack" aria-label="Пакет первичного контакта">
-        <div class="head">
-          <b>Набор “Витрина проекта”</b>
-          <span>1–2 дня на подготовку в финальный вид</span>
-        </div>
-        <div class="body">
-          <div class="row">
-            <div class="tag">КП-ЦОД</div>
-            <div>
-              <strong>Инвестиционное предложение (краткое)</strong>
-              <span>Описание проекта, ёмкость 120 стоек, логика дохода, этапы, потребность в финансировании, формат партнёрства, контакты.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">1-страница</div>
-            <div>
-              <strong>Лист проекта (одна страница)</strong>
-              <span>Визуально: цель, параметры, формат инвестиций, 4 этапа, что получаем на выходе.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Питч</div>
-            <div>
-              <strong>Короткая презентация для звонка</strong>
-              <span>8–12 слайдов: зачем проект, экономика, риски и защита, этапность, следующий шаг.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Вопросы</div>
-            <div>
-              <strong>Список “вопрос–ответ”</strong>
-              <span>Готовые ответы на типовые вопросы инвестора: загрузка, риски, эксплуатация, юридическая схема, контроль.</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="hr"></div>
+
+      <h3 style="font-size:1.05rem; opacity:.95;">Рекомендуемый набор для публикации</h3>
+      <ul class="list">
+        <li><b>Карточка проекта (паспорт)</b> — 1–2 страницы, без сложных таблиц, с акцентом на модель возврата вложений.</li>
+        <li><b>Инвестиционный тизер</b> — для первичного контакта и отправки по запросу.</li>
+        <li><b>Инвестиционная заметка</b> — выдаётся после подтверждения интереса и/или подписания конфиденциальности.</li>
+        <li><b>Контур сделки</b> — 1 страница: роли, денежный поток, что фиксируем предварительными договорами с арендаторами.</li>
+      </ul>
 
       <div class="note">
-        <div class="pill"><span class="dot"></span><b>Важно</b></div>
-        В “витрине” не нужно писать “мы точно заработаем”. Нужно показать управляемость: этапность, документы, логика денежного потока.
+        <b>Безопасная публикация:</b> в открытом доступе не размещаем детальные сметы, конкретные ставки по «якорям», внутренние допущения и узкие места.
+        Публикуем «витрину», а «сделку» выдаём по запросу.
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <span class="tag">Витрина</span>
+          <h3>Карточка проекта для площадок</h3>
+          <p>Стандартизированный текст для размещения: цель, параметры, сроки, потребность в финансировании, форма участия.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/platform_project_card.pdf">Открыть</a>
+            <a class="btn" href="docs/platform_project_card.docx">Скачать в формате документа</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="tag">Витрина</span>
+          <h3>Контур сделки (1 страница)</h3>
+          <p>Максимально коротко: кто за что отвечает, как формируется денежный поток, чем обеспечивается возврат вложений.</p>
+          <div class="actions">
+            <a class="btn primary" href="docs/deal_outline_onepager.pdf">Открыть</a>
+            <a class="btn" href="docs/deal_outline_onepager.docx">Скачать в формате документа</a>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- 4) Порядок работы с инвестором -->
     <section class="section">
-      <h2>3) Пакет для проверки инвестором</h2>
+      <h2>4) Порядок взаимодействия: от первого контакта до подписания</h2>
       <p class="lead">
-        На этом уровне инвестор и эксперты проверяют: реализуемость, логику доходов, риски, режим доступа, надёжность,
-        а также — наличие документов, которые позволят финансировать проект траншами.
+        Этот блок нужен, чтобы топ-менеджмент и переговорная команда действовали одинаково: единый сценарий, единые документы, единые «ворота».
       </p>
 
-      <div class="pack" aria-label="Пакет проверки инвестором">
-        <div class="head">
-          <b>Набор “Проверка и экспертиза”</b>
-          <span>для инвестиционного комитета / технической экспертизы</span>
+      <div class="steps" aria-label="Воронка">
+        <div class="step">
+          <b>Этап А. Первичный интерес</b>
+          <span>Отправляем тизер и паспорт проекта. Уточняем формат участия, диапазон финансирования, сроки принятия решения.</span>
         </div>
-        <div class="body">
-          <div class="row">
-            <div class="tag">Бизнес-план</div>
-            <div>
-              <strong>Бизнес-план (структура и логика)</strong>
-              <span>Сценарии загрузки, структура расходов, этапность, риски, требования к эксплуатации.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Модель</div>
-            <div>
-              <strong>Финансовая модель</strong>
-              <span>Параметры: 120 стоек, мощность, ставка, загрузка, опции, расходы; сценарии и чувствительность.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Требования</div>
-            <div>
-              <strong>Требования к объекту (категория III)</strong>
-              <span>Электроархитектура, резервирование, охлаждение, безопасность, документы испытаний и регламенты.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Дорожная карта</div>
-            <div>
-              <strong>Дорожная карта</strong>
-              <span>Этапы, сроки, контрольные точки, результаты этапов, логика траншей.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Тарифы</div>
-            <div>
-              <strong>Тарифы и варианты размещения</strong>
-              <span>Пакеты услуг, базовый состав услуги и опции; “что входит” и “что отдельно”.</span>
-            </div>
-          </div>
+        <div class="step">
+          <b>Этап Б. Конфиденциальность</b>
+          <span>Подписываем конфиденциальность и выдаём инвест-заметку + контур сделки + логика договоров с якорными арендаторами.</span>
+        </div>
+        <div class="step">
+          <b>Этап В. Подтверждение спроса</b>
+          <span>Организуем переговоры с потенциальными якорными клиентами и подписание предварительных договоров/писем о намерениях.</span>
+        </div>
+        <div class="step">
+          <b>Этап Г. Структурирование сделки</b>
+          <span>Согласуем график финансирования, контрольные точки, KPI проекта, модель распределения денежного потока и условия выхода инвестора.</span>
         </div>
       </div>
 
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Совет</b></div>
-        Для инвестора важно, чтобы “требования” и “договор” совпадали. Если по режиму объекта доступ ограничен —
-        это должно быть отражено в тарифах и приложениях к договору.
+      <div class="note" style="margin-top:14px;">
+        <b>Смысл «якорей»:</b> предварительные договоры с арендаторами — это не просто бумага, а инструмент,
+        который превращает прогноз выручки в управляемую обязательствами модель.  [oai_citation:8‡preddogovor_colocation_kubanergo.docx](file-service://file-12F2jeGjhysoi1rAeAfgSD)  [oai_citation:9‡preddogovor_app1_colocation_kubanergo.docx](file-service://file-C7g76AUzneRQwHKLfeMUoh)
       </div>
     </section>
 
+    <!-- 5) Что доработать под 120 стоек -->
     <section class="section">
-      <h2>4) Пакет “под сделку” (юридическое оформление и транши)</h2>
+      <h2>5) Что требуется подстроить под конфигурацию 120 стоек</h2>
       <p class="lead">
-        Это документы, которые превращают переговоры в подписываемую конструкцию. Их задача — защитить обе стороны:
-        инвестору дать контроль и возврат, компании — управляемость проекта и соблюдение режима объекта.
+        Документы уже выстроены под логику колокации и возврата инвестиций. При этом отдельные формулировки (если где-то остались от «200 стоек»)
+        необходимо унифицировать под текущую конфигурацию сайта: <b>120 стоек</b> и полезная нагрузка <b>840 кВт</b>.
       </p>
 
-      <div class="pack" aria-label="Пакет под сделку">
-        <div class="head">
-          <b>Набор “Оформление”</b>
-          <span>включает шаблоны и приложения</span>
-        </div>
-        <div class="body">
-          <div class="row">
-            <div class="tag">Инвестор</div>
-            <div>
-              <strong>Инвестиционное соглашение (шаблон)</strong>
-              <span>Этапы и результаты, транши, контроль и отчётность, формула возврата инвестиций, права сторон.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Клиент</div>
-            <div>
-              <strong>Договор оказания услуг размещения (шаблон)</strong>
-              <span>Предмет, оплата, ответственность, порядок доступа, плановые работы, инциденты.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Приложения</div>
-            <div>
-              <strong>Приложения к договору</strong>
-              <span>Параметры размещения, лимиты мощности, регламенты доступа, порядок заявок, опции и доп.услуги, инциденты.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Транши</div>
-            <div>
-              <strong>Матрица результатов этапов</strong>
-              <span>Документ “что сдаём” на каждом этапе: отчёт обследования, проект, акты, протоколы испытаний.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="tag">Отчётность</div>
-            <div>
-              <strong>Шаблоны отчётности</strong>
-              <span>Отчёт о ходе этапа, отчёт о расходовании средств транша, отчёт по выручке и загрузке.</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ul class="list">
+        <li>Во всех шаблонах: ёмкость и мощность — приводим к «120 стоек / 840 кВт (7 кВт на стойку)».</li>
+        <li>В предварительных договорах и приложениях: корректируем минимальные пакеты и этапность ввода (если применимо).</li>
+        <li>В «витрине»: не публикуем детальные сметы, а фиксируем потребность финансирования диапазоном и ссылкой на переговоры.</li>
+        <li>В «сделке»: усиливаем блок про подтверждение спроса через предварительные договоры.</li>
+      </ul>
 
       <div class="note">
-        <div class="pill"><span class="dot"></span><b>Логика траншей</b></div>
-        Транш = результат + документ. Если результата нет — следующий транш не перечисляется. Это “привязывает” деньги к реальному прогрессу.
+        <b>Техническая часть:</b> общая логика Tier III и этапности ввода оборудования учитывается в документах по техконцепции и исходным данным.  [oai_citation:10‡Встреча с проектировщиками .docx](file-service://file-1Yrud24kE16YPaHkKmJJz9)
       </div>
     </section>
 
-    <section class="section">
-      <h2>5) Размещение на площадках: что писать и что прикладывать</h2>
-      <p class="lead">
-        Для электронных торговых площадок и инвестиционных витрин важно упаковать проект коротко и “по форме”:
-        описание, параметры, потребность в финансировании, формат партнёрства, этапность и контакт.
-      </p>
-
-      <div class="table-wrap" role="region" aria-label="Материалы для площадок" tabindex="0">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:280px;">Материал</th>
-              <th>Содержание</th>
-              <th style="width:280px;">Куда использовать</th>
-              <th style="width:260px;">Примечание</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Описание проекта</b></td>
-              <td>Коротко: ЦОД категория III, 120 стоек, 840 кВт, услуга размещения оборудования, этапность.</td>
-              <td>Карточка проекта на площадке.</td>
-              <td>Не перегружать “инженерией”.</td>
-            </tr>
-            <tr>
-              <td><b>Потребность в финансировании</b></td>
-              <td>Сумма/диапазон, этапность, форма участия, условия обсуждения.</td>
-              <td>Инвест-витрины, переговорные процедуры.</td>
-              <td>Указывать “траншами”.</td>
-            </tr>
-            <tr>
-              <td><b>КП-ЦОД (краткое)</b></td>
-              <td>2–4 страницы: смысл, экономика, этапы, риски и защита.</td>
-              <td>Вложения к объявлению.</td>
-              <td>Должно быть читабельно с телефона.</td>
-            </tr>
-            <tr>
-              <td><b>Лист проекта (1 страница)</b></td>
-              <td>Один лист “для директора”: параметры, этапы, контакт.</td>
-              <td>Пересылка руководителям/партнёрам.</td>
-              <td>Хорошо работает как “первый шаг”.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Каналы поиска инвестора (предложение)</b></div>
-        Помимо электронных торговых площадок, практично использовать: инвестиционные витрины регионов, отраслевые партнёрства
-        с операторами ЦОД/телекоммуникационными компаниями, а также профильных инфраструктурных инвесторов.
-        Этот перечень расширим и “упакуем” под конкретный формат размещения на выбранной площадке.
-      </div>
-
-      <div class="actions">
-        <a class="btn" href="index.html" aria-label="Вернуться на главную">← Вернуться на главную</a>
-        <a class="btn secondary" href="pricing.html" aria-label="Перейти к тарифам">Далее: Тарифы и варианты размещения →</a>
-      </div>
-    </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Раздел: пакет документов.</p>
+    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Все права защищены.</p>
   </footer>
 
-  <!-- Плавающая кнопка "домой" -->
-  <a id="fab-home" class="fab" href="index.html" aria-label="На главную" title="На главную">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M6 10v10h12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg>
-  </a>
-
-  <!-- Плавающая кнопка "вверх" -->
   <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="В начало">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -593,7 +608,7 @@
   </button>
 
   <script>
-    // Кнопка "вверх"
+    // Кнопка "в начало"
     (function(){
       var topBtn = document.getElementById("fab-top");
       if (!topBtn) return;
