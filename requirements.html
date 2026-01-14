@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тарифы и пакеты | Центр обработки данных категории III</title>
+
+  <style>
+    /* FAB: плавающие круглые кнопки */
+    .fab {
+      position: fixed;
+      right: max(14px, env(safe-area-inset-right));
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent-color, #00acc1), var(--secondary-color, #3949ab));
+      color: #fff; text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
+      z-index: 10000;
+      transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease, filter .2s ease;
+      backdrop-filter: saturate(1.2);
+      border: none;
+      cursor: pointer;
+    }
+    .fab:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.05); }
+    .fab:active { transform: translateY(0) scale(.98); }
+    .fab svg { width: 26px; height: 26px; pointer-events: none; }
+    #fab-back { bottom: calc(96px + env(safe-area-inset-bottom)); }
+    #fab-top  { bottom: calc(24px + env(safe-area-inset-bottom)); }
+    #fab-top { opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
+    #fab-top.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    .fab::after{ content:""; position:absolute; inset:0; border-radius:50%;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    @media (prefers-reduced-motion: reduce) { .fab, #fab-top { transition: none; } }
+  </style>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root{
+      --primary-color: #1a237e;
+      --secondary-color: #3949ab;
+      --accent-color: #00acc1;
+      --success-color: #00c853;
+      --text-light: #ffffff;
+      --text-dark: #212121;
+      --bg-dark: #0a0e27;
+      --card: rgba(22, 27, 34, 0.82);
+      --card-2: rgba(13, 17, 23, 0.55);
+    }
+
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Фон */
+    .background{
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      z-index: -1;
+      background: linear-gradient(135deg, #0a0e27, #1a237e);
+      overflow: hidden;
+    }
+    .floating-shapes{ position: absolute; width: 100%; height: 100%; }
+    .shape{
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 172, 193, 0.10);
+      filter: blur(40px);
+      animation: float 20s ease-in-out infinite;
+    }
+    .shape:nth-child(1){ width: 320px; height: 320px; top: 10%; left: 10%; animation-duration: 25s; }
+    .shape:nth-child(2){ width: 220px; height: 220px; top: 60%; right: 10%; animation-duration: 30s; animation-delay: -5s; }
+    .shape:nth-child(3){ width: 260px; height: 260px; bottom: 10%; left: 30%; animation-duration: 35s; animation-delay: -10s; }
+    @keyframes float{
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(-30px, 30px) scale(1.1); }
+      50% { transform: translate(30px, -30px) scale(0.9); }
+      75% { transform: translate(-20px, -20px) scale(1.05); }
+    }
+
+    /* Хедер */
+    header{
+      background: rgba(26, 35, 126, 0.10);
+      backdrop-filter: blur(20px);
+      padding: 50px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+    header h1{
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+    header p{
+      opacity: .9;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    /* Контейнер */
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* Служебная плашка */
+    .badge{
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(13,17,23,.35);
+      margin-top: 14px;
+      font-size: .95rem;
+      opacity: .95;
+    }
+    .dot{
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 0 4px rgba(0,172,193,.15);
+    }
+
+    /* Формула расчёта */
+    .formula-section{
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 34px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.30);
+      text-align: center;
+    }
+    .formula-section h2{
+      color: #00acc1;
+      margin-bottom: 16px;
+      font-size: 2rem;
+    }
+    .formula-section p{
+      opacity: .88;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .formula-box{
+      background: rgba(0,172,193,0.10);
+      border: 2px solid rgba(0,172,193,0.28);
+      border-radius: 15px;
+      padding: 22px 18px;
+      margin: 22px 0 10px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .formula-components{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+      text-align: left;
+    }
+
+    .component{
+      background: var(--card-2);
+      padding: 22px;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.3s ease;
+    }
+    .component:hover{
+      transform: translateY(-5px);
+      border-color: rgba(0,172,193,0.30);
+      box-shadow: 0 10px 30px rgba(0,172,193,0.10);
+    }
+    .component-icon{ font-size: 1.8rem; margin-bottom: 8px; }
+    .component strong{ color: #00acc1; display:block; margin-bottom: 6px; }
+    .component p{ opacity: .9; font-size: .98rem; }
+
+    /* Блок для инвестора */
+    .invest-block{
+      background: linear-gradient(135deg, rgba(57, 73, 171, 0.18) 0%, rgba(0, 172, 193, 0.12) 100%);
+      border: 1px solid rgba(57, 73, 171, 0.35);
+      border-radius: 18px;
+      padding: 26px 22px;
+      margin: 26px 0 60px;
+      text-align: left;
+    }
+    .invest-block h3{
+      color: #00acc1;
+      margin-bottom: 10px;
+      font-size: 1.35rem;
+    }
+    .invest-block p{ opacity: .92; }
+    .invest-grid{
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .invest-item{
+      background: rgba(13,17,23,.38);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 14px 14px;
+    }
+    .invest-item b{ display:block; margin-bottom: 4px; }
+    .invest-item span{ display:block; opacity: .86; font-size: .95rem; }
+
+    /* Пакеты */
+    .packages-section{ margin-bottom: 60px; }
+    .section-title{
+      text-align: center;
+      color: #00acc1;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+    .section-subtitle{
+      text-align: center;
+      opacity: 0.82;
+      margin-bottom: 40px;
+    }
+    .packages-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .package-card{
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 38px;
+      border: 1px solid rgba(255,255,255,0.10);
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .package-card::before{
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #00acc1, #26c6da);
+    }
+    .package-card:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0,172,193,0.22);
+      border-color: rgba(0,172,193,0.30);
+    }
+    .package-card.featured{
+      border-color: rgba(0,200,83,0.28);
+    }
+    .package-card.featured::before{
+      background: linear-gradient(90deg, #00c853, #69f0ae);
+    }
+    .package-name{
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: #00acc1;
+      font-weight: 900;
+    }
+    .package-description{ opacity: .82; margin-bottom: 22px; }
+    .package-price{
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #fff, #00acc1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .price-period{ font-size: 1rem; opacity: .75; font-weight: 500; }
+    .package-features{ list-style: none; margin: 22px 0; }
+    .package-features li{
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 12px;
+      opacity: .92;
+    }
+    .package-features li::before{
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #00c853;
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+    .package-note{
+      font-size: .92rem;
+      opacity: .72;
+      font-style: italic;
+    }
+
+    /* Дополнительные услуги */
+    .additional-services{
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 38px;
+      border: 1px solid rgba(255,255,255,0.10);
+      margin-bottom: 30px;
+    }
+    .additional-services h2{
+      color: #00acc1;
+      margin-bottom: 26px;
+      font-size: 2rem;
+      text-align: center;
+      font-weight: 900;
+    }
+    .services-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .service-item{
+      background: rgba(13,17,23,0.50);
+      padding: 22px;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s ease;
+    }
+    .service-item:hover{
+      background: rgba(0,172,193,0.05);
+      border-color: rgba(0,172,193,0.20);
+    }
+    .service-name{ font-weight: 600; }
+    .service-price{ color: #00acc1; font-weight: 900; white-space: nowrap; }
+
+    /* Важная информация */
+    .info-box{
+      background: linear-gradient(135deg, rgba(255,193,7,0.10), rgba(255,152,0,0.10));
+      border: 1px solid rgba(255,193,7,0.30);
+      border-radius: 15px;
+      padding: 26px;
+      margin: 30px 0 10px;
+      text-align: center;
+    }
+    .info-box h3{ color: #ffd54f; margin-bottom: 12px; font-size: 1.25rem; }
+    .info-box p{ opacity: .9; }
+
+    /* Кнопка назад */
+    .back-button{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      margin-top: 50px;
+      box-shadow: 0 4px 20px rgba(0,172,193,0.30);
+    }
+    .back-button:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,172,193,0.50);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px){
+      .formula-section{ padding: 26px; }
+      .additional-services{ padding: 26px; }
+      .packages-grid{ grid-template-columns: 1fr; gap: 20px; }
+      .services-grid{ grid-template-columns: 1fr; }
+      .service-item{ flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background">
+    <div class="floating-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+  </div>
+
+  <header>
+    <h1>Тарифы и пакеты</h1>
+    <p>
+      Подход к ценообразованию для услуги размещения оборудования в центре обработки данных категории III
+      (проектная ёмкость — <b>120 стоек</b>, расчётная полезная нагрузка — <b>840 кВт</b>).
+    </p>
+    <div class="badge" aria-label="Назначение страницы">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Раздел используется и для управленческого согласования, и для пакета документов инвестору</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Формула расчёта -->
+    <section class="formula-section">
+      <h2>Формула расчёта стоимости</h2>
+      <p>
+        Стоимость формируется по прозрачной логике: оплата за стойко-место и инженерную инфраструктуру
+        + гарантированная мощность + потребление электроэнергии сверх включённого лимита + работы по заявке.
+        Для финансовой модели используются ориентиры по ставкам в диапазоне <b>150–180 тыс. рублей</b> за стойку в месяц.
+      </p>
+
+      <div class="formula-box">
+        Ежемесячная плата = Размещение стойки + Гарантированная мощность + Электроэнергия сверх лимита + Услуги эксплуатации
+      </div>
+
+      <div class="formula-components">
+        <div class="component">
+          <div class="component-icon">🏢</div>
+          <strong>Размещение стойки</strong>
+          <p>Инженерная инфраструктура центра обработки данных, доступ, охрана, мониторинг, регламентная эксплуатация</p>
+        </div>
+
+        <div class="component">
+          <div class="component-icon">⚡</div>
+          <strong>Гарантированная мощность</strong>
+          <p>Мощность фиксируется в договоре (в пакете — до заданного значения на стойку)</p>
+        </div>
+
+        <div class="component">
+          <div class="component-icon">📈</div>
+          <strong>Электроэнергия</strong>
+          <p>Включённый лимит потребления — по пакету; сверх лимита — по приборам учёта и согласованной методике</p>
+        </div>
+
+        <div class="component">
+          <div class="component-icon">🛠️</div>
+          <strong>Услуги эксплуатации</strong>
+          <p>Работы по заявке: диагностика, переключения, замены, подключение кабельных линий внутри помещения</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Блок для инвестора -->
+    <div class="invest-block">
+      <h3>Примечание для инвестиционного рассмотрения</h3>
+      <p>
+        Поскольку собственных источников финансирования нет, раздел «Тарифы и пакеты» используется как часть
+        пакета материалов для инвестора: подтверждает рыночную логику денежного потока проекта и показывает,
+        как формируется ежемесячная выручка при загрузке до <b>120 стоек</b>.
+      </p>
+
+      <div class="invest-grid" aria-label="Ключевые данные для инвестора">
+        <div class="invest-item">
+          <b>Плановый диапазон ставки</b>
+          <span>150–180 тыс. рублей за стойку в месяц (в зависимости от набора условий)</span>
+        </div>
+        <div class="invest-item">
+          <b>Базовая нагрузка на стойку</b>
+          <span>7 кВт (для расчёта полезной нагрузки 840 кВт)</span>
+        </div>
+        <div class="invest-item">
+          <b>Логика масштабирования</b>
+          <span>рост выручки пропорционален количеству стоек и выбранным пакетам</span>
+        </div>
+        <div class="invest-item">
+          <b>Статус цен</b>
+          <span>ориентиры для модели; коммерческие условия утверждаются при вводе объекта</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Пакетные предложения -->
+    <section class="packages-section">
+      <div class="section-title">Пакетные предложения</div>
+      <div class="section-subtitle">Готовые наборы условий для различных профилей клиентов (ориентиры для расчётов)</div>
+
+      <div class="packages-grid">
+        <!-- Пакет Базовый -->
+        <div class="package-card">
+          <h3 class="package-name">Базовый</h3>
+          <p class="package-description">Подходит для размещения стандартного оборудования и пилотных нагрузок</p>
+          <div class="package-price">
+            150&nbsp;000 ₽ <span class="price-period">/ месяц за стойку</span>
+          </div>
+          <ul class="package-features">
+            <li>Стойко-место (полная стойка)</li>
+            <li>Гарантированная мощность до 7 кВт</li>
+            <li>Базовый мониторинг электропитания и температуры</li>
+            <li>Круглосуточный доступ по регламенту</li>
+            <li>Ежемесячный отчёт по потреблению и инцидентам</li>
+          </ul>
+          <p class="package-note">* Электроэнергия сверх включённого лимита — по приборам учёта и методике расчёта</p>
+        </div>
+
+        <!-- Пакет Стандарт -->
+        <div class="package-card featured">
+          <h3 class="package-name">Стандарт</h3>
+          <p class="package-description">Рекомендуемый набор условий для большинства клиентов и для финансовой модели</p>
+          <div class="package-price">
+            170&nbsp;000 ₽ <span class="price-period">/ месяц за стойку</span>
+          </div>
+          <ul class="package-features">
+            <li>Стойко-место (полная стойка)</li>
+            <li>Гарантированная мощность до 7 кВт</li>
+            <li>Расширенный мониторинг инженерных систем</li>
+            <li>Приоритетное обслуживание заявок</li>
+            <li>Работы по заявке: до 10 часов в месяц включено</li>
+            <li>Повышенные требования к контролю доступа</li>
+          </ul>
+          <p class="package-note">* Базовый вариант для расчёта выручки при плановой загрузке</p>
+        </div>
+
+        <!-- Пакет Расширенный -->
+        <div class="package-card">
+          <h3 class="package-name">Расширенный</h3>
+          <p class="package-description">Для клиентов с повышенными требованиями к обслуживанию и отчётности</p>
+          <div class="package-price">
+            180&nbsp;000 ₽ <span class="price-period">/ месяц за стойку</span>
+          </div>
+          <ul class="package-features">
+            <li>Стойко-место (полная стойка)</li>
+            <li>Гарантированная мощность до 7 кВт</li>
+            <li>Расширенная отчётность и контроль параметров</li>
+            <li>Приоритетный регламент реагирования на инциденты</li>
+            <li>Работы по заявке: до 20 часов в месяц включено</li>
+            <li>Дополнительные требования к физической безопасности</li>
+          </ul>
+          <p class="package-note">* Детали уровня обслуживания фиксируются в договоре</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Дополнительные услуги -->
+    <section class="additional-services">
+      <h2>Дополнительные услуги</h2>
+      <div class="services-grid">
+        <div class="service-item">
+          <span class="service-name">Работы персонала по заявке (почасово)</span>
+          <span class="service-price">3&nbsp;000 ₽/час</span>
+        </div>
+        <div class="service-item">
+          <span class="service-name">Монтаж и демонтаж оборудования в стойке</span>
+          <span class="service-price">5&nbsp;000 ₽/операция</span>
+        </div>
+        <div class="service-item">
+          <span class="service-name">Кросс-подключение внутри центра (за линию)</span>
+          <span class="service-price">1&nbsp;500 ₽/месяц</span>
+        </div>
+        <div class="service-item">
+          <span class="service-name">Резервирование канала связи (по проекту)</span>
+          <span class="service-price">от 10&nbsp;000 ₽/месяц</span>
+        </div>
+        <div class="service-item">
+          <span class="service-name">Выделенная зона размещения (по проекту)</span>
+          <span class="service-price">от 25&nbsp;000 ₽/месяц</span>
+        </div>
+        <div class="service-item">
+          <span class="service-name">Консольный доступ к оборудованию (по проекту)</span>
+          <span class="service-price">от 2&nbsp;000 ₽/месяц</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Важная информация -->
+    <div class="info-box">
+      <h3>Важная информация</h3>
+      <p>
+        Указанные значения являются ориентировочными и применяются для управленческого согласования и финансовой модели проекта.<br>
+        Коммерческие условия, методики расчёта и состав услуг закрепляются в договоре после ввода объекта в эксплуатацию.<br>
+        Минимальный срок размещения и порядок доступа устанавливаются регламентами эксплуатации центра обработки данных.
+      </p>
+    </div>
+
+    <a href="index.html" class="back-button">← Вернуться на главную</a>
+  </div>
+
+  <!-- Кнопка НАЗАД в главное меню -->
+  <a id="fab-back" class="fab" href="index.html" aria-label="Назад в главное меню" title="Назад">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Кнопка ВВЕРХ (в начало страницы) -->
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="Вверх">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    (function(){
+      var topBtn = document.getElementById('fab-top');
+      if (!topBtn) return;
+      var onScroll = function(){
+        if (window.scrollY > 300) { topBtn.classList.add('show'); }
+        else { topBtn.classList.remove('show'); }
+      };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+      topBtn.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, {passive:true});
+    })();
+  </script>
+
+  <script>
+    // SUBPAGE: «Назад» — возвращаемся на index и просим его восстановить прокрутку
+    (function(){
+      var back = document.getElementById('fab-back');
+      if(!back) return;
+      back.addEventListener('click', function(e){
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+        e.preventDefault();
+        try { sessionStorage.setItem('restoreFlag', '1'); } catch(_) {}
+        var href = back.getAttribute('href') || 'index.html';
+        window.location.href = href;
+      }, {passive:false});
+    })();
+  </script>
+</body>
+</html>
