@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Термины и сокращения | ЦОД категории III на 120 стоек</title>
+
+  <style>
+    /* Базовые токены */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #3949ab;
+      --accent-color: #00acc1;
+      --text-light: #ffffff;
+      --bg: #0a0e27;
+      --bg-card: rgba(22, 27, 34, 0.78);
+      --bg-soft: rgba(13, 17, 23, 0.42);
+      --border: rgba(255,255,255,0.10);
+      --border-2: rgba(255,255,255,0.08);
+      --shadow: 0 18px 40px rgba(0,0,0,0.35);
+      --gradient-2: linear-gradient(135deg, #00acc1 0%, #26c6da 100%);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+
+    /* Анимированный фон в стиле главной */
+    .bg-animation {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(to bottom, #0a0e27 0%, #1a237e 100%);
+      overflow: hidden;
+    }
+    .bg-animation::before {
+      content: "";
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.28) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.28) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.26) 0%, transparent 50%);
+      animation: float 18s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-28px, -28px) rotate(120deg); }
+      66% { transform: translate(28px, -18px) rotate(240deg); }
+    }
+
+    /* Шапка */
+    header {
+      padding: 60px 20px;
+      text-align: center;
+      background: rgba(26, 35, 126, 0.10);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-size: clamp(2rem, 4.6vw, 3.1rem);
+      font-weight: 800;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #00acc1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 20px rgba(0, 172, 193, 0.25);
+    }
+    header p {
+      max-width: 980px;
+      margin: 0 auto;
+      opacity: 0.92;
+      font-size: 1.05rem;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 20px 90px;
+    }
+
+    /* Карточки секций */
+    .section {
+      background: var(--bg-card);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      color: var(--accent-color);
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .section .lead {
+      opacity: 0.90;
+      font-size: 1.02rem;
+      line-height: 1.85;
+    }
+
+    .grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      background: var(--bg-soft);
+      border: 1px solid var(--border-2);
+      border-radius: 16px;
+      padding: 16px 16px;
+    }
+
+    .term b {
+      display: block;
+      font-size: 1.03rem;
+      margin-bottom: 6px;
+    }
+
+    .term .desc {
+      opacity: 0.88;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .term .mgr {
+      margin-top: 10px;
+      background: rgba(0, 172, 193, 0.10);
+      border: 1px solid rgba(0, 172, 193, 0.25);
+      border-radius: 12px;
+      padding: 10px 10px;
+      font-size: 0.93rem;
+      opacity: 0.95;
+    }
+    .term .mgr span {
+      display: block;
+      opacity: 0.95;
+    }
+
+    /* Врезки */
+    .note {
+      margin-top: 16px;
+      padding: 16px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 172, 193, 0.28);
+      background: linear-gradient(135deg, rgba(0, 172, 193, 0.10) 0%, rgba(57, 73, 171, 0.10) 100%);
+      opacity: 0.95;
+      line-height: 1.75;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(13, 17, 23, 0.35);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 0 4px rgba(0,172,193,0.14);
+    }
+
+    /* Кнопки навигации */
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      background: var(--gradient-2);
+      box-shadow: 0 10px 25px rgba(0, 172, 193, 0.18);
+      border: none;
+      cursor: pointer;
+    }
+    .btn.secondary {
+      background: rgba(13, 17, 23, 0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: none;
+      font-weight: 700;
+      opacity: 0.92;
+    }
+
+    /* Плавающие кнопки */
+    .fab {
+      position: fixed;
+      right: max(14px, env(safe-area-inset-right));
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
+      z-index: 10000;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .fab:hover { transform: translateY(-2px) scale(1.03); }
+    .fab svg { width: 26px; height: 26px; }
+    #fab-top { bottom: calc(24px + env(safe-area-inset-bottom)); opacity: 0; pointer-events: none; transform: translateY(8px) scale(.9); }
+    #fab-top.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    #fab-home { bottom: calc(92px + env(safe-area-inset-bottom)); }
+
+    footer {
+      text-align: center;
+      padding: 36px 20px;
+      border-top: 1px solid var(--border);
+      background: rgba(13, 17, 23, 0.70);
+      backdrop-filter: blur(18px);
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 46px 20px; }
+      .section { padding: 24px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-animation" aria-hidden="true"></div>
+
+  <header>
+    <h1>Термины и сокращения</h1>
+    <p>
+      Раздел предназначен для единого понимания проекта ЦОД категории III на <b>120 стоек</b>.
+      Термины сформулированы так, чтобы управленческий смысл был очевиден: что влияет на надёжность, сроки, стоимость и риски.
+    </p>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>1) Основные понятия</h2>
+      <p class="lead">
+        Эти определения дают рамку: что именно продаётся клиенту и за счёт чего формируется нетарифная выручка.
+      </p>
+
+      <div class="grid">
+        <div class="term">
+          <b>Центр обработки данных</b>
+          <div class="desc">
+            Специализированный инженерный комплекс для размещения оборудования клиентов с гарантированным режимом
+            электропитания, охлаждения, пожарной защиты, контроля доступа и эксплуатацией по регламентам.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> услуга — это “гарантированный режим”, а не “помещение”.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Стойка (стойко-место)</b>
+          <div class="desc">
+            Место под размещение серверного/телекоммуникационного оборудования клиента. В проекте — <b>120 стоек</b>.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> ключевой “товар” проекта, от загрузки зависит выручка.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Полезная нагрузка</b>
+          <div class="desc">
+            Мощность, потребляемая оборудованием клиентов. В проекте: <b>840 кВт</b> (7 кВт на стойку × 120 стоек).
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> определяет требования к электроснабжению и бюджету инженерных систем.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Инженерная инфраструктура</b>
+          <div class="desc">
+            Системы электропитания и резервирования, охлаждения, мониторинга, пожарной защиты, контроля доступа,
+            внутренние сети и эксплуатационные регламенты.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> именно она формирует себестоимость и качество услуги.</span></div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Важно</b></div>
+        Категория III — это не “красивая формулировка”, а обязательство поддерживать услугу при отказах и плановом обслуживании.
+        Для инвестора это прямой показатель управляемости рисков.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2) Надёжность и категория III</h2>
+      <p class="lead">
+        Термины, которые обычно звучат “по-технически”, но на деле отвечают на вопрос руководителя:
+        «будут ли простои и кто за них отвечает».
+      </p>
+
+      <div class="grid">
+        <div class="term">
+          <b>Категория III (по уровню надёжности)</b>
+          <div class="desc">
+            Уровень, при котором основные инженерные системы резервируются, а плановое обслуживание выполняется без остановки услуги.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> “обслуживаем — но не выключаем”. Это снижает риск штрафов и споров.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Резервирование</b>
+          <div class="desc">
+            Наличие дублирующих цепей и оборудования (по электропитанию и ключевым системам), позволяющее продолжать работу при отказе элемента.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> это цена отказоустойчивости. Без резерва услуга “не продаётся” крупным клиентам.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Планово-предупредительные работы</b>
+          <div class="desc">
+            Регламентное обслуживание инженерных систем (проверки, замены, испытания), выполняемое по графику.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> правильный регламент — защита от аварий, неправильный — источник простоев.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Переключения</b>
+          <div class="desc">
+            Управляемый перевод нагрузки между вводами/источниками/цепями без нарушения предоставления услуги.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> “операционное мастерство” эксплуатации. Критично для соблюдения заявленного уровня надёжности.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3) Эксплуатация, безопасность и доступ</h2>
+      <p class="lead">
+        Эти определения отвечают на вопрос: «как контролировать объект, людей, риски и ответственность сторон».
+      </p>
+
+      <div class="grid">
+        <div class="term">
+          <b>Контроль доступа</b>
+          <div class="desc">
+            Организация допуска на объект: режим, пропуска, зоны доступа, фиксация входов/выходов, сопровождение.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> снижает риск инцидентов и формирует доказательную базу при споре.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Зоны ответственности</b>
+          <div class="desc">
+            Разделение ответственности между владельцем объекта, эксплуатирующей стороной и клиентом:
+            кто отвечает за питание, стойку, кабели, оборудование, персонал и последствия.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> это “анти-спор” в договоре. Если не прописано — спор неизбежен.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Эксплуатационный регламент</b>
+          <div class="desc">
+            Набор процедур: обслуживание, переключения, реакция на аварии, порядок работ по заявкам клиента, журналирование действий.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> регламент = контролируемость качества услуги и предсказуемость рисков.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Мониторинг инженерных систем</b>
+          <div class="desc">
+            Непрерывный контроль параметров питания, температуры, влажности, состояния оборудования и сигналов тревоги.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> уменьшает время реакции и снижает вероятность “большой аварии”.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4) Экономика и инвестор</h2>
+      <p class="lead">
+        Термины для обсуждения с инвестором и для принятия решения руководством: что влияет на доход, окупаемость и риски.
+      </p>
+
+      <div class="grid">
+        <div class="term">
+          <b>Тариф (плата за размещение)</b>
+          <div class="desc">
+            Ежемесячная плата за стойку и предоставление инженерной инфраструктуры (питание, охлаждение, безопасность, эксплуатация).
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> основной драйвер выручки. Должен быть защищён в договоре составом услуги.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Загрузка</b>
+          <div class="desc">
+            Доля занятых стоек (в процентах или в количестве). Влияет на выручку сильнее любых “оптимизаций”.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> ключевой риск — недозагрузка, поэтому важна поэтапность ввода.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Поэтапный ввод (очередность)</b>
+          <div class="desc">
+            Реализация проекта очередями: сначала “ядро” услуги и первая очередь, далее расширение под фактический спрос.
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> снижает капитальные риски и повышает переговорную позицию с инвестором.</span></div>
+        </div>
+
+        <div class="term">
+          <b>Транширование финансирования</b>
+          <div class="desc">
+            Выделение средств инвестором частями под достижение контрольных точек (проектирование, закупки, готовность очереди, ввод).
+          </div>
+          <div class="mgr"><span><b>Управленческий смысл:</b> инвестор защищает деньги, а проект получает дисциплину исполнения.</span></div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="pill"><span class="dot"></span><b>Для переговоров</b></div>
+        Если руководству и инвестору понятны: <b>загрузка</b>, <b>тариф</b>, <b>поэтапность</b>, <b>контрольные точки</b> и <b>границы ответственности</b> —
+        проект становится “упакованным” и пригодным для привлечения финансирования.
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="index.html" aria-label="Вернуться на главную">← Вернуться на главную</a>
+        <a class="btn secondary" href="roadmap.html" aria-label="Перейти к дорожной карте">Далее: Дорожная карта →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Раздел: термины и сокращения.</p>
+  </footer>
+
+  <!-- Плавающая кнопка "домой" -->
+  <a id="fab-home" class="fab" href="index.html" aria-label="На главную" title="На главную">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M6 10v10h12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </a>
+
+  <!-- Плавающая кнопка "вверх" -->
+  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="В начало">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
+  <script>
+    // Кнопка "вверх"
+    (function(){
+      var topBtn = document.getElementById("fab-top");
+      if (!topBtn) return;
+      var onScroll = function(){
+        if (window.scrollY > 300) { topBtn.classList.add("show"); }
+        else { topBtn.classList.remove("show"); }
+      };
+      window.addEventListener("scroll", onScroll, {passive:true});
+      onScroll();
+      topBtn.addEventListener("click", function(){
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, {passive:true});
+    })();
+  </script>
+</body>
+</html>
