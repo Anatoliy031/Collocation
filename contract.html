@@ -1,620 +1,120 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Правовая конструкция | ЦОД категории III на 120 стоек</title>
-
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-
-    :root{
-      --primary-color:#1a237e;
-      --secondary-color:#3949ab;
-      --accent-color:#00acc1;
-      --text-light:#ffffff;
-      --bg:#0a0e27;
-      --bg-card: rgba(22,27,34,0.78);
-      --bg-soft: rgba(13,17,23,0.42);
-      --border: rgba(255,255,255,0.10);
-      --border-2: rgba(255,255,255,0.08);
-      --shadow: 0 18px 40px rgba(0,0,0,0.35);
-      --gradient-2: linear-gradient(135deg,#00acc1 0%,#26c6da 100%);
-      --warn: rgba(255,193,7,0.18);
-      --ok: rgba(0,172,193,0.14);
-      --danger: rgba(244,67,54,0.16);
-    }
-
-    body{
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
-      background: var(--bg);
-      color: var(--text-light);
-      overflow-x:hidden;
-      line-height:1.65;
-    }
-
-    /* Фон */
-    .bg-animation{position:fixed;inset:0;z-index:-1;background:linear-gradient(to bottom,#0a0e27 0%,#1a237e 100%);overflow:hidden}
-    .bg-animation::before{
-      content:"";position:absolute;width:150%;height:150%;
-      background:
-        radial-gradient(circle at 20% 80%, rgba(0, 172, 193, 0.28) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(57, 73, 171, 0.28) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(26, 35, 126, 0.26) 0%, transparent 50%);
-      animation: float 18s ease-in-out infinite;
-    }
-    @keyframes float{
-      0%,100%{transform:translate(0,0) rotate(0deg)}
-      33%{transform:translate(-28px,-28px) rotate(120deg)}
-      66%{transform:translate(28px,-18px) rotate(240deg)}
-    }
-
-    header{
-      padding: 60px 20px;
-      text-align:center;
-      background: rgba(26, 35, 126, 0.10);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    header h1{
-      font-size: clamp(2rem, 4.6vw, 3.1rem);
-      font-weight: 900;
-      margin-bottom: 14px;
-      background: linear-gradient(135deg,#ffffff 0%,#00acc1 100%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-      text-shadow: 0 2px 20px rgba(0,172,193,0.25);
-    }
-    header p{
-      max-width: 1120px;
-      margin: 0 auto;
-      opacity: 0.92;
-      font-size: 1.05rem;
-      line-height: 1.85;
-    }
-
-    main{max-width:1200px;margin:0 auto;padding:56px 20px 90px}
-
-    .section{
-      background: var(--bg-card);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 34px;
-      margin-bottom: 18px;
-    }
-    .section h2{
-      color: var(--accent-color);
-      font-size: 1.55rem;
-      margin-bottom: 10px;
-      font-weight: 900;
-    }
-    .lead{opacity:0.90;font-size:1.02rem;line-height:1.85}
-
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(255,255,255,0.12);
-      background: rgba(13,17,23,0.35);
-      font-size:0.9rem;margin-bottom:10px;
-    }
-    .dot{
-      width:9px;height:9px;border-radius:50%;
-      background: var(--accent-color);
-      box-shadow: 0 0 0 4px rgba(0,172,193,0.14);
-    }
-
-    .note{
-      margin-top:16px;
-      padding:16px 16px;
-      border-radius:16px;
-      border:1px solid rgba(0,172,193,0.28);
-      background: linear-gradient(135deg, rgba(0,172,193,0.10) 0%, rgba(57,73,171,0.10) 100%);
-      opacity:0.96;
-      line-height:1.75;
-    }
-
-    .grid{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap:12px;
-    }
-    .card{
-      background: var(--bg-soft);
-      border: 1px solid var(--border-2);
-      border-radius: 18px;
-      padding: 16px 16px;
-      position: relative;
-      overflow:hidden;
-    }
-    .card::before{
-      content:"";
-      position:absolute;inset:0;
-      background: radial-gradient(circle at 20% 20%, rgba(0,172,193,0.12), transparent 55%);
-      pointer-events:none;
-      opacity:.9;
-    }
-    .card > *{position:relative;z-index:1}
-    .card b{display:block;font-size:1.03rem;margin-bottom:6px}
-    .card p{opacity:.88;font-size:.95rem;line-height:1.65}
-    .list{margin-top:10px;padding-left:18px;opacity:.92;font-size:.95rem;line-height:1.65}
-    .list li{margin:6px 0}
-
-    /* Таблицы */
-    .table-wrap{
-      overflow:auto;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(13,17,23,0.35);
-      margin-top: 14px;
-    }
-    table{
-      width:100%;
-      border-collapse: collapse;
-      min-width: 1060px;
-    }
-    th, td{
-      padding: 12px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      vertical-align: top;
-      text-align:left;
-      font-size: 0.95rem;
-      line-height:1.55;
-    }
-    th{
-      position: sticky;
-      top:0;
-      background: rgba(22,27,34,0.85);
-      backdrop-filter: blur(10px);
-      font-weight: 900;
-    }
-    td small{display:block;opacity:.85;margin-top:6px}
-
-    /* “Рамка” под договорные приложения */
-    .apps{
-      margin-top: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(13,17,23,0.38);
-      overflow:hidden;
-    }
-    .apps .head{
-      padding: 14px 16px;
-      background: rgba(22,27,34,0.68);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .apps .head b{font-size:1.02rem}
-    .apps .body{padding: 12px 16px}
-    .app{
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display:grid;
-      grid-template-columns: 70px 1fr;
-      gap: 12px;
-      align-items:flex-start;
-    }
-    .app:last-child{border-bottom:none}
-    .tag{
-      width:70px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 999px;
-      background: rgba(0,172,193,0.10);
-      border: 1px solid rgba(0,172,193,0.24);
-      font-weight: 900;
-      font-size: 0.85rem;
-      padding: 8px 10px;
-      white-space:nowrap;
-    }
-    .app strong{display:block}
-    .app span{display:block;opacity:.88;font-size:.94rem;line-height:1.55;margin-top:3px}
-
-    /* Навигация */
-    .actions{
-      margin-top: 18px;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-      align-items:center;
-    }
-    .btn{
-      display:inline-flex;align-items:center;gap:10px;
-      padding: 14px 18px;border-radius: 999px;
-      text-decoration:none;color:#fff;font-weight: 900;
-      background: var(--gradient-2);
-      box-shadow: 0 10px 25px rgba(0,172,193,0.18);
-      border:none;cursor:pointer;
-    }
-    .btn.secondary{
-      background: rgba(13,17,23,0.45);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow:none;
-      font-weight: 800;
-      opacity: 0.92;
-    }
-
-    /* Плавающие кнопки */
-    .fab{
-      position: fixed;
-      right: max(14px, env(safe-area-inset-right));
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      display:grid; place-items:center;
-      background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-      color:#fff;
-      text-decoration:none;
-      box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
-      z-index:10000;border:none;cursor:pointer;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    .fab:hover{ transform: translateY(-2px) scale(1.03); }
-    .fab svg{ width:26px;height:26px;pointer-events:none; }
-    #fab-top{
-      bottom: calc(24px + env(safe-area-inset-bottom));
-      opacity:0; pointer-events:none;
-      transform: translateY(8px) scale(.9);
-    }
-    #fab-top.show{opacity:1;pointer-events:auto;transform: translateY(0) scale(1)}
-    #fab-home{ bottom: calc(92px + env(safe-area-inset-bottom)); }
-
-    footer{
-      text-align:center;
-      padding: 36px 20px;
-      border-top: 1px solid var(--border);
-      background: rgba(13,17,23,0.70);
-      backdrop-filter: blur(18px);
-      opacity:0.8;
-    }
-    @media (max-width: 768px){
-      header{ padding: 46px 20px; }
-      .section{ padding: 24px; }
-      table{min-width: 980px;}
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Договорная модель проекта ЦОД (Tier III, 120 стоек) – Кубаньэнерго</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div class="bg-animation" aria-hidden="true"></div>
 
-  <header>
-    <h1>Правовая конструкция</h1>
-    <p>
-      Раздел описывает, <b>как юридически оформить</b> новую нетарифную услугу и инвестиционное партнёрство так,
-      чтобы: 1) услуга была “продаваемой”; 2) режим объекта был соблюдён; 3) ответственность сторон была ясной;
-      4) денежный поток проекта был защищён. Все положения ориентированы на ЦОД категории III на <b>120 стоек</b>.
-    </p>
-  </header>
+<header class="page-header">
+  <h1>Правовая конструкция реализации проекта ЦОД (Tier III, 120 стоек)</h1>
+</header>
 
-  <main>
-    <section class="section">
-      <h2>1) Базовый принцип: один продукт — один набор правил</h2>
-      <p class="lead">
-        Главная причина конфликтов — несоответствие ожиданий клиента и реального режима объекта.
-        Поэтому правовая конструкция строится так, чтобы коммерческая часть (тарифы) и эксплуатационная часть (регламенты)
-        были единым продуктом: <b>что продаём — то и обеспечиваем</b>.
-      </p>
+<main class="container">
+  <!-- Overview of parties and general scheme -->
+  <section>
+    <h2>Схема договорных отношений</h2>
+    <p>В проекте участвуют три основные стороны: <strong>Инвестор</strong>, <strong>Оператор</strong> (филиал ПАО «Россети Юг» – «Кубаньэнерго») и <strong>Арендаторы</strong> (клиенты услуги colocation). Другие посредники или субподрядчики в данной модели не задействованы, что упрощает структуру взаимодействия. Услуга colocation предоставляется Оператором в рамках <em>нетарифной деятельности</em> электросетевой компании [oai_citation:0‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=4), поэтому сдача стоек в аренду не подпадает под тарифное регулирование и не требует изменений действующих тарифов. Оператор предоставляет площадку (существующее капитальное складское здание), обеспечивает подключение объекта к электросетям и отвечает за эксплуатацию инфраструктуры ЦОД [oai_citation:1‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%9F%D0%90%D0%9E%20%C2%AB%D0%A0%D0%BE%D1%81%D1%81%D0%B5%D1%82%D0%B8%20%D0%AE%D0%B3%C2%BB%20%E2%80%93%20%C2%AB%D0%9A%D1%83%D0%B1%D0%B0%D0%BD%D1%8C%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%C2%BB,%D0%BD%D0%B5%D1%81%D0%B5%D1%82%20%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D1%8C%20%D0%B7%D0%B0%20%D1%8D%D0%BA%D1%81%D0%BF%D0%BB%D1%83%D0%B0%D1%82%D0%B0%D1%86%D0%B8%D1%8E%20%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%B0). Инвестор со своей стороны полностью финансирует создание инженерной инфраструктуры (CAPEX проекта) на базе отдельного инвестиционного соглашения с Оператором [oai_citation:2‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%3A%20%E2%80%A2%20%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80,%D0%9F%D0%90%D0%9E%20%C2%AB%D0%A0%D0%BE%D1%81%D1%81%D0%B5%D1%82%D0%B8%20%D0%AE%D0%B3%C2%BB%20%E2%80%93%20%C2%AB%D0%9A%D1%83%D0%B1%D0%B0%D0%BD%D1%8C%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%C2%BB). Возврат вложенных инвестором средств планируется осуществлять за счет будущих платежей Арендаторов (модель, аналогичная энергосервисному контракту) [oai_citation:3‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%3A%20%E2%80%A2%20%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80,%D0%B2%20%D1%81%D0%BE%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D0%B8%20%D1%81%20%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%20%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%BE%D0%BC). Арендаторы (операторы связи и корпоративные клиенты) заключают с Оператором предварительные договоры аренды стойко-мест, а по завершении строительства и ввода ЦОДа в эксплуатацию – полные основные договоры на оказание услуг размещения оборудования (colocation).</p>
+  </section>
 
-      <div class="grid">
-        <div class="card">
-          <b>Что продаём</b>
-          <p>Размещение оборудования и использование инженерной инфраструктуры: питание, охлаждение, безопасность, доступ.</p>
-          <ul class="list">
-            <li>Пакет “стойко-место”</li>
-            <li>Опции по заявкам</li>
-          </ul>
-        </div>
-        <div class="card">
-          <b>Что фиксируем</b>
-          <p>Параметры услуги, лимиты, регламенты доступа, окна работ, ответственность, порядок оплаты.</p>
-          <ul class="list">
-            <li>Приложения к договору</li>
-            <li>Регламенты эксплуатации</li>
-          </ul>
-        </div>
-        <div class="card">
-          <b>Что защищаем</b>
-          <p>Денежный поток: исключаем “серые зоны”, снижаем риск простоев и спорности с клиентами.</p>
-          <ul class="list">
-            <li>Чёткая граница ответственности</li>
-            <li>Процедуры инцидентов</li>
-          </ul>
-        </div>
-      </div>
+  <!-- Preliminary lease agreements section -->
+  <section>
+    <h2>Предварительные договоры с арендаторами</h2>
+    <p>Для минимизации рисков и подтверждения спроса на услуги ЦОДа Оператор заключает с будущими клиентами предварительные договоры аренды стойко-мест еще до завершения строительства объекта [oai_citation:4‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D1%81%20%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F). В таких соглашениях фиксируются ключевые условия будущей аренды, в том числе:</p>
+    <ul>
+      <li>планируемое количество стойко-мест, резервируемых Арендатором (например, 20, 50 и более стоек) [oai_citation:5‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D1%81%20%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F);</li>
+      <li>базовая ставка аренды за одну стойку с включенным электропитанием (6–7 кВт) – согласованная цена размещения [oai_citation:6‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D1%83%D0%B5%D0%BC%D1%8B%D0%B9%20%D0%BE%D0%B1%D1%8A%D1%91%D0%BC%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D1%83%D0%B5%D0%BC%D1%8B%D1%85%20%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%BE,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F);</li>
+      <li>выбранный формат оплаты услуг (поэтапная оплата по мере ввода мощностей или оплата за весь объем с определенной даты) [oai_citation:7‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D1%83%D0%B5%D0%BC%D1%8B%D0%B9%20%D0%BE%D0%B1%D1%8A%D1%91%D0%BC%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D1%83%D0%B5%D0%BC%D1%8B%D1%85%20%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%BE,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F);</li>
+      <li>срок действия будущего основного договора аренды и другие базовые коммерческие условия сотрудничества [oai_citation:8‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D1%83%D0%B5%D0%BC%D1%8B%D0%B9%20%D0%BE%D0%B1%D1%8A%D1%91%D0%BC%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D1%83%D0%B5%D0%BC%D1%8B%D1%85%20%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%BE,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F).</li>
+    </ul>
+    <p>Предварительные договоры заключаются в период до завершения строительно-монтажных работ и служат основанием для финансового планирования проекта [oai_citation:9‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D1%81%20%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F). Важным элементом таких соглашений является <em>отлагательное условие</em>: основной договор аренды вступает в силу, а начисление аренды начинается только после ввода дата-центра в эксплуатацию [oai_citation:10‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%94%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D0%BC%D0%BE%D0%B3%D1%83%D1%82%20%D0%B1%D1%8B%D1%82%D1%8C%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D1%8B%20%D0%B7%D0%B0%D1%80%D0%B0%D0%BD%D0%B5%D0%B5,%D0%B8%20%D1%81%D0%BD%D0%B8%D0%B6%D0%B0%D0%B5%D1%82%20%D1%80%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BD%D0%B5%D0%B4%D0%BE%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8%20%D0%BF%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D0%BA%D0%B8). Иными словами, клиенты начинают оплачивать услуги лишь с момента реальной готовности инфраструктуры. Это условие увязывает интересы инвестора и арендаторов, одновременно снижая риски недозагрузки ЦОДа на начальном этапе [oai_citation:11‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%94%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D0%BC%D0%BE%D0%B3%D1%83%D1%82%20%D0%B1%D1%8B%D1%82%D1%8C%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D1%8B%20%D0%B7%D0%B0%D1%80%D0%B0%D0%BD%D0%B5%D0%B5,%D0%B8%20%D1%81%D0%BD%D0%B8%D0%B6%D0%B0%D0%B5%D1%82%20%D1%80%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BD%D0%B5%D0%B4%D0%BE%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8%20%D0%BF%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D0%BA%D0%B8). Если по каким-либо причинам проект не будет реализован в оговоренные сроки, предварительные договоры не перейдут в стадию основных договоров, защищая арендаторов от преждевременных обязательств.</p>
+  </section>
 
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Ключевая мысль для руководства</b></div>
-        Договор и регламенты — это часть инженерной надёжности. Если нет чётких правил по мощности, доступу и работам —
-        “категория III” перестаёт быть управляемой в реальной эксплуатации.
-      </div>
-    </section>
+  <!-- Investment agreement with investor section -->
+  <section>
+    <h2>Инвестиционный договор с инвестором</h2>
+    <p>Финансирование создания ЦОДа полностью обеспечивает Инвестор на основании инвестиционного соглашения с Оператором. Данный договор определяет объем и этапы инвестиций, права и обязанности сторон, а также механизм возврата инвестированных средств. В рассматриваемой модели инвестиционный договор строится по принципам, близким к энергосервисному контракту: Инвестор финансирует проект «под ключ», а возврат вложений происходит за счет доли выручки от предоставления услуги colocation [oai_citation:12‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%3A%20%E2%80%A2%20%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80,%D0%B2%20%D1%81%D0%BE%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D0%B8%20%D1%81%20%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%20%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%BE%D0%BC). Оператор, будучи балансодержателем объекта, обязуется направлять оговоренную часть арендных платежей на возмещение инвестору капитальных затрат и обеспечение оговоренной доходности [oai_citation:13‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B2%20%D1%81%D0%BE%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D0%B8%20%D1%81%20%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%20%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%BE%D0%BC). Такое распределение денежных потоков может быть фиксированным (например, в пропорции 80/20 в пользу инвестора до окупаемости) или динамическим, согласно согласованному сторонами графику выплат.</p>
+    <p>Инвестиционный договор, как правило, включает в себя условия начала его исполнения (отлагательные условия). В их числе – достижение определенных показателей готовности проекта или выполнения предварительных условий. Например, стороны могут предусмотреть, что обязательства инвестора по финансированию вступают в силу только при наличии заключенных предварительных договоров аренды на заданную минимальную долю стойко-мест и получения необходимых разрешений и согласований. Подобные условия защищают инвестора от начала финансирования проекта без подтвержденного коммерческого базиса и обеспечивают юридическую ясность для всех участников. После выполнения условий и ввода ЦОДа в эксплуатацию инвестиционное соглашение реализуется в полном объеме, и проект переходит в стадию эксплуатации.</p>
+  </section>
 
-    <section class="section">
-      <h2>2) Договор с клиентом: структура и смысл</h2>
-      <p class="lead">
-        Клиентский договор должен быть простым по смыслу, но “закрывать” все спорные зоны.
-        Ниже — рекомендуемая структура: что в основном тексте, что в приложениях.
-      </p>
+  <!-- Interaction scheme and cash flow section -->
+  <section>
+    <h2>Схема взаимодействия и движение денежных потоков</h2>
+    <p>Ниже представлена схема правовых взаимоотношений между сторонами и распределения финансовых потоков в проекте:</p>
+    <table class="scheme-table">
+      <thead>
+        <tr>
+          <th>Этап взаимодействия</th>
+          <th>Описание</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Инвестор &#8594; Оператор</strong></td>
+          <td>Инвестор и Оператор заключают инвестиционный договор. Инвестор поэтапно предоставляет финансирование на ремонт здания и создание инфраструктуры ЦОДа [oai_citation:14‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%3A%20%E2%80%A2%20%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80,%D0%9F%D0%90%D0%9E%20%C2%AB%D0%A0%D0%BE%D1%81%D1%81%D0%B5%D1%82%D0%B8%20%D0%AE%D0%B3%C2%BB%20%E2%80%93%20%C2%AB%D0%9A%D1%83%D0%B1%D0%B0%D0%BD%D1%8C%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%C2%BB).</td>
+        </tr>
+        <tr>
+          <td><strong>2. Оператор &#8594; Создание ЦОДа</strong></td>
+          <td>Оператор (Кубаньэнерго) на полученные инвестиционные средства выполняет модернизацию объекта и строительство инженерных систем ЦОДа. Оператор действует в рамках своей нетарифной деятельности, реализуя проект без привлечения субподрядчиков на правах заказчика строительства.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Оператор &#8594; Арендаторы</strong></td>
+          <td>Еще в ходе строительства Оператор заключает с ключевыми клиентами предварительные договоры аренды стойко-мест, тем самым резервируя мощности под их нужды и гарантируя базовый объем спроса [oai_citation:15‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D1%81%20%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F).</td>
+        </tr>
+        <tr>
+          <td><strong>4. Завершение проекта</strong></td>
+          <td>После ввода ЦОДа в эксплуатацию Оператор и Арендаторы подписывают основные договоры аренды стойко-мест на условиях, согласованных ранее в предварительных соглашениях. С этого момента услуги Colocation фактически оказываются, и начинается начисление арендной платы [oai_citation:16‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%94%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D0%BC%D0%BE%D0%B3%D1%83%D1%82%20%D0%B1%D1%8B%D1%82%D1%8C%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D1%8B%20%D0%B7%D0%B0%D1%80%D0%B0%D0%BD%D0%B5%D0%B5,%D0%B8%20%D1%81%D0%BD%D0%B8%D0%B6%D0%B0%D0%B5%D1%82%20%D1%80%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BD%D0%B5%D0%B4%D0%BE%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8%20%D0%BF%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D0%BA%D0%B8).</td>
+        </tr>
+        <tr>
+          <td><strong>5. Арендаторы &#8594; Оператор</strong></td>
+          <td>Арендаторы ежемесячно вносят плату за пользование стойко-местами согласно условиям договоров. В арендную плату включена составляющая за потребляемую электрическую мощность стойки (например, 6–7 кВт) [oai_citation:17‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%A3%D1%81%D0%BB%D1%83%D0%B3%D0%B0%20colocation%20%D0%BF%D1%80%D0%B5%D0%B4%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D1%8F%D0%B5%D1%82%D1%81%D1%8F%20%D0%B2%20%D1%80%D0%B0%D0%BC%D0%BA%D0%B0%D1%85,%D0%BC%D0%B5%D1%81%D1%82%D0%B0.%20%D0%9A%D0%BB%D1%8E%D1%87%D0%B5%D0%B2%D1%8B%D0%B5%20%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8), то есть клиенты получают комплексную услугу размещения оборудования с обеспечением электропитания.</td>
+        </tr>
+        <tr>
+          <td><strong>6. Оператор &#8594; Инвестор</strong></td>
+          <td>Оператор, получая арендные платежи, распределяет денежный поток согласно инвестиционному договору: первоначально существенная часть (до полного возврата инвестиций) перечисляется Инвестору [oai_citation:18‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B4%D0%B5%D0%BD%D0%B5%D0%B6%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%D0%B0%20%D0%B2%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%20%D0%90%D1%80%D0%B5%D0%BD%D0%B4%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8F). Таким образом реализуется возврат вложенных средств и обеспечение доходности инвестора. После полного возврата инвестиций и достижения оговоренного порога доходности пропорции распределения могут быть пересмотрены в пользу Оператора [oai_citation:19‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%94%D0%B5%D0%BD%D0%B5%D0%B6%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%20%D0%BE%D1%82%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D1%8B,%D0%B4%D0%B5%D0%BD%D0%B5%D0%B6%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%D0%B0%20%D0%B2%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%20%D0%90%D1%80%D0%B5%D0%BD%D0%B4%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8F), что увеличивает его долю прибыли от дальнейшей эксплуатации ЦОДа.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-      <div class="table-wrap" role="region" aria-label="Структура договора с клиентом" tabindex="0">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:260px;">Раздел</th>
-              <th>Содержание</th>
-              <th style="width:330px;">Зачем это нужно</th>
-              <th style="width:240px;">Где фиксировать</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Предмет</b></td>
-              <td>Размещение оборудования клиента в ЦОД и предоставление доступа к инженерной инфраструктуре и сервисам эксплуатации.</td>
-              <td>Убирает “аренду помещения” и спорные трактовки. Продукт = услуга.</td>
-              <td>Основной текст.</td>
-            </tr>
-            <tr>
-              <td><b>Параметры услуги</b></td>
-              <td>Количество стойко-мест, лимит мощности, режим доступа, перечень базовых услуг.</td>
-              <td>Фиксирует “что покупается” и что считается нарушением/доп.оплатой.</td>
-              <td>Приложение №1.</td>
-            </tr>
-            <tr>
-              <td><b>Порядок доступа и работ</b></td>
-              <td>Допуск персонала клиента, сопровождение, окна работ, заявки, ответственность за действия на объекте.</td>
-              <td>Минимизирует конфликты и защищает режим объекта.</td>
-              <td>Приложение №2 + регламент.</td>
-            </tr>
-            <tr>
-              <td><b>Оплата и расчёты</b></td>
-              <td>Тариф(ы), порядок выставления, сроки оплаты, последствия просрочки, индексация (при необходимости).</td>
-              <td>Защищает денежный поток и снижает риск дебиторской задолженности.</td>
-              <td>Основной текст + приложение.</td>
-            </tr>
-            <tr>
-              <td><b>Ответственность</b></td>
-              <td>Граница ответственности сторон, ограничения по оборудованию, порядок инцидентов, исключения.</td>
-              <td>Убирает “размывание ответственности” при авариях и перегрузках.</td>
-              <td>Основной текст + приложения.</td>
-            </tr>
-            <tr>
-              <td><b>Инциденты и плановые работы</b></td>
-              <td>Порядок уведомлений, сроки реакции, регламент плановых работ и “окон”, фиксация событий.</td>
-              <td>Снижает спорность, делает эксплуатацию прогнозируемой.</td>
-              <td>Регламент + приложение.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Advantages for each party section -->
+  <section>
+    <h2>Преимущества модели для всех сторон</h2>
+    <p>Предложенная договорная модель обеспечивает юридическую и финансовую устойчивость проекта, распределяя риски и выгоды между участниками таким образом, чтобы каждый из них получил свои преимущества:</p>
+    <h3>Для Инвестора</h3>
+    <ul>
+      <li><strong>Минимизация рисков за счет подтвержденного спроса.</strong> Наличие предварительных договоров с будущими Арендаторами подтверждает интерес рынка и снижает риск недозагрузки мощностей [oai_citation:20‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%20%D0%BF%D0%BE%D0%B4%D1%82%D0%B2%D0%B5%D1%80%D0%B6%D0%B4%D1%91%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%BF%D1%80%D0%BE%D1%81%20%D1%81%D0%BE,%D0%BC%D0%B5%D1%81%D1%82%D0%B0).</li>
+      <li><strong>Надежная инфраструктура и партнерство с энергокомпанией.</strong> Проект реализуется на базе действующего объекта электросетевой компании, что гарантирует наличие надежного электропитания и инфраструктуры для ЦОДа [oai_citation:21‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%92%D1%8B%D0%B1%D0%BE%D1%80%20%D0%B4%D0%B0%D0%BD%D0%BD%D0%BE%D0%B9%20%D1%80%D1%8B%D0%BD%D0%BE%D1%87%D0%BD%D0%BE%D0%B9%20%D0%BD%D0%B8%D1%88%D0%B8%20%D0%BE%D0%B1%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD,%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D0%B2) [oai_citation:22‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%9E%D0%BF%D0%BE%D1%80%D0%B0%20%D0%BD%D0%B0%20%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D1%83%D1%8E%D1%89%D1%83%D1%8E%20%D0%B8%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%83,%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20%D0%B8%20%D0%BD%D0%B0%D0%B4%D1%91%D0%B6%D0%BD%D1%8B%D0%B5%20%D0%B8%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%D0%B8%20%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D1%8F). Это делает вложения более защищенными, а услуги ЦОДа привлекательными для клиентов, чувствительных к надежности.</li>
+      <li><strong>Высокий класс объекта и потенциал доходности.</strong> Уровень Tier III (двухлучевое питание, резервирование систем) и высокая энергоснабженность стоек (6–7 кВт) позволяют устанавливать конкурентоспособную цену на услуги [oai_citation:23‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%9F%D1%80%D0%B5%D0%BC%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D1%83%D1%80%D0%BE%D0%B2%D0%B5%D0%BD%D1%8C%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8%20,%D0%BF%D0%BE%D0%B7%D0%B2%D0%BE%D0%BB%D1%8F%D1%8E%D1%89%D0%B8%D0%B9%20%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%B0%D0%B2%D0%BB%D0%B8%D0%B2%D0%B0%D1%82%D1%8C%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D0%B5%D0%BD%D1%82%D0%BE%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1%D0%BD%D1%83%D1%8E%20%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D1%83), обеспечивая высокую валовую выручку проекта. Тем самым инвестор получает шанс на значительную доходность при успешной коммерциализации объекта.</li>
+      <li><strong>Прозрачный механизм возврата инвестиций.</strong> Договорная схема предполагает прямой возврат вложений инвестора из операционной выручки проекта. За инвестором резервируется оговоренная доля арендных платежей, что создает прозрачную и предсказуемую модель окупаемости, аналогичную энергосервисному контракту [oai_citation:24‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%9F%D1%80%D0%BE%D0%B7%D1%80%D0%B0%D1%87%D0%BD%D0%B0%D1%8F%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%20%D0%B2%D0%BE%D0%B7%D0%B2%D1%80%D0%B0%D1%82%D0%B0%20%D0%B8%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%B8%D1%86%D0%B8%D0%B9,%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%D0%B6%D0%B5%D0%B9%2C%20%D0%B1%D0%BB%D0%B8%D0%B7%D0%BA%D0%B0%D1%8F%20%D0%BA%20%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%B0%D0%BA%D1%82%D1%83). Инвестор четко понимает, за счет каких потоков и в какие сроки вернет вложенные средства.</li>
+      <li><strong>Гарантии и контроль над проектом.</strong> Инвестиционное соглашение дает инвестору договорные механизмы контроля (этапность финансирования, отчётность оператора, условия изменения долей дохода) и возможность влиять на ключевые решения по проекту, обеспечивая защиту его интересов до достижения целевого показателя IRR.</li>
+    </ul>
 
-      <div class="apps" aria-label="Приложения к договору с клиентом">
-        <div class="head">
-          <b>Рекомендуемые приложения к клиентскому договору</b>
-          <span style="opacity:.86">минимальный набор для снижения спорности</span>
-        </div>
-        <div class="body">
-          <div class="app">
-            <div class="tag">№1</div>
-            <div>
-              <strong>Параметры размещения</strong>
-              <span>Количество стойко-мест, лимит мощности (ориентир 7 кВт/стойка), перечень базовых услуг, режим эксплуатации.</span>
-            </div>
-          </div>
-          <div class="app">
-            <div class="tag">№2</div>
-            <div>
-              <strong>Регламент доступа</strong>
-              <span>Процедуры допуска, списки лиц, сопровождение, порядок работ, учёт посещений, ответственность.</span>
-            </div>
-          </div>
-          <div class="app">
-            <div class="tag">№3</div>
-            <div>
-              <strong>Порядок заявок и работ</strong>
-              <span>Окна работ, сроки исполнения заявок, аварийные работы, порядок согласования действий.</span>
-            </div>
-          </div>
-          <div class="app">
-            <div class="tag">№4</div>
-            <div>
-              <strong>Опции и дополнительные услуги</strong>
-              <span>Перечень опций, правила и ставки (или методика расчёта), условия подключения линий связи.</span>
-            </div>
-          </div>
-          <div class="app">
-            <div class="tag">№5</div>
-            <div>
-              <strong>Порядок инцидентов</strong>
-              <span>Сценарии, уведомления, фиксация событий, действия сторон, ответственность и исключения.</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <h3>Для Оператора (Кубаньэнерго)</h3>
+    <ul>
+      <li><strong>Развитие нетарифного бизнеса без капитальных затрат.</strong> Вся необходимая модернизация и оснащение ЦОДа финансируется за счет средств инвестора [oai_citation:25‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80%20%D0%BE%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%BB%D1%8F%D0%B5%D1%82%20%D1%84%D0%B8%D0%BD%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%B0%D0%BF%D0%B8%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85%20%D0%B7%D0%B0%D1%82%D1%80%D0%B0%D1%82,%D0%BE%D0%B1%D0%B5%D1%81%D0%BF%D0%B5%D1%87%D0%B8%D0%B2%D0%B0%D1%8E%D1%82%D1%81%D1%8F%20%D1%87%D0%B5%D1%80%D0%B5%D0%B7%20%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC%20%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%B0%D0%BA%D1%82%D0%B0). Оператор получает новый объект инфраструктуры и источник дохода, не отвлекая собственные инвестиционные ресурсы.</li>
+      <li><strong>Повышение эффективности использования имущества.</strong> Проект позволяет превратить существующее складское помещение в высокотехнологичный коммерческий объект. Это повышает отдачу от актива, находящегося на балансе Оператора, и приносит дополнительный доход компании.</li>
+      <li><strong>Дополнительная выручка при минимальных рисках.</strong> Эксплуатация ЦОДа приносит Оператору новый поток выручки от аренды стоек. Риски невостребованности снижены за счет предварительного бронирования мощностей клиентами [oai_citation:26‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%20%D0%BF%D0%BE%D0%B4%D1%82%D0%B2%D0%B5%D1%80%D0%B6%D0%B4%D1%91%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%BF%D1%80%D0%BE%D1%81%20%D1%81%D0%BE,%D0%BC%D0%B5%D1%81%D1%82%D0%B0), а риски финансовых потерь на этапе строительства лежат на инвесторе. После возврата инвестиций инвестору доля Оператора в доходах увеличивается [oai_citation:27‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%E2%80%A2%20%D0%94%D0%B5%D0%BD%D0%B5%D0%B6%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%20%D0%BE%D1%82%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D1%8B,%D0%B4%D0%B5%D0%BD%D0%B5%D0%B6%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%D0%B0%20%D0%B2%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%20%D0%90%D1%80%D0%B5%D0%BD%D0%B4%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8F), что в дальнейшем значительно повысит прибыльность для компании.</li>
+      <li><strong>Соблюдение регуляторных требований и репутационные преимущества.</strong> Услуга предоставляется в рамках разрешенной деятельности (нетарифные услуги) электросетевой компании [oai_citation:28‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=4), поэтому проект реализуется без нарушения нормативных ограничений. Более того, участие в высокотехнологичном цифровом проекте укрепляет имидж Кубаньэнерго, демонстрируя способность компании эффективно участвовать в инновационных инициативах и расширять спектр услуг.</li>
+      <li><strong>Укрепление позиций на рынке и синергия с основной деятельностью.</strong> Реализация ЦОДа совместно с инвестором открывает для Оператора новые возможности на рынке коммерческих (нетарифных) услуг. Проект интегрируется с основной деятельностью энергокомпании, что позволяет предлагать клиентам комплексные решения и укреплять позиции Кубаньэнерго как надежного партнера для бизнеса [oai_citation:29‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D1%85%20%D0%BD%D0%B0%D0%B4%D0%B5%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D1%8C%20%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D1%8F%20%D1%8F%D0%B2%D0%BB%D1%8F%D0%B5%D1%82%D1%81%D1%8F%20%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D1%8B%D0%BC,%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D0%B2) [oai_citation:30‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%A1%D0%B8%D0%BD%D0%B5%D1%80%D0%B3%D0%B8%D1%8F%20%D1%81%20%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%BE%D0%B9%20%D0%B4%D0%B5%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C%D1%8E%3A%20%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D1%8C,%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D0%B8%20%D0%BD%D0%B0%20%D1%80%D1%8B%D0%BD%D0%BA%D0%B5%20%D0%BD%D0%B5%D1%82%D0%B0%D1%80%D0%B8%D1%84%D0%BD%D1%8B%D1%85%20%D1%83%D1%81%D0%BB%D1%83%D0%B3).</li>
+    </ul>
 
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Нормальная управленческая логика</b></div>
-        Основной текст договора — “короткий и юридически чистый”. Всё, что меняется (лимиты, режимы, опции),
-        — переносится в приложения. Это ускоряет сделки и снижает риск “сломать договор” при изменении параметров.
-      </div>
-    </section>
+    <h3>Для Арендаторов (клиентов ЦОДа)</h3>
+    <ul>
+      <li><strong>Высокая надежность инфраструктуры.</strong> Размещение оборудования в ЦОДе на базе электросетевой компании гарантирует клиентам надежное электропитание и отказоустойчивость инженерных систем. Проект реализован непосредственно энергетической компанией, чья ключевая компетенция – бесперебойное энергоснабжение, что делает такой ЦОД безопасным выбором для критичных IT-систем [oai_citation:31‡file-6tfeh18rbucqjymp6i2lyd](file://file-6tFEH18RbuCQjYmP6i2LyD#:~:text=%D0%92%D1%8B%D0%B1%D0%BE%D1%80%20%D0%B4%D0%B0%D0%BD%D0%BD%D0%BE%D0%B9%20%D1%80%D1%8B%D0%BD%D0%BE%D1%87%D0%BD%D0%BE%D0%B9%20%D0%BD%D0%B8%D1%88%D0%B8%20%D0%BE%D0%B1%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD,%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D0%B2).</li>
+      <li><strong>Прозрачные и выгодные условия аренды.</strong> Предварительный договор позволяет клиенту заранее зафиксировать ключевые условия аренды стойко-мест – количество, тариф, срок и прочие параметры [oai_citation:32‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%9F%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D1%81%20%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8%20%D1%81%D0%B2%D1%8F%D0%B7%D0%B8,%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D0%B0%20%D0%B8%20%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F). Таким образом, Арендатор гарантирует себе доступ к необходимым мощностям Tier III-уровня по согласованной цене, защищенной от возможного роста тарифов в будущем.</li>
+      <li><strong>Оплата только за готовую услугу.</strong> Благодаря отлагательному условию в договорах, арендная плата начисляется только с момента ввода ЦОДа в эксплуатацию [oai_citation:33‡file-myygh161gq5xaobo1awdvf](file://file-MYYgH161GQ5XaoBo1AwDVF#:~:text=%D0%94%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8B%20%D0%BC%D0%BE%D0%B3%D1%83%D1%82%20%D0%B1%D1%8B%D1%82%D1%8C%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D1%8B%20%D0%B7%D0%B0%D1%80%D0%B0%D0%BD%D0%B5%D0%B5,%D0%B8%20%D1%81%D0%BD%D0%B8%D0%B6%D0%B0%D0%B5%D1%82%20%D1%80%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BD%D0%B5%D0%B4%D0%BE%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8%20%D0%BF%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D0%BA%D0%B8). Клиент не несет расходов до фактического запуска площадки и начала предоставления услуги, что выгодно отличает такую схему от прямого инвестирования в собственный дата-центр.</li>
+      <li><strong>Отсутствие капитальных затрат и снижение порога входа.</strong> Colocation-модель позволяет компаниям размещать свое IT-оборудование без необходимости самостоятельно строить или оснащать помещение под серверную. Это существенно снижает порог входа: даже относительно небольшие фирмы могут получить доступ к передовой инфраструктуре Tier III без единовременных крупных инвестиций.</li>
+      <li><strong>Сервисное обслуживание и дополнительные услуги.</strong> Оператор обеспечивает техническую эксплуатацию площадки, электроснабжение, климат-контроль и безопасность, избавляя арендаторов от соответствующих операционных задач. При необходимости клиенты могут воспользоваться дополнительными сервисами (мониторинг, Smart Hands, повышенный SLA и др.), интегрированными в единый договор оказания услуг.</li>
+    </ul>
+  </section>
 
-    <section class="section">
-      <h2>3) Конструкция с инвестором: как оформить и что защищать</h2>
-      <p class="lead">
-        Так как собственных источников финансирования нет, инвестиционная конструкция должна давать инвестору:
-        прозрачность, контроль траншей, понятную механику возврата вложений и управляемые риски.
-      </p>
+  <!-- Link to contract template -->
+  <section class="contract-template">
+    <p>Для ознакомления с юридическими деталями предусмотрен пример шаблона предварительного договора аренды стойко-мест: <a href="preddogovor_colocation_kubanergo.docx" download>скачать шаблон предварительного договора (DOCX)</a>.</p>
+  </section>
+</main>
 
-      <div class="grid">
-        <div class="card">
-          <b>Этапность и транши</b>
-          <p>Инвестор финансирует по этапам под подтверждаемый результат (обследование → проект → монтаж → испытания).</p>
-          <ul class="list">
-            <li>Каждый транш = документальный результат</li>
-            <li>Запрет перехода без результата</li>
-          </ul>
-        </div>
-        <div class="card">
-          <b>Возврат инвестиций</b>
-          <p>Возврат формируется из денежного потока проекта (по согласованной формуле распределения).</p>
-          <ul class="list">
-            <li>Фиксация долей/порядка выплат</li>
-            <li>Порядок контроля выручки</li>
-          </ul>
-        </div>
-        <div class="card">
-          <b>Контроль инвестора</b>
-          <p>Права на контроль исполнения: проверки, доступ к отчётности, согласование ключевых решений.</p>
-          <ul class="list">
-            <li>Комитет/рабочая группа</li>
-            <li>Единый реестр документов</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="table-wrap" role="region" aria-label="Содержание инвестиционного соглашения" tabindex="0">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:280px;">Раздел соглашения</th>
-              <th>Что закрепить</th>
-              <th style="width:320px;">Как защищает проект</th>
-              <th style="width:240px;">Комментарий</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Предмет и цель</b></td>
-              <td>Инвестирование в создание инженерного комплекса и запуск услуги размещения оборудования в ЦОД.</td>
-              <td>Убирает расплывчатость и споры “за что платили”.</td>
-              <td>Формулировка должна совпадать с бизнес-планом.</td>
-            </tr>
-            <tr>
-              <td><b>Этапы и результаты</b></td>
-              <td>Этапы работ, перечень результатов, документы подтверждения, критерии приемки.</td>
-              <td>Контроль вложений и управляемость сроков.</td>
-              <td>Привязать к дорожной карте.</td>
-            </tr>
-            <tr>
-              <td><b>Транши и условия выплат</b></td>
-              <td>Суммы траншей, порядок перечисления, условия “стоп/пауза” при отсутствии результата.</td>
-              <td>Снижает риск недостроя и конфликтов.</td>
-              <td>Чёткие критерии — дешевле переговоры.</td>
-            </tr>
-            <tr>
-              <td><b>Механика возврата</b></td>
-              <td>Формула распределения денежного потока, приоритет выплат инвестору, сроки, отчётность.</td>
-              <td>Дает инвестору понятную окупаемость и мотивацию.</td>
-              <td>Согласуется с финансовой моделью.</td>
-            </tr>
-            <tr>
-              <td><b>Контроль и отчётность</b></td>
-              <td>Права доступа к отчётам, аудит, порядок принятия решений, согласование крупных расходов.</td>
-              <td>Снижает риск “нецелевых” затрат и недоверия.</td>
-              <td>Не перегружать, но сделать работающим.</td>
-            </tr>
-            <tr>
-              <td><b>Риски и ответственность</b></td>
-              <td>Что считается форс-мажором, кто несёт какие риски, как действовать при изменении условий.</td>
-              <td>Снижает вероятность “разрыва” в конфликте.</td>
-              <td>Фиксировать процедуры, не эмоции.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Позиция для переговоров</b></div>
-        Инвестору важно показать не “высокий доход”, а <b>контролируемый проект</b>: этапность, документы, управляемые риски,
-        прозрачная отчётность, понятная механика возврата инвестиций. Это повышает вероятность сделки.
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>4) Что обязательно “зашить” в документы, чтобы не получить споры</h2>
-      <p class="lead">
-        Ниже — практический перечень спорных зон. Если они не закрыты, проект начинает терять время и деньги на конфликты.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <b>Мощность и перегруз</b>
-          <p>Лимит, измерение, последствия превышения, право ограничить нагрузку для защиты инфраструктуры.</p>
-          <div class="pill"><span class="dot"></span><b>Фиксация:</b> приложение №1</div>
-        </div>
-        <div class="card">
-          <b>Доступ и работы</b>
-          <p>Допуск, сопровождение, окна работ, аварийные работы, ответственность за действия персонала клиента.</p>
-          <div class="pill"><span class="dot"></span><b>Фиксация:</b> приложение №2–3</div>
-        </div>
-        <div class="card">
-          <b>Инциденты</b>
-          <p>Процедуры уведомлений, фиксация, порядок восстановления, ответственность и исключения.</p>
-          <div class="pill"><span class="dot"></span><b>Фиксация:</b> приложение №5</div>
-        </div>
-        <div class="card">
-          <b>Опции и дополнительные услуги</b>
-          <p>Что входит в базовый пакет, а что оплачивается отдельно; методика расчёта и порядок заказа.</p>
-          <div class="pill"><span class="dot"></span><b>Фиксация:</b> приложение №4</div>
-        </div>
-      </div>
-
-      <div class="note">
-        <div class="pill"><span class="dot"></span><b>Заметка</b></div>
-        Если вы хотите, я дополню этот раздел блоком “типовые формулировки” (в деловом стиле) —
-        но только после того, как мы согласуем “архитектуру договора” на уровне структуры и приложений.
-      </div>
-
-      <div class="actions">
-        <a class="btn" href="index.html" aria-label="Вернуться на главную">← Вернуться на главную</a>
-        <a class="btn secondary" href="templates.html" aria-label="Перейти к пакету документов">Далее: Пакет документов →</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2026 филиал ПАО «Россети Юг» – «Кубаньэнерго». Раздел: правовая конструкция.</p>
-  </footer>
-
-  <!-- Плавающая кнопка "домой" -->
-  <a id="fab-home" class="fab" href="index.html" aria-label="На главную" title="На главную">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M6 10v10h12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg>
-  </a>
-
-  <!-- Плавающая кнопка "вверх" -->
-  <button id="fab-top" class="fab" type="button" aria-label="В начало страницы" title="В начало">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg>
-  </button>
-
-  <script>
-    // Кнопка "вверх"
-    (function(){
-      var topBtn = document.getElementById("fab-top");
-      if (!topBtn) return;
-      var onScroll = function(){
-        if (window.scrollY > 300) { topBtn.classList.add("show"); }
-        else { topBtn.classList.remove("show"); }
-      };
-      window.addEventListener("scroll", onScroll, {passive:true});
-      onScroll();
-      topBtn.addEventListener("click", function(){
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, {passive:true});
-    })();
-  </script>
 </body>
 </html>
