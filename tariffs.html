@@ -312,5 +312,27 @@
 
     <a href="index.html" class="back">← Вернуться на главную</a>
   </div>
+
+  <script>
+    // SUBPAGE: «На главную» — сохраняем флаг восстановления прокрутки
+    (function(){
+      var isModifiedClick = function(e){
+        return e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1;
+      };
+      document.addEventListener('click', function(e){
+        var link = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (!link) return;
+        if (isModifiedClick(e)) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+        try {
+          var u = new URL(href, location.href);
+          if (u.origin !== location.origin) return;
+          if (!/index\.html$/i.test(u.pathname)) return;
+          sessionStorage.setItem('restoreFlag', '1');
+        } catch (_) {}
+      }, {passive:true});
+    })();
+  </script>
 </body>
 </html>
